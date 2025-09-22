@@ -1,9 +1,9 @@
-# etopup-portal
+# Telecom agent web portal
 
 *Automatically synced with your [v0.app](https://v0.app) deployments*
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/engineering-6977s-projects/v0-etopup-portal)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/geBUV8gnDT5)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/debnarayansain24-2955s-projects/v0-telecom-agent-web-portal)
+[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/l7481m9a3TO)
 
 ## Overview
 
@@ -14,13 +14,13 @@ Any changes you make to your deployed app will be automatically pushed to this r
 
 Your project is live at:
 
-**[https://vercel.com/engineering-6977s-projects/v0-etopup-portal](https://vercel.com/engineering-6977s-projects/v0-etopup-portal)**
+**[https://vercel.com/debnarayansain24-2955s-projects/v0-telecom-agent-web-portal](https://vercel.com/debnarayansain24-2955s-projects/v0-telecom-agent-web-portal)**
 
 ## Build your app
 
 Continue building your app on:
 
-**[https://v0.app/chat/projects/geBUV8gnDT5](https://v0.app/chat/projects/geBUV8gnDT5)**
+**[https://v0.app/chat/projects/l7481m9a3TO](https://v0.app/chat/projects/l7481m9a3TO)**
 
 ## How It Works
 
