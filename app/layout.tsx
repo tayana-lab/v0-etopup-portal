@@ -3,12 +3,13 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
+import { ThemeProvider } from "@/contexts/theme-context"
 import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Telecom Agent Portal",
-  description: "Professional web portal for telecom agents - manage sales, customers, and analytics",
+  title: "v0 App",
+  description: "Created with v0",
   generator: "v0.app",
 }
 
@@ -18,9 +19,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="theme-blue">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={null}>{children}</Suspense>
+        <Suspense fallback={null}>
+          <ThemeProvider>{children}</ThemeProvider>
+        </Suspense>
         <Analytics />
       </body>
     </html>
