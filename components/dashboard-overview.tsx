@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { HeroCarousel } from "@/components/hero-carousel"
 import { useLanguage } from "@/contexts/language-context"
+import Link from "next/link"
 import {
   TrendingUp,
   DollarSign,
@@ -229,12 +230,12 @@ export function DashboardOverview() {
                     className="h-16 sm:h-20 flex-col gap-2 bg-card hover:bg-accent border-border text-foreground hover:text-accent-foreground"
                     asChild
                   >
-                    <a href={service.href}>
+                    <Link href={service.href}>
                       <div className={`p-2 rounded-lg ${service.color}`}>
                         <service.icon className="h-4 sm:h-5 w-4 sm:w-5" />
                       </div>
                       <span className="text-xs sm:text-sm font-medium">{t(service.nameKey)}</span>
-                    </a>
+                    </Link>
                   </Button>
                 ))}
               </div>
