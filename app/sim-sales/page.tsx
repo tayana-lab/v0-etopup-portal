@@ -42,7 +42,9 @@ export default function SimSalePage() {
   const [favorites, setFavorites] = useState<string[]>([])
 
   const toggleFavorite = (typeId: string) => {
-    setFavorites((prev) => (prev.includes(typeId) ? prev.filter((id) => id !== typeId) : [...prev, typeId]))
+    setFavorites((prev) =>
+      prev.includes(typeId) ? prev.filter((id) => id !== typeId) : [...prev, typeId]
+    )
   }
 
   return (
@@ -53,12 +55,17 @@ export default function SimSalePage() {
           <p className="text-gray-600">Select customer type to begin SIM onboarding process</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           {customerTypes.map((type) => (
-            <Card key={type.id} className="relative overflow-hidden hover:shadow-lg transition-all duration-300 group">
+            <Card
+              key={type.id}
+              className="relative flex flex-col justify-between hover:shadow-lg transition-all duration-300 group"
+            >
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
-                  <div className={`w-12 h-12 ${type.color} rounded-lg flex items-center justify-center`}>
+                  <div
+                    className={`w-12 h-12 ${type.color} rounded-lg flex items-center justify-center`}
+                  >
                     <type.icon className="h-6 w-6 text-white" />
                   </div>
                   <Button
@@ -68,7 +75,11 @@ export default function SimSalePage() {
                     className="opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <Heart
-                      className={`h-4 w-4 ${favorites.includes(type.id) ? "fill-red-500 text-red-500" : "text-gray-400"}`}
+                      className={`h-4 w-4 ${
+                        favorites.includes(type.id)
+                          ? "fill-red-500 text-red-500"
+                          : "text-gray-400"
+                      }`}
                     />
                   </Button>
                 </div>
@@ -76,17 +87,20 @@ export default function SimSalePage() {
                 <p className="text-gray-600 text-sm">{type.description}</p>
               </CardHeader>
 
-              <CardContent className="space-y-4">
+              <CardContent className="flex flex-col flex-grow space-y-4">
                 <div className="space-y-2">
                   {type.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2 text-sm text-gray-600">
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 text-sm text-gray-600"
+                    >
                       <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
                       {feature}
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-2 mt-auto">
                   <Link href={type.route}>
                     <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-colors">
                       Start Onboarding
@@ -104,7 +118,7 @@ export default function SimSalePage() {
         {favorites.length > 0 && (
           <div className="mt-8">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Favorites</h2>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               {favorites.map((fav) => {
                 const type = customerTypes.find((t) => t.id === fav)
                 return type ? (
