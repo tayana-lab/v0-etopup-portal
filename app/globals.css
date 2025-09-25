@@ -74,6 +74,69 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* Updated blue theme to use #0584dc color and ensure proper application across all components */
+.theme-blue {
+  --primary: #0584dc; /* #0584dc blue */
+  --primary-foreground: oklch(1 0 0); /* white */
+  --secondary: #3da5f5; /* lighter blue */
+  --secondary-foreground: oklch(1 0 0); /* white */
+  --accent: #0584dc; /* matching primary */
+  --accent-foreground: oklch(1 0 0); /* white */
+  --ring: #0584dc; /* blue focus ring */
+  --chart-1: #0584dc; /* primary blue */
+  --chart-2: #3da5f5; /* secondary blue */
+  --chart-3: #0466c8; /* darker blue */
+  --chart-4: #74c0fc; /* light blue */
+  --chart-5: #023e8a; /* deep blue */
+  --sidebar-primary: #0584dc; /* blue sidebar */
+  --sidebar-accent: #3da5f5; /* light blue accent */
+  --sidebar-ring: #0584dc; /* blue ring */
+}
+
+.dark.theme-blue {
+  --primary: #3da5f5; /* brighter blue for dark mode */
+  --secondary: #0466c8; /* darker blue secondary */
+  --accent: #3da5f5; /* bright blue accent */
+  --chart-1: #3da5f5;
+  --chart-2: #0584dc;
+  --chart-3: #0466c8;
+  --chart-4: #74c0fc;
+  --chart-5: #023e8a;
+  --sidebar-primary: #3da5f5;
+  --sidebar-accent: #0466c8;
+}
+
+.theme-purple {
+  --primary: oklch(0.6 0.25 300); /* rich purple */
+  --primary-foreground: oklch(1 0 0); /* white */
+  --secondary: oklch(0.7 0.15 310); /* lighter purple */
+  --secondary-foreground: oklch(1 0 0); /* white */
+  --accent: oklch(0.6 0.25 300); /* matching primary */
+  --accent-foreground: oklch(1 0 0); /* white */
+  --ring: oklch(0.6 0.25 300); /* purple focus ring */
+  --chart-1: oklch(0.6 0.25 300); /* primary purple */
+  --chart-2: oklch(0.7 0.15 310); /* secondary purple */
+  --chart-3: oklch(0.5 0.2 290); /* darker purple */
+  --chart-4: oklch(0.75 0.1 320); /* light purple */
+  --chart-5: oklch(0.55 0.3 280); /* deep purple */
+  --sidebar-primary: oklch(0.6 0.25 300); /* purple sidebar */
+  --sidebar-accent: oklch(0.7 0.15 310); /* light purple accent */
+  --sidebar-ring: oklch(0.6 0.25 300); /* purple ring */
+}
+
+.dark.theme-purple {
+  --primary: oklch(0.75 0.25 300); /* brighter purple for dark mode */
+  --secondary: oklch(0.4 0.15 310); /* darker purple secondary */
+  --accent: oklch(0.75 0.25 300); /* bright purple accent */
+  --chart-1: oklch(0.75 0.25 300);
+  --chart-2: oklch(0.65 0.2 310);
+  --chart-3: oklch(0.55 0.15 290);
+  --chart-4: oklch(0.8 0.1 320);
+  --chart-5: oklch(0.7 0.3 280);
+  --sidebar-primary: oklch(0.75 0.25 300);
+  --sidebar-accent: oklch(0.4 0.15 310);
+}
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -121,5 +184,30 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Ensure responsive design across all screen sizes */
+  @media (max-width: 640px) {
+    .container {
+      @apply px-4;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grid-responsive {
+      @apply grid-cols-1;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .grid-responsive {
+      @apply grid-cols-2;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-responsive {
+      @apply grid-cols-3;
+    }
   }
 }

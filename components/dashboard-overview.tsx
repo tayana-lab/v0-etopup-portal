@@ -3,6 +3,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { HeroCarousel } from "@/components/hero-carousel"
+import { useLanguage } from "@/contexts/language-context"
 import {
   TrendingUp,
   DollarSign,
@@ -24,49 +26,89 @@ import {
 const kpiData = [
   {
     title: "Today's Sales",
+    titleKey: "kpi.sales",
     value: "$1026.50",
     change: "+12.5% from yesterday",
     trend: "up",
     icon: DollarSign,
     color: "text-green-600",
-    bgColor: "bg-green-50",
+    bgColor: "bg-green-50 dark:bg-green-950/20",
   },
   {
     title: "Transactions",
+    titleKey: "kpi.transactions",
     value: "9",
     change: "+8.2% from yesterday",
     trend: "up",
     icon: CreditCard,
     color: "text-blue-600",
-    bgColor: "bg-blue-50",
+    bgColor: "bg-blue-50 dark:bg-blue-950/20",
   },
   {
     title: "Active Customers",
+    titleKey: "kpi.customers",
     value: "16",
     change: "+15.3% this month",
     trend: "up",
     icon: Users,
     color: "text-blue-600",
-    bgColor: "bg-blue-50",
+    bgColor: "bg-blue-50 dark:bg-blue-950/20",
   },
   {
     title: "Success Rate",
+    titleKey: "kpi.success",
     value: "69.2%",
     change: "+0.3% improvement",
     trend: "up",
     icon: TrendingUp,
     color: "text-green-600",
-    bgColor: "bg-green-50",
+    bgColor: "bg-green-50 dark:bg-green-950/20",
   },
 ]
 
 const quickServices = [
-  { name: "Mobile Top-up", icon: Phone, href: "/topup", color: "bg-blue-50 text-blue-600" },
-  { name: "Data Packages", icon: Package, href: "/packages", color: "bg-green-50 text-green-600" },
-  { name: "Bill Payment", icon: CreditCard, href: "/bills", color: "bg-orange-50 text-orange-600" },
-  { name: "Fund Request", icon: DollarSign, href: "/funds", color: "bg-purple-50 text-purple-600" },
-  { name: "SIM Sales", icon: Smartphone, href: "/sim-sales", color: "bg-blue-50 text-blue-600" },
-  { name: "Job Cards", icon: FileText, href: "/jobs", color: "bg-indigo-50 text-indigo-600" },
+  {
+    name: "Mobile Top-up",
+    nameKey: "services.mobile-topup",
+    icon: Phone,
+    href: "/topup",
+    color: "bg-blue-50 dark:bg-blue-950/20 text-blue-600",
+  },
+  {
+    name: "Data Packages",
+    nameKey: "services.data-packages",
+    icon: Package,
+    href: "/packages",
+    color: "bg-green-50 dark:bg-green-950/20 text-green-600",
+  },
+  {
+    name: "Bill Payment",
+    nameKey: "services.bill-payment",
+    icon: CreditCard,
+    href: "/bills",
+    color: "bg-orange-50 dark:bg-orange-950/20 text-orange-600",
+  },
+  {
+    name: "Fund Request",
+    nameKey: "services.fund-request",
+    icon: DollarSign,
+    href: "/funds",
+    color: "bg-purple-50 dark:bg-purple-950/20 text-purple-600",
+  },
+  {
+    name: "SIM Sales",
+    nameKey: "services.sim-sales",
+    icon: Smartphone,
+    href: "/sim-sales",
+    color: "bg-blue-50 dark:bg-blue-950/20 text-blue-600",
+  },
+  {
+    name: "Job Cards",
+    nameKey: "services.job-cards",
+    icon: FileText,
+    href: "/jobs",
+    color: "bg-indigo-50 dark:bg-indigo-950/20 text-indigo-600",
+  },
 ]
 
 const recentTransactions = [
@@ -77,7 +119,7 @@ const recentTransactions = [
     date: "19/09/2025",
     status: "Pending",
     icon: Package,
-    statusColor: "bg-yellow-100 text-yellow-800",
+    statusColor: "bg-yellow-100 dark:bg-yellow-950/20 text-yellow-800 dark:text-yellow-400",
   },
   {
     id: "TXN002",
@@ -86,7 +128,7 @@ const recentTransactions = [
     date: "19/09/2025",
     status: "Completed",
     icon: Package,
-    statusColor: "bg-green-100 text-green-800",
+    statusColor: "bg-green-100 dark:bg-green-950/20 text-green-800 dark:text-green-400",
   },
   {
     id: "TXN003",
@@ -95,7 +137,7 @@ const recentTransactions = [
     date: "19/09/2025",
     status: "Pending",
     icon: Package,
-    statusColor: "bg-yellow-100 text-yellow-800",
+    statusColor: "bg-yellow-100 dark:bg-yellow-950/20 text-yellow-800 dark:text-yellow-400",
   },
 ]
 
@@ -103,6 +145,7 @@ const supportNotifications = [
   {
     type: "alert",
     title: "SIM card not working",
+    titleKey: "support.sim-not-working",
     subtitle: "Customer #5131",
     priority: "High",
     icon: AlertTriangle,
@@ -111,6 +154,7 @@ const supportNotifications = [
   {
     type: "alert",
     title: "Unable to process payment",
+    titleKey: "support.payment-error",
     subtitle: "Customer #7163",
     priority: "High",
     icon: AlertTriangle,
@@ -119,58 +163,44 @@ const supportNotifications = [
   {
     type: "help",
     title: "Help Documentation",
+    titleKey: "support.help-docs",
     icon: HelpCircle,
     color: "text-blue-600",
   },
   {
     type: "support",
     title: "Contact Support",
+    titleKey: "support.contact-support",
     icon: MessageSquare,
     color: "text-blue-600",
   },
   {
     type: "feedback",
     title: "Provide Feedback",
+    titleKey: "support.feedback",
     icon: Star,
     color: "text-blue-600",
   },
 ]
 
 export function DashboardOverview() {
+  const { t } = useLanguage()
+
   return (
     <div className="space-y-6">
-      <Card className="bg-gradient-to-r from-blue-600 to-blue-700 text-white border-0">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold mb-2">24/7 Customer Support</h2>
-              <p className="text-blue-100 mb-4">
-                Our dedicated support team is here to help you with all your queries and issues.
-              </p>
-              <Button variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50">
-                Contact Support
-              </Button>
-            </div>
-            <div className="hidden md:flex items-center gap-2">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-              <div className="w-2 h-2 bg-white/50 rounded-full"></div>
-              <div className="w-2 h-2 bg-white/50 rounded-full"></div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <HeroCarousel />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {kpiData.map((kpi) => (
-          <Card key={kpi.title} className="bg-white border border-gray-200">
-            <CardContent className="p-6">
+          <Card key={kpi.title} className="bg-card border-border">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
+                <p className="text-sm font-medium text-muted-foreground">{t(kpi.titleKey)}</p>
                 <div className={`p-2 rounded-lg ${kpi.bgColor}`}>
                   <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
                 </div>
               </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">{kpi.value}</div>
+              <div className="text-xl sm:text-2xl font-bold text-foreground mb-1">{kpi.value}</div>
               <div className="flex items-center text-xs">
                 {kpi.trend === "up" ? (
                   <ArrowUpRight className="mr-1 h-3 w-3 text-green-600" />
@@ -186,24 +216,24 @@ export function DashboardOverview() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
-          <Card className="bg-white border border-gray-200">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-gray-900">Quick Services</CardTitle>
+              <CardTitle className="text-foreground">{t("services.title")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-3">
                 {quickServices.map((service) => (
                   <Button
                     key={service.name}
                     variant="outline"
-                    className="h-20 flex-col gap-2 bg-white hover:bg-gray-50 border border-gray-200"
+                    className="h-16 sm:h-20 flex-col gap-2 bg-card hover:bg-accent border-border text-foreground hover:text-accent-foreground"
                     asChild
                   >
                     <a href={service.href}>
                       <div className={`p-2 rounded-lg ${service.color}`}>
-                        <service.icon className="h-5 w-5" />
+                        <service.icon className="h-4 sm:h-5 w-4 sm:w-5" />
                       </div>
-                      <span className="text-sm font-medium text-gray-900">{service.name}</span>
+                      <span className="text-xs sm:text-sm font-medium">{t(service.nameKey)}</span>
                     </a>
                   </Button>
                 ))}
@@ -211,11 +241,11 @@ export function DashboardOverview() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white border border-gray-200">
+          <Card className="bg-card border-border">
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-gray-900">Recent Transactions</CardTitle>
-              <Button variant="ghost" className="text-blue-600 hover:text-blue-700">
-                View All
+              <CardTitle className="text-foreground">{t("transactions.title")}</CardTitle>
+              <Button variant="ghost" className="text-primary hover:text-primary/80">
+                {t("transactions.view-all")}
               </Button>
             </CardHeader>
             <CardContent>
@@ -223,20 +253,22 @@ export function DashboardOverview() {
                 {recentTransactions.map((transaction) => (
                   <div
                     key={transaction.id}
-                    className="flex items-center justify-between p-3 rounded-lg border border-gray-100"
+                    className="flex items-center justify-between p-3 rounded-lg border border-border bg-card"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                        <transaction.icon className="h-4 w-4 text-blue-600" />
+                      <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <transaction.icon className="h-4 w-4 text-primary" />
                       </div>
-                      <div>
-                        <p className="font-medium text-gray-900 text-sm">{transaction.type}</p>
-                        <p className="text-xs text-gray-500">{transaction.date}</p>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-foreground text-sm truncate">{transaction.type}</p>
+                        <p className="text-xs text-muted-foreground">{transaction.date}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-medium text-gray-900">{transaction.amount}</p>
-                      <Badge className={`text-xs ${transaction.statusColor} border-0`}>{transaction.status}</Badge>
+                      <p className="font-medium text-foreground">{transaction.amount}</p>
+                      <Badge className={`text-xs ${transaction.statusColor} border-0`}>
+                        {t(`transactions.${transaction.status.toLowerCase()}`)}
+                      </Badge>
                     </div>
                   </div>
                 ))}
@@ -244,27 +276,27 @@ export function DashboardOverview() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white border border-gray-200">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-gray-900">Fund Request Center</CardTitle>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Card className="bg-card border-border">
+            <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <CardTitle className="text-foreground">{t("funds.title")}</CardTitle>
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto">
                 <Plus className="h-4 w-4 mr-2" />
-                New Request
+                {t("funds.new-request")}
               </Button>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 md:grid-cols-3">
-                <div className="text-center p-4 rounded-lg bg-green-50">
-                  <div className="text-2xl font-bold text-green-600">$5240.00</div>
-                  <div className="text-sm text-green-700">Available Funds</div>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div className="text-center p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
+                  <div className="text-xl sm:text-2xl font-bold text-green-600">$5240.00</div>
+                  <div className="text-sm text-green-700 dark:text-green-400">{t("funds.available")}</div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-yellow-50">
-                  <div className="text-2xl font-bold text-yellow-600">$1150.00</div>
-                  <div className="text-sm text-yellow-700">Pending Requests</div>
+                <div className="text-center p-4 rounded-lg bg-yellow-50 dark:bg-yellow-950/20">
+                  <div className="text-xl sm:text-2xl font-bold text-yellow-600">$1150.00</div>
+                  <div className="text-sm text-yellow-700 dark:text-yellow-400">{t("funds.pending")}</div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-blue-50">
-                  <div className="text-2xl font-bold text-blue-600">$10000.00</div>
-                  <div className="text-sm text-blue-700">Monthly Limit</div>
+                <div className="text-center p-4 rounded-lg bg-blue-50 dark:bg-blue-950/20">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600">$10000.00</div>
+                  <div className="text-sm text-blue-700 dark:text-blue-400">{t("funds.monthly-limit")}</div>
                 </div>
               </div>
             </CardContent>
@@ -272,23 +304,29 @@ export function DashboardOverview() {
         </div>
 
         <div>
-          <Card className="bg-white border border-gray-200">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-gray-900">Support & Notifications</CardTitle>
+              <CardTitle className="text-foreground">{t("support.title")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {supportNotifications.map((notification, index) => (
-                  <div key={index} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                    <div className={`p-1 rounded ${notification.type === "alert" ? "bg-yellow-100" : "bg-blue-100"}`}>
+                  <div key={index} className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent cursor-pointer">
+                    <div
+                      className={`p-1 rounded ${notification.type === "alert" ? "bg-yellow-100 dark:bg-yellow-950/20" : "bg-blue-100 dark:bg-blue-950/20"}`}
+                    >
                       <notification.icon className={`h-4 w-4 ${notification.color}`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">{notification.title}</p>
-                      {notification.subtitle && <p className="text-xs text-gray-500">{notification.subtitle}</p>}
+                      <p className="text-sm font-medium text-foreground">{t(notification.titleKey)}</p>
+                      {notification.subtitle && (
+                        <p className="text-xs text-muted-foreground">
+                          {t("support.customer")} {notification.subtitle.split("#")[1]}
+                        </p>
+                      )}
                       {notification.priority && (
-                        <Badge className="mt-1 text-xs bg-yellow-100 text-yellow-800 border-0">
-                          {notification.priority}
+                        <Badge className="mt-1 text-xs bg-yellow-100 dark:bg-yellow-950/20 text-yellow-800 dark:text-yellow-400 border-0">
+                          {t("support.high")}
                         </Badge>
                       )}
                     </div>
