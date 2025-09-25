@@ -1,7 +1,7 @@
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
 import { QrCode, Phone } from "lucide-react"
 
@@ -30,7 +30,7 @@ export default function TopUpPage() {
                   <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     +248
                   </span>
-                  <Input id="mobile" placeholder="2345678" className="rounded-l-none" maxLength={7} />
+                  <StyledInput id="mobile" placeholder="2345678" className="rounded-l-none" maxLength={7} />
                 </div>
               </div>
               <Button variant="outline" className="w-full bg-transparent">
@@ -55,7 +55,7 @@ export default function TopUpPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="custom">Custom Amount</Label>
-                <Input id="custom" placeholder="Enter amount" />
+                <StyledInput id="custom" placeholder="Enter amount" />
               </div>
               <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                 Proceed to Payment

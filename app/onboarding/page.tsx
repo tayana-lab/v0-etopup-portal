@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -252,7 +252,7 @@ export default function DigitalOnboardPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input
+                  <StyledInput
                     id="firstName"
                     value={customerData.firstName}
                     onChange={(e) => setCustomerData((prev) => ({ ...prev, firstName: e.target.value }))}
@@ -260,7 +260,7 @@ export default function DigitalOnboardPage() {
                 </div>
                 <div>
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input
+                  <StyledInput
                     id="lastName"
                     value={customerData.lastName}
                     onChange={(e) => setCustomerData((prev) => ({ ...prev, lastName: e.target.value }))}
@@ -270,7 +270,7 @@ export default function DigitalOnboardPage() {
 
               <div>
                 <Label htmlFor="email">Email</Label>
-                <Input
+                <StyledInput
                   id="email"
                   type="email"
                   value={customerData.email}
@@ -280,7 +280,7 @@ export default function DigitalOnboardPage() {
 
               <div>
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input
+                <StyledInput
                   id="phone"
                   value={customerData.phone}
                   onChange={(e) => setCustomerData((prev) => ({ ...prev, phone: e.target.value }))}
@@ -289,7 +289,7 @@ export default function DigitalOnboardPage() {
 
               <div>
                 <Label htmlFor="address">Address</Label>
-                <Input
+                <StyledInput
                   id="address"
                   value={customerData.address}
                   onChange={(e) => setCustomerData((prev) => ({ ...prev, address: e.target.value }))}
@@ -318,7 +318,7 @@ export default function DigitalOnboardPage() {
                   </div>
                   <div>
                     <Label htmlFor="subDistrict">Sub-District</Label>
-                    <Input
+                    <StyledInput
                       id="subDistrict"
                       value={customerData.subDistrict}
                       onChange={(e) => setCustomerData((prev) => ({ ...prev, subDistrict: e.target.value }))}
@@ -399,7 +399,7 @@ export default function DigitalOnboardPage() {
               <div className="flex gap-2">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
+                  <StyledInput
                     placeholder="Search SIM by number or ID"
                     value={simSearch}
                     onChange={(e) => setSimSearch(e.target.value)}

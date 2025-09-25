@@ -3,7 +3,7 @@
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
@@ -111,7 +111,7 @@ export default function JobCardPage() {
                 <Label htmlFor="search">Search Job Cards</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
+                  <StyledInput
                     id="search"
                     placeholder="Search by ID, title, or customer..."
                     value={searchTerm}
@@ -234,15 +234,15 @@ export default function JobCardPage() {
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
                     <Label htmlFor="jobTitle">Job Title</Label>
-                    <Input id="jobTitle" placeholder="Enter job title" />
+                    <StyledInput id="jobTitle" placeholder="Enter job title" />
                   </div>
                   <div>
                     <Label htmlFor="customerName">Customer Name</Label>
-                    <Input id="customerName" placeholder="Enter customer name" />
+                    <StyledInput id="customerName" placeholder="Enter customer name" />
                   </div>
                   <div>
                     <Label htmlFor="customerPhone">Customer Phone</Label>
-                    <Input id="customerPhone" placeholder="Enter phone number" />
+                    <StyledInput id="customerPhone" placeholder="Enter phone number" />
                   </div>
                   <div>
                     <Label htmlFor="priority">Priority</Label>
@@ -272,7 +272,7 @@ export default function JobCardPage() {
                   </div>
                   <div>
                     <Label htmlFor="dueDate">Due Date</Label>
-                    <Input id="dueDate" type="date" />
+                    <StyledInput id="dueDate" type="date" />
                   </div>
                 </div>
                 <div>

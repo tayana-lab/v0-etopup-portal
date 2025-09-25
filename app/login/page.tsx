@@ -4,7 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -56,8 +56,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex">
- 
-
       {/* Right Side - Features */}
       <div className="hidden lg:flex flex-1 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 items-center justify-center p-8">
         <div className="max-w-lg space-y-8">
@@ -101,7 +99,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-     {/* Left Side - Login Form */}
+      {/* Left Side - Login Form */}
       <div className="flex-1 flex items-center justify-center p-4 sm:p-8">
         <div className="w-full max-w-md space-y-8">
           {/* Logo and Header */}
@@ -127,13 +125,12 @@ export default function LoginPage() {
                   <Label htmlFor="email" className="text-sm font-medium text-gray-700">
                     Email Address
                   </Label>
-                  <Input
+                  <StyledInput
                     id="email"
                     type="email"
                     placeholder="agent@etopup.sc"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="h-11 bg-white/50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                     disabled={isLoading}
                   />
                 </div>
@@ -143,13 +140,13 @@ export default function LoginPage() {
                     Password
                   </Label>
                   <div className="relative">
-                    <Input
+                    <StyledInput
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="h-11 bg-white/50 border-gray-200 focus:border-blue-500 focus:ring-blue-500 pr-10"
+                      className="pr-10"
                       disabled={isLoading}
                     />
                     <Button
@@ -199,8 +196,6 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-
-
     </div>
   )
 }
