@@ -21,7 +21,7 @@ const customerTypes = [
   {
     id: "gop",
     name: "GOP Holder",
-    description: "Work permit holders with authorized employment",
+    description: "Work permit holders with valid employment",
     icon: MapPin,
     color: "bg-green-500",
     features: ["Work permit verification", "District/sub-district required", "Employment authorization"],
@@ -87,28 +87,28 @@ export default function SimSalePage() {
                 <p className="text-gray-600 text-sm">{type.description}</p>
               </CardHeader>
 
-              <CardContent className="flex flex-col flex-grow space-y-4">
-                <div className="space-y-2">
-                  {type.features.map((feature, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 text-sm text-gray-600"
-                    >
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
-                      {feature}
-                    </div>
-                  ))}
-                </div>
+            <CardContent className="flex flex-col flex-grow space-y-4">
+  {/* Features area with fixed height */}
+  <div className="space-y-2 min-h-[96px]">
+    {type.features.map((feature, index) => (
+      <div key={index} className="flex items-center gap-2 text-sm text-gray-600">
+        <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+        {feature}
+      </div>
+    ))}
+  </div>
 
-                <div className="pt-2 mt-auto">
-                  <Link href={type.route}>
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-colors">
-                      Start Onboarding
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
+  {/* Button */}
+  <div className="pt-2 mt-auto">
+    <Link href={type.route}>
+      <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-colors">
+        Start Onboarding
+        <ArrowRight className="h-4 w-4 ml-2" />
+      </Button>
+    </Link>
+  </div>
+</CardContent>
+
 
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full"></div>
             </Card>
