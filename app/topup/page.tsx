@@ -57,7 +57,9 @@ export default function TopUpPage() {
                 <Label htmlFor="custom">Custom Amount</Label>
                 <Input id="custom" placeholder="Enter amount" />
               </div>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">Proceed to Payment</Button>
+              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                Proceed to Payment
+              </Button>
             </CardContent>
           </Card>
         </div>

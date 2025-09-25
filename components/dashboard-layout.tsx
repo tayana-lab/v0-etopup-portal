@@ -32,6 +32,7 @@ import {
   Info,
   LogOut,
   User,
+  Badge,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -47,6 +48,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [notificationOpen, setNotificationOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const { t } = useLanguage()
@@ -56,6 +58,39 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     logout()
     router.push("/login")
   }
+
+  const notifications = [
+    {
+      id: 1,
+      title: "New SIM card order received",
+      message: "Order #SC001 requires processing",
+      time: "5 minutes ago",
+      unread: true,
+    },
+    {
+      id: 2,
+      title: "Low inventory alert",
+      message: "Prepaid SIM cards running low in Store A",
+      time: "1 hour ago",
+      unread: true,
+    },
+    {
+      id: 3,
+      title: "Customer payment processed",
+      message: "Payment of SCR 100 received for +248 2345678",
+      time: "2 hours ago",
+      unread: false,
+    },
+    {
+      id: 4,
+      title: "System maintenance scheduled",
+      message: "Scheduled maintenance on Sunday 2 AM - 4 AM",
+      time: "1 day ago",
+      unread: false,
+    },
+  ]
+
+  const unreadCount = notifications.filter((n) => n.unread).length
 
   return (
     <div className="min-h-screen bg-background">
@@ -248,10 +283,51 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex items-center gap-2 sm:gap-4">
             <LanguageSwitcher />
             <ThemeSwitcher />
-            <Button variant="ghost" size="sm" className="relative">
-              <Bell className="h-4 w-4" />
-              <span className="absolute -top-1 -right-1 h-2 w-2 bg-destructive rounded-full"></span>
-            </Button>
+            <DropdownMenu open={notificationOpen} onOpenChange={setNotificationOpen}>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="relative">
+                  <Bell className="h-4 w-4" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 h-2 w-2 bg-destructive rounded-full"></span>
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-80">
+                <DropdownMenuLabel className="flex items-center justify-between">
+                  <span>Notifications</span>
+                  {unreadCount > 0 && (
+                    <Badge variant="secondary" className="text-xs">
+                      {unreadCount} new
+                    </Badge>
+                  )}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <div className="max-h-96 overflow-y-auto">
+                  {notifications.map((notification) => (
+                    <DropdownMenuItem key={notification.id} className="flex flex-col items-start p-4 cursor-pointer">
+                      <div className="flex items-start justify-between w-full">
+                        <div className="flex-1">
+                          <p
+                            className={`text-sm font-medium ${notification.unread ? "text-foreground" : "text-muted-foreground"}`}
+                          >
+                            {notification.title}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">{notification.message}</p>
+                          <p className="text-xs text-muted-foreground mt-2">{notification.time}</p>
+                        </div>
+                        {notification.unread && <div className="w-2 h-2 bg-primary rounded-full mt-1 ml-2"></div>}
+                      </div>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/notifications" className="flex items-center justify-center w-full text-center">
+                    View all notifications
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 

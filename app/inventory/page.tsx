@@ -103,7 +103,7 @@ export default function SimInventoryPage() {
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
               <Plus className="h-4 w-4 mr-2" />
               Add SIM Cards
             </Button>
@@ -232,7 +232,7 @@ export default function SimInventoryPage() {
                       <td className="py-3 px-4 text-gray-600">{sim.activationDate}</td>
                       <td className="py-3 px-4">
                         <div className="flex gap-2">
-                          <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/90">
                             View
                           </Button>
                           <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-700">

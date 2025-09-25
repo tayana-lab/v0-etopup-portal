@@ -94,7 +94,10 @@ export default function JobCardPage() {
             <h1 className="text-2xl font-bold text-gray-900">Job Card Management</h1>
             <p className="text-gray-600">Track and manage customer service requests and technical issues</p>
           </div>
-          <Button onClick={() => setShowCreateForm(true)} className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button
+            onClick={() => setShowCreateForm(true)}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
             <Plus className="h-4 w-4 mr-2" />
             Create Job Card
           </Button>
@@ -280,7 +283,10 @@ export default function JobCardPage() {
                   <Button variant="outline" onClick={() => setShowCreateForm(false)}>
                     Cancel
                   </Button>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setShowCreateForm(false)}>
+                  <Button
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                    onClick={() => setShowCreateForm(false)}
+                  >
                     Create Job Card
                   </Button>
                 </div>
