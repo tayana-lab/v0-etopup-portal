@@ -33,7 +33,7 @@ export default function MyWalletPage() {
               <CardDescription>For prepaid services</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-600">{showBalance ? "SCR 1,250.00" : "••••••"}</div>
+              <div className="text-3xl font-bold text-blue-600">{showBalance ? "SR 1,250.00" : "••••••"}</div>
               <Button className="mt-4 w-full">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Funds
@@ -50,7 +50,7 @@ export default function MyWalletPage() {
               <CardDescription>For postpaid services</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-green-600">{showBalance ? "SCR 850.00" : "••••••"}</div>
+              <div className="text-3xl font-bold text-green-600">{showBalance ? "SR 850.00" : "••••••"}</div>
               <Button className="mt-4 w-full bg-transparent" variant="outline">
                 <ArrowUpDown className="h-4 w-4 mr-2" />
                 Transfer Funds
