@@ -163,11 +163,11 @@ export default function BillPayPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-4">
-              <div className="flex-1">
+              <div className="flex-1 space-y-2">
                 <Label htmlFor="account">Account Number</Label>
                 <StyledInput
                   id="account"
-                  placeholder="FB001234, AD005678, or MB987654"
+                  placeholder="Enter Account Number"
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
                   maxLength={8}

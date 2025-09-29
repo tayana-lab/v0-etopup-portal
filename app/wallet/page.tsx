@@ -67,10 +67,10 @@ export default function MyWalletPage() {
           <CardContent>
             <div className="space-y-4">
               {[
-                { type: "TopUp", amount: "-SCR 100.00", date: "Today, 2:30 PM", status: "completed" },
-                { type: "Fund Request", amount: "+SCR 500.00", date: "Yesterday, 4:15 PM", status: "completed" },
-                { type: "Bill Payment", amount: "-SCR 250.00", date: "2 days ago", status: "completed" },
-                { type: "Package Purchase", amount: "-SCR 75.00", date: "3 days ago", status: "pending" },
+                { type: "TopUp", amount: "-SR 100.00", date: "Today, 2:30 PM", status: "completed" },
+                { type: "Fund Request", amount: "+SR 500.00", date: "Yesterday, 4:15 PM", status: "completed" },
+                { type: "Bill Payment", amount: "-SR 250.00", date: "2 days ago", status: "completed" },
+                { type: "Package Purchase", amount: "-SR 75.00", date: "3 days ago", status: "pending" },
               ].map((transaction, index) => (
                 <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
