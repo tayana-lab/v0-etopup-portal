@@ -55,13 +55,15 @@ export default function LoginPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted to-muted/50 flex">
       {/* Right Side - Features */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 items-center justify-center p-8">
+      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary via-primary/90 to-primary/80 items-center justify-center p-8">
         <div className="max-w-lg space-y-8">
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold text-white text-balance">Your complete telecom agent solution</h2>
-            <p className="text-lg text-blue-100 leading-relaxed">
+            <h2 className="text-3xl font-bold text-primary-foreground text-balance">
+              Your complete telecom agent solution
+            </h2>
+            <p className="text-lg text-primary-foreground/80 leading-relaxed">
               Manage sales, customers, and analytics with our powerful, secure platform designed specifically for
               telecom agents.
             </p>
@@ -70,30 +72,30 @@ export default function LoginPage() {
           <div className="space-y-6">
             {features.map((feature, index) => (
               <div key={index} className="flex items-start gap-4">
-                <div className="flex-shrink-0 h-12 w-12 bg-white/10 rounded-xl flex items-center justify-center">
-                  <feature.icon className="h-6 w-6 text-white" />
+                <div className="flex-shrink-0 h-12 w-12 bg-primary-foreground/10 rounded-xl flex items-center justify-center">
+                  <feature.icon className="h-6 w-6 text-primary-foreground" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-semibold text-white">{feature.title}</h3>
-                  <p className="text-sm text-blue-100 leading-relaxed">{feature.description}</p>
+                  <h3 className="font-semibold text-primary-foreground">{feature.title}</h3>
+                  <p className="text-sm text-primary-foreground/80 leading-relaxed">{feature.description}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 pt-8 border-t border-white/20">
+          <div className="grid grid-cols-3 gap-4 pt-8 border-t border-primary-foreground/20">
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">99.9%</div>
-              <div className="text-xs text-blue-200">Uptime</div>
+              <div className="text-2xl font-bold text-primary-foreground">99.9%</div>
+              <div className="text-xs text-primary-foreground/70">Uptime</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">24/7</div>
-              <div className="text-xs text-blue-200">Support</div>
+              <div className="text-2xl font-bold text-primary-foreground">24/7</div>
+              <div className="text-xs text-primary-foreground/70">Support</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">500+</div>
-              <div className="text-xs text-blue-200">Agents</div>
+              <div className="text-2xl font-bold text-primary-foreground">500+</div>
+              <div className="text-xs text-primary-foreground/70">Agents</div>
             </div>
           </div>
         </div>
@@ -104,25 +106,25 @@ export default function LoginPage() {
         <div className="w-full max-w-md space-y-8">
           {/* Logo and Header */}
           <div className="text-center space-y-4">
-            <div className="mx-auto h-16 w-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-2xl">eT</span>
+            <div className="mx-auto h-16 w-16 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
+              <span className="text-primary-foreground font-bold text-2xl">eT</span>
             </div>
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold text-gray-900 text-balance">Welcome back</h1>
-              <p className="text-gray-600">Sign in to your eTopup agent portal</p>
+              <h1 className="text-3xl font-bold text-foreground text-balance">Welcome back</h1>
+              <p className="text-muted-foreground">Sign in to your eTopup agent portal</p>
             </div>
           </div>
 
           {/* Login Form */}
-          <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+          <Card className="border-0 shadow-xl bg-card/80 backdrop-blur-sm">
             <CardHeader className="space-y-1 pb-4">
-              <CardTitle className="text-xl text-center text-gray-900">Sign in to your account</CardTitle>
+              <CardTitle className="text-xl text-center text-card-foreground">Sign in to your account</CardTitle>
               <CardDescription className="text-center">Enter your credentials to access the portal</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="email" className="text-sm font-medium text-foreground">
                     Email Address
                   </Label>
                   <StyledInput
@@ -136,7 +138,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="password" className="text-sm font-medium text-foreground">
                     Password
                   </Label>
                   <div className="relative">
@@ -153,7 +155,7 @@ export default function LoginPage() {
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0 hover:bg-gray-100"
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0 hover:bg-muted"
                       onClick={() => setShowPassword(!showPassword)}
                       disabled={isLoading}
                     >
@@ -170,7 +172,7 @@ export default function LoginPage() {
 
                 <Button
                   type="submit"
-                  className="w-full h-11 text-base font-medium bg-blue-600 hover:bg-blue-700 text-white"
+                  className="w-full h-11 text-base font-medium bg-primary hover:bg-primary/90 text-primary-foreground"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -185,13 +187,13 @@ export default function LoginPage() {
               </form>
 
               <div className="text-center pt-4">
-                <p className="text-sm text-gray-500">Demo credentials: agent@etopup.sc / password123</p>
+                <p className="text-sm text-muted-foreground">Demo credentials: agent@etopup.sc / password123</p>
               </div>
             </CardContent>
           </Card>
 
           {/* Footer */}
-          <div className="text-center text-sm text-gray-500">
+          <div className="text-center text-sm text-muted-foreground">
             <p>© 2025 eTopup Portal. All rights reserved.</p>
           </div>
         </div>

@@ -37,7 +37,7 @@ const notifications = [
     id: "2",
     type: "transaction",
     title: "Fund Request Approved",
-    message: "Your fund request of $500 has been approved and credited to your account.",
+    message: "Your fund request of SR 500 has been approved and credited to your account.",
     timestamp: "15 minutes ago",
     read: false,
     priority: "medium",

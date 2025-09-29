@@ -55,11 +55,11 @@ export function TopUpService() {
             <CardContent className="space-y-6">
               {/* Phone Number Input */}
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="phone">Mobile Number</Label>
                 <div className="flex gap-2">
                   <Input
                     id="phone"
-                    placeholder="+248 123 4567"
+                    placeholder="Enter Mobile Number"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     className="flex-1"

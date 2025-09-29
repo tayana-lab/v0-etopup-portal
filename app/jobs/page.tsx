@@ -241,8 +241,8 @@ export default function JobCardPage() {
                     <StyledInput id="customerName" placeholder="Enter customer name" />
                   </div>
                   <div>
-                    <Label htmlFor="customerPhone">Customer Phone</Label>
-                    <StyledInput id="customerPhone" placeholder="Enter phone number" />
+                    <Label htmlFor="customerPhone">Customer Mobile Number</Label>
+                    <StyledInput id="customerPhone" placeholder="Enter Mobile Number" />
                   </div>
                   <div>
                     <Label htmlFor="priority">Priority</Label>

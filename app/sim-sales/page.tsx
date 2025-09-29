@@ -16,7 +16,7 @@ const customerTypes = [
     icon: Users,
     color: "bg-blue-500",
     features: ["Full service access", "District/sub-district required", "Local ID verification"],
-    route: "/digital-onboard?type=local",
+    route: "/onboarding?type=local", // Fixed route from /digital-onboard to /onboarding
   },
   {
     id: "gop",
@@ -25,7 +25,7 @@ const customerTypes = [
     icon: MapPin,
     color: "bg-green-500",
     features: ["Work permit verification", "District/sub-district required", "Employment authorization"],
-    route: "/digital-onboard?type=gop",
+    route: "/onboarding?type=gop", // Fixed route from /digital-onboard to /onboarding
   },
   {
     id: "tourist",
@@ -34,7 +34,7 @@ const customerTypes = [
     icon: Plane,
     color: "bg-purple-500",
     features: ["Nationality selection", "Temporary service", "Tourist packages available"],
-    route: "/digital-onboard?type=tourist",
+    route: "/onboarding?type=tourist", // Fixed route from /digital-onboard to /onboarding
   },
 ]
 
@@ -42,9 +42,7 @@ export default function SimSalePage() {
   const [favorites, setFavorites] = useState<string[]>([])
 
   const toggleFavorite = (typeId: string) => {
-    setFavorites((prev) =>
-      prev.includes(typeId) ? prev.filter((id) => id !== typeId) : [...prev, typeId]
-    )
+    setFavorites((prev) => (prev.includes(typeId) ? prev.filter((id) => id !== typeId) : [...prev, typeId]))
   }
 
   return (
@@ -63,9 +61,7 @@ export default function SimSalePage() {
             >
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
-                  <div
-                    className={`w-12 h-12 ${type.color} rounded-lg flex items-center justify-center`}
-                  >
+                  <div className={`w-12 h-12 ${type.color} rounded-lg flex items-center justify-center`}>
                     <type.icon className="h-6 w-6 text-white" />
                   </div>
                   <Button
@@ -76,9 +72,7 @@ export default function SimSalePage() {
                   >
                     <Heart
                       className={`h-4 w-4 ${
-                        favorites.includes(type.id)
-                          ? "fill-red-500 text-red-500"
-                          : "text-gray-400"
+                        favorites.includes(type.id) ? "fill-red-500 text-red-500" : "text-gray-400"
                       }`}
                     />
                   </Button>
@@ -87,28 +81,27 @@ export default function SimSalePage() {
                 <p className="text-gray-600 text-sm">{type.description}</p>
               </CardHeader>
 
-            <CardContent className="flex flex-col flex-grow space-y-4">
-  {/* Features area with fixed height */}
-  <div className="space-y-2 min-h-[96px]">
-    {type.features.map((feature, index) => (
-      <div key={index} className="flex items-center gap-2 text-sm text-gray-600">
-        <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
-        {feature}
-      </div>
-    ))}
-  </div>
+              <CardContent className="flex flex-col flex-grow space-y-4">
+                {/* Features area with fixed height */}
+                <div className="space-y-2 min-h-[96px]">
+                  {type.features.map((feature, index) => (
+                    <div key={index} className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                      {feature}
+                    </div>
+                  ))}
+                </div>
 
-  {/* Button */}
-  <div className="pt-2 mt-auto">
-    <Link href={type.route}>
-      <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-colors">
-        Start Onboarding
-        <ArrowRight className="h-4 w-4 ml-2" />
-      </Button>
-    </Link>
-  </div>
-</CardContent>
-
+                {/* Button */}
+                <div className="pt-2 mt-auto">
+                  <Link href={type.route}>
+                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-colors">
+                      Start Onboarding
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
 
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full"></div>
             </Card>

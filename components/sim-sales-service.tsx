@@ -136,10 +136,10 @@ export function SimSalesService() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="customer-phone">Phone Number</Label>
+                      <Label htmlFor="customer-phone">Mobile Number</Label>
                       <Input
                         id="customer-phone"
-                        placeholder="+248 123 4567"
+                        placeholder="Enter Mobile Number"
                         value={customerPhone}
                         onChange={(e) => setCustomerPhone(e.target.value)}
                       />

@@ -150,10 +150,10 @@ export function PackageService() {
                   <h3 className="font-medium text-card-foreground mb-3">Customer Details</h3>
                   <div className="space-y-3">
                     <div>
-                      <Label htmlFor="customer-phone">Customer Phone Number</Label>
+                      <Label htmlFor="customer-phone">Customer Mobile Number</Label>
                       <Input
                         id="customer-phone"
-                        placeholder="+248 123 4567"
+                        placeholder="Enter Mobile Number"
                         value={customerPhone}
                         onChange={(e) => setCustomerPhone(e.target.value)}
                       />

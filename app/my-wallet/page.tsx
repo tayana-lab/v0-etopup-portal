@@ -100,11 +100,11 @@ export default function MyWalletPage() {
   })
 
   const formatCurrency = (amount: number) => {
-    return balanceVisible ? `SCR ${Math.abs(amount).toFixed(2)}` : "SCR ****"
+    return balanceVisible ? `SR ${Math.abs(amount).toFixed(2)}` : "SR ****"
   }
 
   const formatBalance = (balance: number) => {
-    return balanceVisible ? `SCR ${balance.toFixed(2)}` : "SCR ****"
+    return balanceVisible ? `SR ${balance.toFixed(2)}` : "SR ****"
   }
 
   return (

@@ -2,13 +2,15 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Package, Smartphone, Wifi, Phone, MessageSquare, Star, Clock } from "lucide-react"
 import { DashboardLayout } from "@/components/dashboard-layout"
+import { ConfirmationModal } from "@/components/ui/confirmation-modal"
+import { SuccessModal } from "@/components/ui/success-modal"
 
 const packages = {
   popular: [
@@ -98,6 +100,10 @@ export default function PurchasePackagesPage() {
   const [numberType, setNumberType] = useState<"Prepaid" | "Postpaid" | null>(null)
   const [selectedPackage, setSelectedPackage] = useState<any>(null)
   const [activeTab, setActiveTab] = useState("popular")
+  const [showConfirmation, setShowConfirmation] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [transactionId, setTransactionId] = useState("")
 
   const detectNumberType = (number: string) => {
     // Simulate number type detection
@@ -109,13 +115,57 @@ export default function PurchasePackagesPage() {
   }
 
   const handlePhoneChange = (value: string) => {
-    setPhoneNumber(value)
-    detectNumberType(value)
+    if (value.length <= 7) {
+      setPhoneNumber(value)
+      detectNumberType(value)
+    }
   }
 
   const filteredPackages = numberType
     ? packages[activeTab as keyof typeof packages].filter((pkg) => pkg.numberType === numberType)
     : packages[activeTab as keyof typeof packages]
+
+  const handlePurchaseClick = () => {
+    if (!selectedPackage || !phoneNumber || !numberType) return
+    setShowConfirmation(true)
+  }
+
+  const handleConfirmPurchase = async () => {
+    setIsProcessing(true)
+
+    // Simulate API call
+    setTimeout(() => {
+      const txId = `PKG${Date.now()}`
+      setTransactionId(txId)
+      setIsProcessing(false)
+      setShowConfirmation(false)
+      setShowSuccess(true)
+      console.log("[v0] Package purchased successfully:", txId)
+    }, 2000)
+  }
+
+  const handleSuccessClose = () => {
+    setShowSuccess(false)
+    // Reset form
+    setSelectedPackage(null)
+    setPhoneNumber("")
+    setNumberType(null)
+  }
+
+  const getConfirmationData = () => {
+    if (!selectedPackage) return null
+
+    return {
+      packageName: selectedPackage.name,
+      phoneNumber,
+      numberType,
+      data: selectedPackage.data,
+      voice: selectedPackage.voice,
+      sms: selectedPackage.sms,
+      validity: selectedPackage.validity,
+      price: selectedPackage.price,
+    }
+  }
 
   return (
     <DashboardLayout>
@@ -133,149 +183,176 @@ export default function PurchasePackagesPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-4 items-end">
-              <div className="flex-1">
-                <Label htmlFor="phone">Phone Number</Label>
-                <div className="relative">
-                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">+248</div>
-                  <Input
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="phone">Mobile Number</Label>
+                <div className="flex">
+                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                    +248
+                  </span>
+                  <StyledInput
                     id="phone"
-                    placeholder="4567890"
+                    placeholder="Enter Mobile Number"
                     value={phoneNumber}
                     onChange={(e) => handlePhoneChange(e.target.value)}
-                    className="pl-12"
+                    className="rounded-l-none"
+                    maxLength={7}
                   />
                 </div>
+                {numberType && (
+                  <div className="mt-2">
+                    <Badge variant={numberType === "Prepaid" ? "default" : "secondary"}>{numberType}</Badge>
+                  </div>
+                )}
               </div>
-              {numberType && (
-                <Badge variant={numberType === "Prepaid" ? "default" : "secondary"} className="mb-0.5">
-                  {numberType}
-                </Badge>
-              )}
             </div>
           </CardContent>
         </Card>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="popular" className="flex items-center gap-2">
-              <Star className="h-4 w-4" />
-              Popular
-            </TabsTrigger>
-            <TabsTrigger value="data" className="flex items-center gap-2">
-              <Wifi className="h-4 w-4" />
-              Data
-            </TabsTrigger>
-            <TabsTrigger value="voice" className="flex items-center gap-2">
-              <Phone className="h-4 w-4" />
-              Voice
-            </TabsTrigger>
-            <TabsTrigger value="combo" className="flex items-center gap-2">
-              <Package className="h-4 w-4" />
-              Combo
-            </TabsTrigger>
-          </TabsList>
+        {phoneNumber && numberType ? (
+          <>
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="grid w-full grid-cols-4">
+                <TabsTrigger value="popular" className="flex items-center gap-2">
+                  <Star className="h-4 w-4" />
+                  Popular
+                </TabsTrigger>
+                <TabsTrigger value="data" className="flex items-center gap-2">
+                  <Wifi className="h-4 w-4" />
+                  Data
+                </TabsTrigger>
+                <TabsTrigger value="voice" className="flex items-center gap-2">
+                  <Phone className="h-4 w-4" />
+                  Voice
+                </TabsTrigger>
+                <TabsTrigger value="combo" className="flex items-center gap-2">
+                  <Package className="h-4 w-4" />
+                  Combo
+                </TabsTrigger>
+              </TabsList>
 
-          <TabsContent value={activeTab} className="mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredPackages.map((pkg) => (
-                <Card
-                  key={pkg.id}
-                  className={`relative cursor-pointer transition-all hover:shadow-lg ${
-                    selectedPackage?.id === pkg.id ? "ring-2 ring-blue-500 bg-blue-50" : ""
-                  }`}
-                  onClick={() => setSelectedPackage(pkg)}
-                >
-                  <CardHeader className="pb-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-lg">{pkg.name}</CardTitle>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge variant={pkg.numberType === "Prepaid" ? "default" : "secondary"}>
-                            {pkg.numberType}
-                          </Badge>
-                          <div className="flex items-center gap-1">
-                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                            <span className="text-xs text-gray-600">{pkg.rating}</span>
+              <TabsContent value={activeTab} className="mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredPackages.map((pkg) => (
+                    <Card
+                      key={pkg.id}
+                      className={`relative cursor-pointer transition-all hover:shadow-lg ${
+                        selectedPackage?.id === pkg.id ? "ring-2 ring-blue-500 bg-blue-50" : ""
+                      }`}
+                      onClick={() => setSelectedPackage(pkg)}
+                    >
+                      <CardHeader className="pb-4">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <CardTitle className="text-lg">{pkg.name}</CardTitle>
+                            <div className="flex items-center gap-2 mt-1">
+                              <Badge variant={pkg.numberType === "Prepaid" ? "default" : "secondary"}>
+                                {pkg.numberType}
+                              </Badge>
+                              <div className="flex items-center gap-1">
+                                <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                <span className="text-xs text-gray-600">{pkg.rating}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-2xl font-bold text-blue-600">SR {pkg.price}</p>
+                            <p className="text-xs text-gray-500 flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
+                              {pkg.validity}
+                            </p>
                           </div>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-blue-600">SCR {pkg.price}</p>
-                        <p className="text-xs text-gray-500 flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {pkg.validity}
-                        </p>
-                      </div>
-                    </div>
-                  </CardHeader>
+                      </CardHeader>
 
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-3 gap-4 text-center">
-                      <div>
-                        <Wifi className="h-4 w-4 mx-auto text-blue-500 mb-1" />
-                        <p className="text-sm font-medium">{pkg.data}</p>
-                        <p className="text-xs text-gray-500">Data</p>
-                      </div>
-                      <div>
-                        <Phone className="h-4 w-4 mx-auto text-green-500 mb-1" />
-                        <p className="text-sm font-medium">{pkg.voice}</p>
-                        <p className="text-xs text-gray-500">Voice</p>
-                      </div>
-                      <div>
-                        <MessageSquare className="h-4 w-4 mx-auto text-purple-500 mb-1" />
-                        <p className="text-sm font-medium">{pkg.sms}</p>
-                        <p className="text-xs text-gray-500">SMS</p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-1">
-                      {pkg.features.map((feature, index) => (
-                        <div key={index} className="flex items-center gap-2 text-xs text-gray-600">
-                          <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
-                          {feature}
+                      <CardContent className="space-y-4">
+                        <div className="grid grid-cols-3 gap-4 text-center">
+                          <div>
+                            <Wifi className="h-4 w-4 mx-auto text-blue-500 mb-1" />
+                            <p className="text-sm font-medium">{pkg.data}</p>
+                            <p className="text-xs text-gray-500">Data</p>
+                          </div>
+                          <div>
+                            <Phone className="h-4 w-4 mx-auto text-green-500 mb-1" />
+                            <p className="text-sm font-medium">{pkg.voice}</p>
+                            <p className="text-xs text-gray-500">Voice</p>
+                          </div>
+                          <div>
+                            <MessageSquare className="h-4 w-4 mx-auto text-purple-500 mb-1" />
+                            <p className="text-sm font-medium">{pkg.sms}</p>
+                            <p className="text-xs text-gray-500">SMS</p>
+                          </div>
                         </div>
-                      ))}
+
+                        <div className="space-y-1">
+                          {pkg.features.map((feature, index) => (
+                            <div key={index} className="flex items-center gap-2 text-xs text-gray-600">
+                              <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
+                              {feature}
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
+
+            {selectedPackage && (
+              <Card className="mt-6 border-blue-200 bg-blue-50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Package className="h-5 w-5" />
+                    Selected Package
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold">{selectedPackage.name}</p>
+                      <p className="text-sm text-gray-600">
+                        {selectedPackage.data} • {selectedPackage.voice} • {selectedPackage.sms} SMS
+                      </p>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    <div className="text-right">
+                      <p className="text-xl font-bold text-blue-600">SR {selectedPackage.price}</p>
+                      <Button className="mt-2" onClick={handlePurchaseClick} disabled={!phoneNumber || !numberType}>
+                        Purchase Package
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </>
+        ) : (
+          phoneNumber &&
+          !numberType && (
+            <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <p className="text-sm text-yellow-800">
+                Enter a valid mobile number to see available packages for your account type.
+              </p>
             </div>
-          </TabsContent>
-        </Tabs>
-
-        {selectedPackage && (
-          <Card className="mt-6 border-blue-200 bg-blue-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Package className="h-5 w-5" />
-                Selected Package
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="font-semibold">{selectedPackage.name}</p>
-                  <p className="text-sm text-gray-600">
-                    {selectedPackage.data} • {selectedPackage.voice} • {selectedPackage.sms} SMS
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xl font-bold text-blue-600">SCR {selectedPackage.price}</p>
-                  <Button className="mt-2">Purchase Package</Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          )
         )}
 
-        {!numberType && phoneNumber && (
-          <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-            <p className="text-sm text-yellow-800">
-              Enter a valid phone number to see available packages for your account type.
-            </p>
-          </div>
-        )}
+        <ConfirmationModal
+          isOpen={showConfirmation}
+          onClose={() => setShowConfirmation(false)}
+          onConfirm={handleConfirmPurchase}
+          type="package"
+          data={getConfirmationData()}
+          isLoading={isProcessing}
+        />
+
+        <SuccessModal
+          isOpen={showSuccess}
+          onClose={handleSuccessClose}
+          type="package"
+          data={getConfirmationData()}
+          transactionId={transactionId}
+        />
       </div>
     </DashboardLayout>
   )

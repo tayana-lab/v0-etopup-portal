@@ -131,7 +131,7 @@ export default function FundRequestPage() {
                 <div>
                   <Label htmlFor="amount">Request Amount</Label>
                   <div className="relative">
-                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">SCR</div>
+                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">SR</div>
                     <Input
                       id="amount"
                       type="number"
@@ -197,7 +197,7 @@ export default function FundRequestPage() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-blue-700">Amount:</span>
-                    <span className="font-medium">SCR {amount || "0.00"}</span>
+                    <span className="font-medium">SR {amount || "0.00"}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-blue-700">Wallet:</span>
@@ -241,7 +241,7 @@ export default function FundRequestPage() {
                       <p className="text-sm text-gray-600">{request.reason}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-blue-600">SCR {request.amount}</p>
+                      <p className="text-2xl font-bold text-blue-600">SR {request.amount}</p>
                       <p className="text-sm text-gray-500 capitalize">{request.walletType} Balance</p>
                     </div>
                   </div>
@@ -290,8 +290,8 @@ export default function FundRequestPage() {
         <div className="mt-6 bg-gray-50 rounded-lg p-4">
           <h3 className="font-semibold text-gray-900 mb-2">Fund Request Guidelines</h3>
           <ul className="text-sm text-gray-600 space-y-1">
-            <li>• Minimum request amount: SCR 50</li>
-            <li>• Maximum request amount: SCR 10,000 per request</li>
+            <li>• Minimum request amount: SR 50</li>
+            <li>• Maximum request amount: SR 10,000 per request</li>
             <li>• Processing time: 1-3 business days</li>
             <li>• Approved funds will be credited to your selected wallet</li>
             <li>• Provide clear reason for faster approval</li>

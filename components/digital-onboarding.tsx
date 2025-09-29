@@ -208,12 +208,12 @@ export function DigitalOnboarding() {
                 <div className="space-y-4">
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number *</Label>
+                      <Label htmlFor="phone">Mobile Number *</Label>
                       <Input
                         id="phone"
                         value={formData.phone}
                         onChange={(e) => handleInputChange("phone", e.target.value)}
-                        placeholder="+248 123 4567"
+                        placeholder="Enter Mobile Number"
                       />
                     </div>
                     <div className="space-y-2">
