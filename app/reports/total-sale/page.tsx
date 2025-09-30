@@ -19,7 +19,7 @@ const salesData = [
 ]
 
 const topServices = [
-  { service: "Mobile TopUp", revenue: 45230, percentage: 45, growth: 18.5 },
+  { service: "Mobile Prepaid Recharge", revenue: 45230, percentage: 45, growth: 18.5 }, // Changed TopUp to Prepaid Recharge
   { service: "Package Sales", revenue: 28150, percentage: 28, growth: 12.3 },
   { service: "Bill Payments", revenue: 15680, percentage: 16, growth: 8.7 },
   { service: "SIM Sales", revenue: 11040, percentage: 11, growth: 22.1 },
@@ -59,7 +59,7 @@ export default function TotalSalePage() {
             <CardContent>
               <div className="flex items-center gap-2">
                 <DollarSign className="h-5 w-5 text-blue-500" />
-                <span className="text-2xl font-bold">SCR 103,530</span>
+                <span className="text-2xl font-bold">SR 103,530</span> {/* Changed SCR to SR */}
               </div>
               <Badge variant="default" className="mt-2 bg-green-100 text-green-800">
                 +15.3% vs last period
@@ -74,7 +74,7 @@ export default function TotalSalePage() {
             <CardContent>
               <div className="flex items-center gap-2">
                 <BarChart3 className="h-5 w-5 text-purple-500" />
-                <span className="text-2xl font-bold">SCR 17,255</span>
+                <span className="text-2xl font-bold">SR 17,255</span> {/* Changed SCR to SR */}
               </div>
               <p className="text-sm text-gray-500 mt-2">6-month average</p>
             </CardContent>
@@ -89,7 +89,7 @@ export default function TotalSalePage() {
                 <TrendingUp className="h-5 w-5 text-green-500" />
                 <span className="text-2xl font-bold">May 2024</span>
               </div>
-              <p className="text-sm text-gray-500 mt-2">SCR 21,400</p>
+              <p className="text-sm text-gray-500 mt-2">SR 21,400</p> {/* Changed SCR to SR */}
             </CardContent>
           </Card>
 
@@ -138,7 +138,7 @@ export default function TotalSalePage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-xl font-bold">SCR {data.revenue.toLocaleString()}</p>
+                    <p className="text-xl font-bold">SR {data.revenue.toLocaleString()}</p> {/* Changed SCR to SR */}
                     <Badge variant={data.growth > 0 ? "default" : "destructive"} className="text-xs">
                       {data.growth > 0 ? "+" : ""}
                       {data.growth}%
@@ -162,7 +162,7 @@ export default function TotalSalePage() {
                   <div className="flex justify-between items-center">
                     <span className="font-medium">{service.service}</span>
                     <div className="text-right">
-                      <span className="font-bold">SCR {service.revenue.toLocaleString()}</span>
+                      <span className="font-bold">SR {service.revenue.toLocaleString()}</span> {/* Changed SCR to SR */}
                       <Badge variant="outline" className="ml-2 text-green-600">
                         +{service.growth}%
                       </Badge>

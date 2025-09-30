@@ -55,7 +55,7 @@ export default function TopUpPage() {
       setIsProcessing(false)
       setShowConfirmation(false)
       setShowSuccess(true)
-      console.log("[v0] Topup successful:", txId)
+      console.log("[v0] Prepaid Recharge successful:", txId)
     }, 2000)
   }
 
@@ -85,7 +85,7 @@ export default function TopUpPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">TopUp</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Prepaid Recharge</h1>
           <p className="text-gray-600">Mobile account recharge functionality</p>
         </div>
 
@@ -107,7 +107,7 @@ export default function TopUpPage() {
                   </span>
                   <StyledInput
                     id="mobile"
-                    placeholder="2345678"
+                    placeholder="Enter Mobile Number"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     className="rounded-l-none"
@@ -190,7 +190,7 @@ export default function TopUpPage() {
         </div>
 
         <div className="mt-6 bg-purple-50 rounded-lg p-4">
-          <h3 className="font-semibold text-gray-900 mb-2">TopUp Information</h3>
+          <h3 className="font-semibold text-gray-900 mb-2">Prepaid Recharge Information</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
             <div>
               <p className="font-medium mb-1">Quick Amounts:</p>

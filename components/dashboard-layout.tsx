@@ -340,7 +340,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
 const tabNavigation = [
   { name: "Dashboard", nameKey: "nav.dashboard", href: "/", icon: Home },
-  { name: "TopUp", nameKey: "nav.topup", href: "/topup", icon: Phone },
+  { name: "Prepaid Recharge", nameKey: "nav.topup", href: "/topup", icon: Phone },
   { name: "My Wallet", nameKey: "nav.wallet", href: "/wallet", icon: Wallet },
   { name: "Reports", nameKey: "nav.reports", href: "/reports", icon: BarChart3 },
   { name: "Contact Us", nameKey: "nav.contact", href: "/contact", icon: HelpCircle },

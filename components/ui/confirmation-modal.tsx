@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { AlertTriangle, Package, Phone, FileText, DollarSign, Calendar, MapPin, User } from "lucide-react"
+import { AlertTriangle, Package, Phone, FileText, Calendar, MapPin, User } from "lucide-react"
 
 interface ConfirmationModalProps {
   isOpen: boolean
@@ -48,7 +48,7 @@ export function ConfirmationModal({
       case "bill":
         return "Confirm Bill Payment"
       case "topup":
-        return "Confirm TopUp"
+        return "Confirm Prepaid Recharge"
     }
   }
 
@@ -59,7 +59,7 @@ export function ConfirmationModal({
       case "bill":
         return "Please review your payment details before proceeding with the bill payment."
       case "topup":
-        return "Please review your topup details before proceeding with the recharge."
+        return "Please review your prepaid recharge details before proceeding with the recharge."
     }
   }
 
@@ -187,10 +187,7 @@ export function ConfirmationModal({
 
           <div className="flex items-center justify-between text-lg font-bold">
             <span>Total Amount:</span>
-            <span className="text-blue-600 flex items-center gap-1">
-              <DollarSign className="h-5 w-5" />
-              SR {data ? data.amount || data.price : 0}
-            </span>
+            <span className="text-blue-600 flex items-center gap-1">SR {data ? data.amount || data.price : 0}</span>
           </div>
         </div>
 

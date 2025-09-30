@@ -19,7 +19,7 @@ const transactionData = [
 ]
 
 const transactionTypes = [
-  { type: "Mobile TopUp", count: 685, percentage: 45, avgAmount: 125 },
+  { type: "Mobile Prepaid Recharge", count: 685, percentage: 45, avgAmount: 125 },
   { type: "Package Purchase", count: 456, percentage: 30, avgAmount: 185 },
   { type: "Bill Payment", count: 228, percentage: 15, avgAmount: 320 },
   { type: "SIM Sale", count: 152, percentage: 10, avgAmount: 75 },
@@ -175,7 +175,7 @@ export default function TotalTransactionsPage() {
                   <div className="flex justify-between items-center">
                     <div>
                       <h3 className="font-semibold">{type.type}</h3>
-                      <p className="text-sm text-gray-600">Average: SCR {type.avgAmount}</p>
+                      <p className="text-sm text-gray-600">Average: SR {type.avgAmount}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-xl font-bold">{type.count} transactions</p>

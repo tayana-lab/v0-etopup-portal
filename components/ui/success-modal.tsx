@@ -32,7 +32,7 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
       case "bill":
         return "Bill Payment Successful!"
       case "topup":
-        return "TopUp Successful!"
+        return "Prepaid Recharge Successful!" // Changed TopUp to Prepaid Recharge
     }
   }
 

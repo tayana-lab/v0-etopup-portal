@@ -23,7 +23,7 @@ const translations = {
 
     // Navigation items
     "nav.dashboard": "Dashboard",
-    "nav.topup": "TopUp",
+    "nav.topup": "Prepaid Recharge", // Changed TopUp to Prepaid Recharge
     "nav.wallet": "My Wallet",
     "nav.reports": "Reports",
     "nav.contact": "Contact Us",
@@ -55,7 +55,7 @@ const translations = {
 
     // Services
     "services.title": "Quick Services",
-    "services.mobile-topup": "Mobile Top-up",
+    "services.mobile-topup": "Mobile Prepaid Recharge", // Changed Mobile Top-up to Mobile Prepaid Recharge
     "services.data-packages": "Data Packages",
     "services.bill-payment": "Bill Payment",
     "services.fund-request": "Fund Request",
@@ -108,7 +108,7 @@ const translations = {
 
     // Navigation items
     "nav.dashboard": "Tableau de bord",
-    "nav.topup": "Recharge",
+    "nav.topup": "Recharge Prépayée", // Updated French translation for Prepaid Recharge
     "nav.wallet": "Mon Portefeuille",
     "nav.reports": "Rapports",
     "nav.contact": "Nous Contacter",
@@ -141,7 +141,7 @@ const translations = {
 
     // Services
     "services.title": "Services Rapides",
-    "services.mobile-topup": "Recharge Mobile",
+    "services.mobile-topup": "Recharge Mobile Prépayée", // Updated French translation for Mobile Prepaid Recharge
     "services.data-packages": "Forfaits Data",
     "services.bill-payment": "Paiement Factures",
     "services.fund-request": "Demande de Fonds",

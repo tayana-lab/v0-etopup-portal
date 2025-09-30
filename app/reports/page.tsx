@@ -8,7 +8,7 @@ import Link from "next/link"
 const reportCards = [
   {
     title: "Total Sale",
-    value: "SCR 45,230",
+    value: "SR 45,230", // Changed SCR to SR
     change: "+12.5%",
     icon: DollarSign,
     href: "/total-sale",
@@ -24,7 +24,7 @@ const reportCards = [
   },
   {
     title: "Earnings",
-    value: "SCR 2,156",
+    value: "SR 2,156", // Changed SCR to SR
     change: "+15.3%",
     icon: TrendingUp,
     href: "/earnings",
@@ -40,7 +40,7 @@ const reportCards = [
   },
   {
     title: "Airtime Purchase",
-    value: "SCR 18,450",
+    value: "SR 18,450", // Changed SCR to SR
     change: "+9.7%",
     icon: Phone,
     href: "/airtime-purchase",
@@ -48,7 +48,7 @@ const reportCards = [
   },
   {
     title: "Balance",
-    value: "SCR 12,890",
+    value: "SR 12,890", // Changed SCR to SR
     change: "+3.2%",
     icon: Wallet,
     href: "/balance",
