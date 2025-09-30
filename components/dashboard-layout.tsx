@@ -3,15 +3,9 @@
 import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 import {
   BarChart3,
   Settings,
@@ -49,6 +43,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [notificationOpen, setNotificationOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const { t } = useLanguage()
@@ -77,7 +72,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     {
       id: 3,
       title: "Customer payment processed",
-      message: "Payment of SCR 100 received for +248 2345678",
+      message: "Payment of SR 100 received for +248 2345678",
       time: "2 hours ago",
       unread: false,
     },
@@ -228,6 +223,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
         </nav>
 
+        {/* Profile settings Popover */}
         <div className="flex-shrink-0 p-4 border-t border-border bg-card">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
@@ -242,28 +238,38 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <p className="text-sm font-medium text-foreground truncate">{user?.name || "John Doe"}</p>
               <p className="text-xs text-muted-foreground">{user?.role || "Agent"}</p>
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            <Popover open={profileOpen} onOpenChange={setProfileOpen}>
+              <PopoverTrigger asChild>
                 <Button variant="ghost" size="sm" className="flex-shrink-0">
                   <Settings className="h-4 w-4" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile" className="flex items-center">
+              </PopoverTrigger>
+              <PopoverContent align="end" className="w-56 p-0">
+                <div className="p-2">
+                  <div className="px-2 py-1.5 text-sm font-semibold">My Account</div>
+                  <Separator className="my-1" />
+                  <Link
+                    href="/profile"
+                    className="flex items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent cursor-pointer"
+                    onClick={() => setProfileOpen(false)}
+                  >
                     <User className="mr-2 h-4 w-4" />
                     Profile Settings
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <Separator className="my-1" />
+                  <button
+                    onClick={() => {
+                      handleLogout()
+                      setProfileOpen(false)
+                    }}
+                    className="flex items-center w-full rounded-sm px-2 py-1.5 text-sm text-destructive hover:bg-accent cursor-pointer"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign out
+                  </button>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </div>
@@ -283,51 +289,59 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex items-center gap-2 sm:gap-4">
             <LanguageSwitcher />
             <ThemeSwitcher />
-            <DropdownMenu open={notificationOpen} onOpenChange={setNotificationOpen}>
-              <DropdownMenuTrigger asChild>
+            {/* Notifications Popover */}
+            <Popover open={notificationOpen} onOpenChange={setNotificationOpen}>
+              <PopoverTrigger asChild>
                 <Button variant="ghost" size="sm" className="relative">
                   <Bell className="h-4 w-4" />
                   {unreadCount > 0 && (
                     <span className="absolute -top-1 -right-1 h-2 w-2 bg-destructive rounded-full"></span>
                   )}
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-80">
-                <DropdownMenuLabel className="flex items-center justify-between">
-                  <span>Notifications</span>
-                  {unreadCount > 0 && (
-                    <Badge variant="secondary" className="text-xs">
-                      {unreadCount} new
-                    </Badge>
-                  )}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <div className="max-h-96 overflow-y-auto">
-                  {notifications.map((notification) => (
-                    <DropdownMenuItem key={notification.id} className="flex flex-col items-start p-4 cursor-pointer">
-                      <div className="flex items-start justify-between w-full">
-                        <div className="flex-1">
-                          <p
-                            className={`text-sm font-medium ${notification.unread ? "text-foreground" : "text-muted-foreground"}`}
-                          >
-                            {notification.title}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-1">{notification.message}</p>
-                          <p className="text-xs text-muted-foreground mt-2">{notification.time}</p>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="w-80 p-0">
+                <div className="p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-semibold">Notifications</span>
+                    {unreadCount > 0 && (
+                      <Badge variant="secondary" className="text-xs">
+                        {unreadCount} new
+                      </Badge>
+                    )}
+                  </div>
+                  <Separator className="mb-2" />
+                  <div className="max-h-96 overflow-y-auto space-y-1">
+                    {notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className="flex flex-col p-3 rounded-md hover:bg-accent cursor-pointer"
+                      >
+                        <div className="flex items-start justify-between w-full">
+                          <div className="flex-1">
+                            <p
+                              className={`text-sm font-medium ${notification.unread ? "text-foreground" : "text-muted-foreground"}`}
+                            >
+                              {notification.title}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-1">{notification.message}</p>
+                            <p className="text-xs text-muted-foreground mt-2">{notification.time}</p>
+                          </div>
+                          {notification.unread && <div className="w-2 h-2 bg-primary rounded-full mt-1 ml-2"></div>}
                         </div>
-                        {notification.unread && <div className="w-2 h-2 bg-primary rounded-full mt-1 ml-2"></div>}
                       </div>
-                    </DropdownMenuItem>
-                  ))}
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/notifications" className="flex items-center justify-center w-full text-center">
+                    ))}
+                  </div>
+                  <Separator className="my-2" />
+                  <Link
+                    href="/notifications"
+                    className="flex items-center justify-center w-full text-center text-sm py-2 hover:bg-accent rounded-md"
+                    onClick={() => setNotificationOpen(false)}
+                  >
                     View all notifications
                   </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
 
