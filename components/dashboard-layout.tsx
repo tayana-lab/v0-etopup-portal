@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Badge } from "@/components/ui/badge"
 import {
   BarChart3,
   Settings,
@@ -32,7 +33,6 @@ import {
   Info,
   LogOut,
   User,
-  Badge,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
