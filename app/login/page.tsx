@@ -108,19 +108,15 @@ export default function LoginPage() {
           {/* Logo and Header */}
           <div className="text-center space-y-4">
             <div className="mx-auto h-14 w-70 flex items-center justify-center">
-              <Image src="/cws-logo.svg" alt="CWS Logo" width={128} height={128} className="w-full h-full" />
-            </div>
-            <div className="space-y-2">
-              <h1 className="text-2xl font-bold text-foreground text-balance">eTopUp</h1>
-              <p className="text-muted-foreground">Your Quick Top Up Solutions</p>
+              <Image src="/etopup/cws-logo.svg" alt="CWS Logo" width={128} height={128} className="w-full h-full" />
             </div>
           </div>
 
           {/* Login Form */}
           <Card className="border-0 shadow-xl bg-card/80 backdrop-blur-sm">
             <CardHeader className="space-y-1 pb-4">
-              <CardTitle className="text-xl text-center text-card-foreground">Sign in to your account</CardTitle>
-              <CardDescription className="text-center">Enter your credentials to access the portal</CardDescription>
+              <CardTitle className="text-2xl font-bold text-center text-card-foreground">eTopUp</CardTitle>
+              <CardDescription className="text-center text-muted-foreground">Your Quick Top Up Solutions</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <form onSubmit={handleSubmit} className="space-y-4">
