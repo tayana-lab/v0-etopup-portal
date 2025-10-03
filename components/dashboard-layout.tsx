@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Badge } from "@/components/ui/badge"
@@ -35,19 +35,36 @@ import { ThemeSwitcher } from "@/components/theme-switcher"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { useLanguage } from "@/contexts/language-context"
 import { useAuthStore } from "@/stores/auth-store"
+import Image from "next/image"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
+}
+
+function getGreeting() {
+  const hour = new Date().getHours()
+  if (hour < 12) return "Good Morning"
+  if (hour < 18) return "Good Afternoon"
+  return "Good Evening"
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [notificationOpen, setNotificationOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
+  const [greeting, setGreeting] = useState("")
   const pathname = usePathname()
   const router = useRouter()
   const { t } = useLanguage()
   const { user, logout } = useAuthStore()
+
+  useEffect(() => {
+    setGreeting(getGreeting())
+    const interval = setInterval(() => {
+      setGreeting(getGreeting())
+    }, 60000) // Update every minute
+    return () => clearInterval(interval)
+  }, [])
 
   const handleLogout = () => {
     logout()
@@ -103,10 +120,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       >
         <div className="flex h-16 items-center justify-between px-6 border-b border-border flex-shrink-0">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">eT</span>
+            <div className="h-8 w-8 flex items-center justify-center">
+              <Image src="/cws-small-logo.jpg" alt="CWS Logo" width={32} height={32} className="rounded-lg" />
             </div>
-            <span className="text-lg font-semibold text-foreground">eTopup</span>
+            <span className="text-lg font-semibold text-foreground">eTopUp</span>
           </div>
           <Button variant="ghost" size="sm" className="lg:hidden" onClick={() => setSidebarOpen(false)}>
             <X className="h-4 w-4" />
@@ -236,7 +253,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-foreground truncate">{user?.name || "John Doe"}</p>
-              <p className="text-xs text-muted-foreground">{user?.role || "Agent"}</p>
+              <p className="text-xs text-muted-foreground">Senior Dealer</p>
             </div>
             <Popover open={profileOpen} onOpenChange={setProfileOpen}>
               <PopoverTrigger asChild>
@@ -282,7 +299,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </Button>
 
           <div className="flex-1 min-w-0">
-            <h1 className="text-lg sm:text-xl font-semibold text-foreground truncate">{t("dashboard.title")}</h1>
+            <h1 className="text-lg sm:text-xl font-semibold text-foreground truncate">{greeting}</h1>
             <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">{t("dashboard.subtitle")}</p>
           </div>
 

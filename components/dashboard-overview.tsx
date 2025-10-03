@@ -17,11 +17,10 @@ import {
   Phone,
   Smartphone,
   FileText,
-  AlertTriangle,
-  HelpCircle,
-  MessageSquare,
-  Star,
   Plus,
+  Activity,
+  BarChart3,
+  Zap,
 } from "lucide-react"
 
 const kpiData = [
@@ -33,7 +32,6 @@ const kpiData = [
     trend: "up",
     icon: DollarSign,
     color: "text-green-600",
-    bgColor: "bg-green-50 dark:bg-green-950/20",
   },
   {
     title: "Transactions",
@@ -43,7 +41,6 @@ const kpiData = [
     trend: "up",
     icon: CreditCard,
     color: "text-blue-600",
-    bgColor: "bg-blue-50 dark:bg-blue-950/20",
   },
   {
     title: "Active Customers",
@@ -53,7 +50,6 @@ const kpiData = [
     trend: "up",
     icon: Users,
     color: "text-blue-600",
-    bgColor: "bg-blue-50 dark:bg-blue-950/20",
   },
   {
     title: "Success Rate",
@@ -63,7 +59,6 @@ const kpiData = [
     trend: "up",
     icon: TrendingUp,
     color: "text-green-600",
-    bgColor: "bg-green-50 dark:bg-green-950/20",
   },
 ]
 
@@ -142,45 +137,33 @@ const recentTransactions = [
   },
 ]
 
-const supportNotifications = [
+const performanceMetrics = [
   {
-    type: "alert",
-    title: "SIM card not working",
-    titleKey: "support.sim-not-working",
-    subtitle: "Customer #5131",
-    priority: "High",
-    icon: AlertTriangle,
-    color: "text-yellow-600",
+    title: "System Uptime",
+    titleKey: "metrics.uptime",
+    value: "99.9%",
+    subtitle: "Last 30 days",
+    icon: Activity,
+    color: "text-green-600",
+    bgColor: "bg-green-50 dark:bg-green-950/20",
   },
   {
-    type: "alert",
-    title: "Unable to process payment",
-    titleKey: "support.payment-error",
-    subtitle: "Customer #7163",
-    priority: "High",
-    icon: AlertTriangle,
-    color: "text-yellow-600",
-  },
-  {
-    type: "help",
-    title: "Help Documentation",
-    titleKey: "support.help-docs",
-    icon: HelpCircle,
+    title: "Avg Response Time",
+    titleKey: "metrics.response-time",
+    value: "1.2s",
+    subtitle: "API performance",
+    icon: Zap,
     color: "text-blue-600",
+    bgColor: "bg-blue-50 dark:bg-blue-950/20",
   },
   {
-    type: "support",
-    title: "Contact Support",
-    titleKey: "support.contact-support",
-    icon: MessageSquare,
-    color: "text-blue-600",
-  },
-  {
-    type: "feedback",
-    title: "Provide Feedback",
-    titleKey: "support.feedback",
-    icon: Star,
-    color: "text-blue-600",
+    title: "Monthly Growth",
+    titleKey: "metrics.growth",
+    value: "+24%",
+    subtitle: "Transaction volume",
+    icon: BarChart3,
+    color: "text-purple-600",
+    bgColor: "bg-purple-50 dark:bg-purple-950/20",
   },
 ]
 
@@ -197,9 +180,7 @@ export function DashboardOverview() {
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium text-muted-foreground">{t(kpi.titleKey)}</p>
-                <div className={`p-2 rounded-lg ${kpi.bgColor}`}>
-                  <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
-                </div>
+                <kpi.icon className={`h-5 w-5 ${kpi.color}`} />
               </div>
               <div className="text-xl sm:text-2xl font-bold text-foreground mb-1">{kpi.value}</div>
               <div className="flex items-center text-xs">
@@ -307,29 +288,24 @@ export function DashboardOverview() {
         <div>
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground">{t("support.title")}</CardTitle>
+              <CardTitle className="text-foreground">Performance Metrics</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {supportNotifications.map((notification, index) => (
-                  <div key={index} className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent cursor-pointer">
-                    <div
-                      className={`p-1 rounded ${notification.type === "alert" ? "bg-yellow-100 dark:bg-yellow-950/20" : "bg-blue-100 dark:bg-blue-950/20"}`}
-                    >
-                      <notification.icon className={`h-4 w-4 ${notification.color}`} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-foreground">{t(notification.titleKey)}</p>
-                      {notification.subtitle && (
-                        <p className="text-xs text-muted-foreground">
-                          {t("support.customer")} {notification.subtitle.split("#")[1]}
-                        </p>
-                      )}
-                      {notification.priority && (
-                        <Badge className="mt-1 text-xs bg-yellow-100 dark:bg-yellow-950/20 text-yellow-800 dark:text-yellow-400 border-0">
-                          {t("support.high")}
-                        </Badge>
-                      )}
+                {performanceMetrics.map((metric, index) => (
+                  <div
+                    key={index}
+                    className="p-4 rounded-lg border border-border bg-card hover:bg-accent/50 transition-colors"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className={`p-2 rounded-lg ${metric.bgColor}`}>
+                        <metric.icon className={`h-5 w-5 ${metric.color}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-muted-foreground">{metric.title}</p>
+                        <p className="text-2xl font-bold text-foreground mt-1">{metric.value}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{metric.subtitle}</p>
+                      </div>
                     </div>
                   </div>
                 ))}

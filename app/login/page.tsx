@@ -10,9 +10,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, Loader2, Smartphone, Shield, Zap } from "lucide-react"
 import { useAuthStore } from "@/stores/auth-store"
+import Image from "next/image"
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
@@ -23,16 +24,16 @@ export default function LoginPage() {
     e.preventDefault()
     setError("")
 
-    if (!email || !password) {
+    if (!username || !password) {
       setError("Please fill in all fields")
       return
     }
 
-    const success = await login(email, password)
+    const success = await login(username, password)
     if (success) {
       router.push("/dashboard")
     } else {
-      setError("Invalid email or password")
+      setError("Invalid username or password")
     }
   }
 
@@ -61,7 +62,7 @@ export default function LoginPage() {
         <div className="max-w-lg space-y-8">
           <div className="space-y-4">
             <h2 className="text-3xl font-bold text-primary-foreground text-balance">
-              Your complete telecom agent solution
+             Your Quick Top Up Solutions
             </h2>
             <p className="text-lg text-primary-foreground/80 leading-relaxed">
               Manage sales, customers, and analytics with our powerful, secure platform designed specifically for
@@ -95,7 +96,7 @@ export default function LoginPage() {
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-primary-foreground">500+</div>
-              <div className="text-xs text-primary-foreground/70">Agents</div>
+              <div className="text-xs text-primary-foreground/70">Dealers</div>
             </div>
           </div>
         </div>
@@ -106,12 +107,12 @@ export default function LoginPage() {
         <div className="w-full max-w-md space-y-8">
           {/* Logo and Header */}
           <div className="text-center space-y-4">
-            <div className="mx-auto h-16 w-16 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-primary-foreground font-bold text-2xl">eT</span>
+            <div className="mx-auto h-14 w-70 flex items-center justify-center">
+              <Image src="/cws-logo.svg" alt="CWS Logo" width={128} height={128} className="w-full h-full" />
             </div>
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold text-foreground text-balance">Welcome back</h1>
-              <p className="text-muted-foreground">Sign in to your eTopup agent portal</p>
+              <h1 className="text-2xl font-bold text-foreground text-balance">eTopUp</h1>
+              <p className="text-muted-foreground">Your Quick Top Up Solutions</p>
             </div>
           </div>
 
@@ -124,15 +125,15 @@ export default function LoginPage() {
             <CardContent className="space-y-4">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-foreground">
-                    Email Address
+                  <Label htmlFor="username" className="text-sm font-medium text-foreground">
+                    Username
                   </Label>
                   <StyledInput
-                    id="email"
-                    type="email"
-                    placeholder="agent@etopup.sc"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="username"
+                    type="text"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     disabled={isLoading}
                   />
                 </div>
@@ -187,14 +188,14 @@ export default function LoginPage() {
               </form>
 
               <div className="text-center pt-4">
-                <p className="text-sm text-muted-foreground">Demo credentials: agent@etopup.sc / password123</p>
+                <p className="text-sm text-muted-foreground">Demo credentials: dealer / password123</p>
               </div>
             </CardContent>
           </Card>
 
           {/* Footer */}
           <div className="text-center text-sm text-muted-foreground">
-            <p>© 2025 eTopup Portal. All rights reserved.</p>
+            <p>© 2025 eTopUp Portal. All rights reserved.</p>
           </div>
         </div>
       </div>

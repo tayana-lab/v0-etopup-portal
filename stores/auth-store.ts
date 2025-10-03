@@ -14,7 +14,7 @@ interface AuthState {
   isAuthenticated: boolean
   isLoading: boolean
   hasHydrated: boolean
-  login: (email: string, password: string) => Promise<boolean>
+  login: (username: string, password: string) => Promise<boolean>
   logout: () => void
   setUser: (user: User) => void
   setHasHydrated: (state: boolean) => void
@@ -28,18 +28,17 @@ export const useAuthStore = create<AuthState>()(
       isLoading: false,
       hasHydrated: false,
 
-      login: async (email: string, password: string) => {
+      login: async (username: string, password: string) => {
         set({ isLoading: true })
 
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 1000))
 
-        // Mock authentication - in real app, this would be an API call
-        if (email === "agent@etopup.sc" && password === "password123") {
+        if (username === "dealer" && password === "password123") {
           const user: User = {
             id: "1",
             name: "John Doe",
-            email: "agent@etopup.sc",
+            email: "dealer@etopup.sc",
             role: "Senior Agent",
           }
 

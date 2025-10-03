@@ -8,8 +8,8 @@ export default function ContactUsPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Contact Us</h1>
-          <p className="text-gray-600">Get in touch with our support team</p>
+          <h1 className="text-2xl font-bold text-foreground">Contact Us</h1>
+          <p className="text-muted-foreground">Get in touch with our support team</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -23,7 +23,7 @@ export default function ContactUsPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="text-2xl font-bold text-blue-600">+248 428 4000</div>
-              <p className="text-sm text-gray-600">Available 24/7 for urgent support</p>
+              <p className="text-sm text-muted-foreground">Available 24/7 for urgent support</p>
               <Button className="w-full">
                 <Phone className="h-4 w-4 mr-2" />
                 Call Now
@@ -41,7 +41,7 @@ export default function ContactUsPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="text-lg font-medium">info@cwseychelles.com</div>
-              <p className="text-sm text-gray-600">We'll respond within 24 hours</p>
+              <p className="text-sm text-muted-foreground">We'll respond within 24 hours</p>
               <Button variant="outline" className="w-full bg-transparent">
                 <Mail className="h-4 w-4 mr-2" />
                 Send Email
@@ -59,8 +59,11 @@ export default function ContactUsPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="text-lg font-medium">+248 428 4000</div>
-              <p className="text-sm text-gray-600">Quick responses during business hours</p>
-              <Button variant="outline" className="w-full bg-green-50 hover:bg-green-100">
+              <p className="text-sm text-muted-foreground">Quick responses during business hours</p>
+              <Button
+                variant="outline"
+                className="w-full bg-green-50 hover:bg-green-100 dark:bg-green-950/20 dark:hover:bg-green-950/30"
+              >
                 <MessageCircle className="h-4 w-4 mr-2" />
                 Open WhatsApp
               </Button>
@@ -78,7 +81,7 @@ export default function ContactUsPage() {
             <CardContent className="space-y-4">
               <div>
                 <p className="font-medium">Cable & Wireless Seychelles</p>
-                <p className="text-sm text-gray-600">Victoria, Mahé, Seychelles</p>
+                <p className="text-sm text-muted-foreground">Victoria, Mahé, Seychelles</p>
               </div>
               <Button variant="outline" className="w-full bg-transparent">
                 <MapPin className="h-4 w-4 mr-2" />
@@ -99,7 +102,7 @@ export default function ContactUsPage() {
             <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <h4 className="font-medium mb-2">Customer Service</h4>
-                <div className="space-y-1 text-sm text-gray-600">
+                <div className="space-y-1 text-sm text-muted-foreground">
                   <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
                   <p>Saturday: 8:00 AM - 1:00 PM</p>
                   <p>Sunday: Closed</p>
@@ -107,7 +110,7 @@ export default function ContactUsPage() {
               </div>
               <div>
                 <h4 className="font-medium mb-2">Emergency Support</h4>
-                <div className="space-y-1 text-sm text-gray-600">
+                <div className="space-y-1 text-sm text-muted-foreground">
                   <p>Available 24/7</p>
                   <p>For urgent technical issues</p>
                   <p>Network outages and emergencies</p>
