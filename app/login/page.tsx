@@ -83,20 +83,7 @@ export default function LoginPage() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 pt-8 border-t border-primary-foreground/20">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary-foreground">99.9%</div>
-              <div className="text-xs text-primary-foreground/70">Uptime</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary-foreground">24/7</div>
-              <div className="text-xs text-primary-foreground/70">Support</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary-foreground">500+</div>
-              <div className="text-xs text-primary-foreground/70">Dealers</div>
-            </div>
-          </div>
+
         </div>
       </div>
 
