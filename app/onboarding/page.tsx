@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
@@ -8,23 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import {
-  Camera,
-  FileText,
-  User,
-  Package,
-  Smartphone,
-  CheckCircle,
-  ArrowLeft,
-  ArrowRight,
-  QrCode,
-  Search,
-} from "lucide-react"
+import { FileText, User, Package, Smartphone, CheckCircle, ArrowLeft, ArrowRight, QrCode, Search } from "lucide-react"
 import { DashboardLayout } from "@/components/dashboard-layout"
 
 interface CustomerData {
   type: "local" | "gop" | "tourist"
-  photo?: string
   idDocument?: string
   firstName: string
   lastName: string
@@ -40,12 +28,11 @@ interface CustomerData {
 }
 
 const steps = [
-  { id: 1, name: "Photo Capture", icon: Camera, description: "Customer photo using device camera" },
-  { id: 2, name: "ID Scanning", icon: FileText, description: "Document scanning with camera" },
-  { id: 3, name: "Customer Details", icon: User, description: "Auto-filled form with validation" },
-  { id: 4, name: "Package Selection", icon: Package, description: "Service plan selection" },
-  { id: 5, name: "SIM Selection", icon: Smartphone, description: "Available SIM card selection" },
-  { id: 6, name: "Confirmation", icon: CheckCircle, description: "Digital signature and final review" },
+  { id: 1, name: "ID Scanning", icon: FileText, description: "Document scanning with camera" },
+  { id: 2, name: "Customer Details", icon: User, description: "Auto-filled form with validation" },
+  { id: 3, name: "Package Selection", icon: Package, description: "Service plan selection" },
+  { id: 4, name: "SIM Selection", icon: Smartphone, description: "Available SIM card selection" },
+  { id: 5, name: "Confirmation", icon: CheckCircle, description: "Digital signature and final review" },
 ]
 
 const packages = [
@@ -119,9 +106,6 @@ export default function DigitalOnboardPage() {
     { id: "SIM005", number: "2484567894", status: "available" },
   ])
 
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-
   const progress = (currentStep / steps.length) * 100
 
   const handleNext = () => {
@@ -136,30 +120,6 @@ export default function DigitalOnboardPage() {
     }
   }
 
-  const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true })
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream
-      }
-    } catch (error) {
-      console.error("Error accessing camera:", error)
-    }
-  }
-
-  const capturePhoto = () => {
-    if (videoRef.current && canvasRef.current) {
-      const canvas = canvasRef.current
-      const video = videoRef.current
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      const ctx = canvas.getContext("2d")
-      ctx?.drawImage(video, 0, 0)
-      const photoData = canvas.toDataURL("image/jpeg")
-      setCustomerData((prev) => ({ ...prev, photo: photoData }))
-    }
-  }
-
   const filteredSims = availableSims.filter(
     (sim) => sim.number.includes(simSearch) || sim.id.toLowerCase().includes(simSearch.toLowerCase()),
   )
@@ -171,53 +131,12 @@ export default function DigitalOnboardPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Camera className="h-5 w-5" />
-                Photo Capture
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="relative bg-gray-100 rounded-lg p-8 text-center">
-                {customerData.photo ? (
-                  <img
-                    src={customerData.photo || "/placeholder.svg"}
-                    alt="Customer"
-                    className="mx-auto max-w-xs rounded-lg"
-                  />
-                ) : (
-                  <>
-                    <video ref={videoRef} autoPlay className="mx-auto max-w-xs rounded-lg" />
-                    <canvas ref={canvasRef} className="hidden" />
-                    <div className="absolute inset-0 border-2 border-dashed border-blue-300 rounded-lg flex items-center justify-center">
-                      <div className="text-center">
-                        <Camera className="h-12 w-12 mx-auto text-gray-400 mb-2" />
-                        <p className="text-gray-500">Position customer within frame</p>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="flex gap-2 justify-center">
-                <Button onClick={startCamera} variant="outline">
-                  <Camera className="h-4 w-4 mr-2" />
-                  Start Camera
-                </Button>
-                <Button onClick={capturePhoto}>Capture Photo</Button>
-              </div>
-            </CardContent>
-          </Card>
-        )
-
-      case 2:
-        return (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
                 <FileText className="h-5 w-5" />
                 ID Document Scanning
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="bg-gray-100 rounded-lg p-8 text-center">
+              <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-8 text-center">
                 {customerData.idDocument ? (
                   <img
                     src={customerData.idDocument || "/placeholder.svg"}
@@ -225,11 +144,11 @@ export default function DigitalOnboardPage() {
                     className="mx-auto max-w-md rounded-lg"
                   />
                 ) : (
-                  <div className="border-2 border-dashed border-blue-300 rounded-lg p-8">
+                  <div className="border-2 border-dashed border-blue-300 dark:border-blue-700 rounded-lg p-8">
                     <FileText className="h-12 w-12 mx-auto text-gray-400 mb-2" />
-                    <p className="text-gray-500 mb-4">Scan customer ID document</p>
+                    <p className="text-gray-500 dark:text-gray-400 mb-4">Scan customer ID document</p>
                     <Button>
-                      <Camera className="h-4 w-4 mr-2" />
+                      <FileText className="h-4 w-4 mr-2" />
                       Scan Document
                     </Button>
                   </div>
@@ -239,7 +158,7 @@ export default function DigitalOnboardPage() {
           </Card>
         )
 
-      case 3:
+      case 2:
         return (
           <Card>
             <CardHeader>
@@ -351,7 +270,7 @@ export default function DigitalOnboardPage() {
           </Card>
         )
 
-      case 4:
+      case 3:
         return (
           <Card>
             <CardHeader>
@@ -367,8 +286,8 @@ export default function DigitalOnboardPage() {
                     key={pkg.id}
                     className={`border rounded-lg p-4 cursor-pointer transition-colors ${
                       customerData.selectedPackage?.id === pkg.id
-                        ? "border-blue-500 bg-blue-50"
-                        : "border-gray-200 hover:border-gray-300"
+                        ? "border-blue-500 bg-blue-50 dark:bg-blue-950"
+                        : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
                     }`}
                     onClick={() => setCustomerData((prev) => ({ ...prev, selectedPackage: pkg }))}
                   >
@@ -376,9 +295,9 @@ export default function DigitalOnboardPage() {
                       <h3 className="font-semibold">{pkg.name}</h3>
                       <Badge variant={pkg.type === "Prepaid" ? "default" : "secondary"}>{pkg.type}</Badge>
                     </div>
-                    <p className="text-2xl font-bold text-blue-600 mb-1">SCR {pkg.price}</p>
-                    <p className="text-sm text-gray-600 mb-1">{pkg.data} data</p>
-                    <p className="text-sm text-gray-500">{pkg.validity}</p>
+                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">SR {pkg.price}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{pkg.data} data</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-500">{pkg.validity}</p>
                   </div>
                 ))}
               </div>
@@ -386,7 +305,7 @@ export default function DigitalOnboardPage() {
           </Card>
         )
 
-      case 5:
+      case 4:
         return (
           <Card>
             <CardHeader>
@@ -418,15 +337,15 @@ export default function DigitalOnboardPage() {
                     key={sim.id}
                     className={`border rounded-lg p-3 cursor-pointer transition-colors ${
                       customerData.selectedSim === sim.id
-                        ? "border-blue-500 bg-blue-50"
-                        : "border-gray-200 hover:border-gray-300"
+                        ? "border-blue-500 bg-blue-50 dark:bg-blue-950"
+                        : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
                     }`}
                     onClick={() => setCustomerData((prev) => ({ ...prev, selectedSim: sim.id }))}
                   >
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="font-medium">{sim.number}</p>
-                        <p className="text-sm text-gray-500">ID: {sim.id}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">ID: {sim.id}</p>
                       </div>
                       <Badge variant="outline" className="text-green-600 border-green-600">
                         Available
@@ -439,7 +358,7 @@ export default function DigitalOnboardPage() {
           </Card>
         )
 
-      case 6:
+      case 5:
         return (
           <Card>
             <CardHeader>
@@ -449,35 +368,35 @@ export default function DigitalOnboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
                 <h3 className="font-semibold mb-3">Customer Summary</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-gray-500">Name</p>
+                    <p className="text-gray-500 dark:text-gray-400">Name</p>
                     <p className="font-medium">
                       {customerData.firstName} {customerData.lastName}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Email</p>
+                    <p className="text-gray-500 dark:text-gray-400">Email</p>
                     <p className="font-medium">{customerData.email}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Phone</p>
+                    <p className="text-gray-500 dark:text-gray-400">Phone</p>
                     <p className="font-medium">{customerData.phone}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Package</p>
+                    <p className="text-gray-500 dark:text-gray-400">Package</p>
                     <p className="font-medium">{customerData.selectedPackage?.name}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">SIM Number</p>
+                    <p className="text-gray-500 dark:text-gray-400">SIM Number</p>
                     <p className="font-medium">
                       {availableSims.find((s) => s.id === customerData.selectedSim)?.number}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Customer Type</p>
+                    <p className="text-gray-500 dark:text-gray-400">Customer Type</p>
                     <p className="font-medium capitalize">{customerData.type}</p>
                   </div>
                 </div>
@@ -485,8 +404,8 @@ export default function DigitalOnboardPage() {
 
               <div>
                 <Label>Digital Signature</Label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                  <p className="text-gray-500 mb-4">Customer signature area</p>
+                <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8 text-center">
+                  <p className="text-gray-500 dark:text-gray-400 mb-4">Customer signature area</p>
                   <Button variant="outline">Capture Signature</Button>
                 </div>
               </div>
@@ -507,17 +426,17 @@ export default function DigitalOnboardPage() {
     <DashboardLayout>
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Digital Onboarding</h1>
-          <p className="text-gray-600">Complete customer onboarding process for SIM sales</p>
+          <h1 className="text-2xl font-bold mb-2">Digital Onboarding</h1>
+          <p className="text-muted-foreground">Complete customer onboarding process for SIM sales</p>
         </div>
 
         {/* Progress indicator */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium">
               Step {currentStep} of {steps.length}
             </span>
-            <span className="text-sm text-gray-500">{Math.round(progress)}% Complete</span>
+            <span className="text-sm text-muted-foreground">{Math.round(progress)}% Complete</span>
           </div>
           <Progress value={progress} className="mb-4" />
 
@@ -530,12 +449,12 @@ export default function DigitalOnboardPage() {
                       ? "bg-green-500 text-white"
                       : index + 1 === currentStep
                         ? "bg-blue-500 text-white"
-                        : "bg-gray-200 text-gray-500"
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
                   }`}
                 >
                   {index + 1 < currentStep ? <CheckCircle className="h-4 w-4" /> : <step.icon className="h-4 w-4" />}
                 </div>
-                <span className="text-xs text-gray-500 mt-1 text-center max-w-20">{step.name}</span>
+                <span className="text-xs text-muted-foreground mt-1 text-center max-w-20">{step.name}</span>
               </div>
             ))}
           </div>

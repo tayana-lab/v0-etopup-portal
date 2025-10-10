@@ -13,7 +13,7 @@ import { useAuthStore } from "@/stores/auth-store"
 import Image from "next/image"
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("")
+  const [mobileNumber, setMobileNumber] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
@@ -24,16 +24,16 @@ export default function LoginPage() {
     e.preventDefault()
     setError("")
 
-    if (!username || !password) {
+    if (!mobileNumber || !password) {
       setError("Please fill in all fields")
       return
     }
 
-    const success = await login(username, password)
+    const success = await login(mobileNumber, password)
     if (success) {
       router.push("/dashboard")
     } else {
-      setError("Invalid username or password")
+      setError("Invalid mobile number or password")
     }
   }
 
@@ -61,9 +61,7 @@ export default function LoginPage() {
       <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary via-primary/90 to-primary/80 items-center justify-center p-8">
         <div className="max-w-lg space-y-8">
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold text-primary-foreground text-balance">
-             Your Quick Top Up Solutions
-            </h2>
+            <h2 className="text-3xl font-bold text-primary-foreground text-balance">Your Quick Top Up Solutions</h2>
             <p className="text-lg text-primary-foreground/80 leading-relaxed">
               Manage sales, customers, and analytics with our powerful, secure platform designed specifically for
               telecom agents.
@@ -108,7 +106,7 @@ export default function LoginPage() {
           {/* Logo and Header */}
           <div className="text-center space-y-4">
             <div className="mx-auto h-14 w-70 flex items-center justify-center">
-              <Image src="/etopup/cws-logo.svg" alt="CWS Logo" width={128} height={128} className="w-full h-full" />
+              <Image src="/cws-logo.svg" alt="CWS Logo" width={128} height={128} className="w-full h-full" />
             </div>
           </div>
 
@@ -116,22 +114,31 @@ export default function LoginPage() {
           <Card className="border-0 shadow-xl bg-card/80 backdrop-blur-sm">
             <CardHeader className="space-y-1 pb-4">
               <CardTitle className="text-2xl font-bold text-center text-card-foreground">eTopUp</CardTitle>
-              <CardDescription className="text-center text-muted-foreground">Your Quick Top Up Solutions</CardDescription>
+              <CardDescription className="text-center text-muted-foreground">
+                Your Quick Top Up Solutions
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="username" className="text-sm font-medium text-foreground">
-                    Username
+                  <Label htmlFor="mobileNumber" className="text-sm font-medium text-foreground">
+                    Mobile Number
                   </Label>
-                  <StyledInput
-                    id="username"
-                    type="text"
-                    placeholder="Enter your username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    disabled={isLoading}
-                  />
+                  <div className="flex">
+                    <span className="inline-flex items-center px-3 border border-r-0 border-input bg-muted rounded-l-md text-sm text-muted-foreground">
+                      +248
+                    </span>
+                    <StyledInput
+                      id="mobileNumber"
+                      type="tel"
+                      placeholder="Enter Mobile Number"
+                      value={mobileNumber}
+                      onChange={(e) => setMobileNumber(e.target.value)}
+                      disabled={isLoading}
+                      maxLength={7}
+                      className="rounded-l-none"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -184,7 +191,7 @@ export default function LoginPage() {
               </form>
 
               <div className="text-center pt-4">
-                <p className="text-sm text-muted-foreground">Demo credentials: dealer / password123</p>
+                <p className="text-sm text-muted-foreground">Demo credentials: 2625000 / password123</p>
               </div>
             </CardContent>
           </Card>

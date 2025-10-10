@@ -14,7 +14,7 @@ interface AuthState {
   isAuthenticated: boolean
   isLoading: boolean
   hasHydrated: boolean
-  login: (username: string, password: string) => Promise<boolean>
+  login: (mobileNumber: string, password: string) => Promise<boolean>
   logout: () => void
   setUser: (user: User) => void
   setHasHydrated: (state: boolean) => void
@@ -28,13 +28,12 @@ export const useAuthStore = create<AuthState>()(
       isLoading: false,
       hasHydrated: false,
 
-      login: async (username: string, password: string) => {
+      login: async (mobileNumber: string, password: string) => {
         set({ isLoading: true })
 
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 1000))
 
-        if (username === "dealer" && password === "password123") {
+        if (mobileNumber === "2625000" && password === "password123") {
           const user: User = {
             id: "1",
             name: "John Doe",
