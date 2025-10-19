@@ -1,6 +1,6 @@
 "use client"
 
-import { useTheme } from "@/contexts/theme-context"
+import { useTheme } from "@/lib/contexts/theme-context"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Sun, Moon, Check } from "lucide-react"

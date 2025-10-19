@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ArrowLeft, Download, CreditCard, TrendingUp, Users, Activity } from "lucide-react"
-import { DashboardLayout } from "@/components/dashboard-layout"
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import Link from "next/link"
 
 const transactionData = [

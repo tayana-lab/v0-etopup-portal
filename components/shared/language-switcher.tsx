@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Languages, Check } from "lucide-react"
-import { useLanguage } from "@/contexts/language-context"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 export function LanguageSwitcher({ className }: { className?: string }) {
   const { language, setLanguage, t } = useLanguage()

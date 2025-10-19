@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Users, MapPin, Plane, Heart, ArrowRight } from "lucide-react"
-import { DashboardLayout } from "@/components/dashboard-layout"
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import Link from "next/link"
 
 const customerTypes = [

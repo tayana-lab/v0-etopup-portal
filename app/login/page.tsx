@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, Loader2, Smartphone, Shield, Zap } from "lucide-react"
-import { useAuthStore } from "@/stores/auth-store"
+import { useAuthStore } from "@/lib/stores/auth-store"
 import Image from "next/image"
 
 export default function LoginPage() {
@@ -83,7 +83,6 @@ export default function LoginPage() {
           </div>
 
           {/* Stats */}
-
         </div>
       </div>
 

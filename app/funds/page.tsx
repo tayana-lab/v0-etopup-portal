@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { DollarSign, Clock, CheckCircle, AlertCircle, CreditCard, Wallet, Calendar } from "lucide-react"
-import { DashboardLayout } from "@/components/dashboard-layout"
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
 
 const mockRequests = [
   {

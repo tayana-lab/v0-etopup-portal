@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { FileText, User, Package, Smartphone, CheckCircle, ArrowLeft, ArrowRight, QrCode, Search } from "lucide-react"
-import { DashboardLayout } from "@/components/dashboard-layout"
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
 
 interface CustomerData {
   type: "local" | "gop" | "tourist"

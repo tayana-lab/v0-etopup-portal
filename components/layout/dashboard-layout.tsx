@@ -31,10 +31,10 @@ import {
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { ThemeSwitcher } from "@/components/theme-switcher"
-import { LanguageSwitcher } from "@/components/language-switcher"
-import { useLanguage } from "@/contexts/language-context"
-import { useAuthStore } from "@/stores/auth-store"
+import { ThemeSwitcher } from "@/components/shared/theme-switcher"
+import { LanguageSwitcher } from "@/components/shared/language-switcher"
+import { useLanguage } from "@/lib/contexts/language-context"
+import { useAuthStore } from "@/lib/stores/auth-store"
 import Image from "next/image"
 
 interface DashboardLayoutProps {

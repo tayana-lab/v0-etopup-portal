@@ -3,8 +3,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { HeroCarousel } from "@/components/hero-carousel"
-import { useLanguage } from "@/contexts/language-context"
+import { HeroCarousel } from "@/components/layout/hero-carousel"
+import { useLanguage } from "@/lib/contexts/language-context"
 import Link from "next/link"
 import {
   TrendingUp,
@@ -27,7 +27,7 @@ const kpiData = [
   {
     title: "Today's Sales",
     titleKey: "kpi.sales",
-    value: "SR 1026.50",
+    value: "SCR 1026.50",
     change: "+12.5% from yesterday",
     trend: "up",
     icon: DollarSign,
@@ -111,7 +111,7 @@ const recentTransactions = [
   {
     id: "TXN001",
     type: "Marketing campaign fund request",
-    amount: "SR 250.00",
+    amount: "SCR 250.00",
     date: "19/09/2025",
     status: "Pending",
     icon: Package,
@@ -120,7 +120,7 @@ const recentTransactions = [
   {
     id: "TXN002",
     type: "Emergency fund request for inventory",
-    amount: "SR 500.00",
+    amount: "SCR 500.00",
     date: "19/09/2025",
     status: "Completed",
     icon: Package,
@@ -129,7 +129,7 @@ const recentTransactions = [
   {
     id: "TXN003",
     type: "3GB Monthly package for +1234567896",
-    amount: "SR 25.00",
+    amount: "SCR 25.00",
     date: "19/09/2025",
     status: "Pending",
     icon: Package,
@@ -269,15 +269,15 @@ export function DashboardOverview() {
             <CardContent>
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="text-center p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
-                  <div className="text-xl sm:text-2xl font-bold text-green-600">SR 5240.00</div>
+                  <div className="text-xl sm:text-2xl font-bold text-green-600">SCR 5240.00</div>
                   <div className="text-sm text-green-700 dark:text-green-400">{t("funds.available")}</div>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-yellow-50 dark:bg-yellow-950/20">
-                  <div className="text-xl sm:text-2xl font-bold text-yellow-600">SR 1150.00</div>
+                  <div className="text-xl sm:text-2xl font-bold text-yellow-600">SCR 1150.00</div>
                   <div className="text-sm text-yellow-700 dark:text-yellow-400">{t("funds.pending")}</div>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-blue-50 dark:bg-blue-950/20">
-                  <div className="text-xl sm:text-2xl font-bold text-blue-600">SR 10000.00</div>
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600">SCR 10000.00</div>
                   <div className="text-sm text-blue-700 dark:text-blue-400">{t("funds.monthly-limit")}</div>
                 </div>
               </div>

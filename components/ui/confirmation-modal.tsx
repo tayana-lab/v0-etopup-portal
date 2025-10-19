@@ -161,7 +161,7 @@ export function ConfirmationModal({
         </div>
         <div className="flex items-center justify-between">
           <span className="font-medium">Recharge Amount:</span>
-          <span>SR {data.amount}</span>
+          <span>SCR {data.amount}</span>
         </div>
       </div>
     )
@@ -187,7 +187,7 @@ export function ConfirmationModal({
 
           <div className="flex items-center justify-between text-lg font-bold">
             <span>Total Amount:</span>
-            <span className="text-blue-600 flex items-center gap-1">SR {data ? data.amount || data.price : 0}</span>
+            <span className="text-blue-600 flex items-center gap-1">SCR {data ? data.amount || data.price : 0}</span>
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -8,7 +8,7 @@ import Link from "next/link"
 const reportCards = [
   {
     title: "Total Sale",
-    value: "SR 45,230", // Changed SCR to SR
+    value: "SCR 45,230", // Changed SR to SCR
     change: "+12.5%",
     icon: DollarSign,
     href: "/total-sale",
@@ -24,7 +24,7 @@ const reportCards = [
   },
   {
     title: "Earnings",
-    value: "SR 2,156", // Changed SCR to SR
+    value: "SCR 2,156", // Changed SR to SCR
     change: "+15.3%",
     icon: TrendingUp,
     href: "/earnings",
@@ -40,7 +40,7 @@ const reportCards = [
   },
   {
     title: "Airtime Purchase",
-    value: "SR 18,450", // Changed SCR to SR
+    value: "SCR 18,450", // Changed SR to SCR
     change: "+9.7%",
     icon: Phone,
     href: "/airtime-purchase",
@@ -48,7 +48,7 @@ const reportCards = [
   },
   {
     title: "Balance",
-    value: "SR 12,890", // Changed SCR to SR
+    value: "SCR 12,890", // Changed SR to SCR
     change: "+3.2%",
     icon: Wallet,
     href: "/balance",

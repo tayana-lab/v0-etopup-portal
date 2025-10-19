@@ -32,7 +32,7 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
       case "bill":
         return "Bill Payment Successful!"
       case "topup":
-        return "Prepaid Recharge Successful!" // Changed TopUp to Prepaid Recharge
+        return "Prepaid Recharge Successful!"
     }
   }
 
@@ -48,13 +48,68 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
   }
 
   const handleDownloadReceipt = () => {
-    // Simulate receipt download
-    console.log("[v0] Downloading receipt for transaction:", transactionId)
+    const receiptContent = `
+═══════════════════════════════════════
+           TRANSACTION RECEIPT
+═══════════════════════════════════════
+
+Transaction ID: ${transactionId}
+Date & Time: ${new Date().toLocaleString()}
+Type: ${type.toUpperCase()}
+
+───────────────────────────────────────
+TRANSACTION DETAILS
+───────────────────────────────────────
+
+${type === "package" ? `Package: ${data?.packageName || "N/A"}` : ""}
+${type === "topup" ? `Mobile Number: +248 ${data?.phoneNumber || "N/A"}` : ""}
+${type === "bill" ? `Account Number: ${data?.accountNumber || "N/A"}` : ""}
+${type === "bill" ? `Bill Type: ${data?.billType || "N/A"}` : ""}
+
+Amount Paid: SCR ${data?.amount || data?.price || "0.00"}
+
+${type === "package" && data?.validity ? `Validity: ${data.validity} days` : ""}
+${type === "package" && data?.validity ? `Expires: ${new Date(Date.now() + Number.parseInt(data.validity) * 24 * 60 * 60 * 1000).toLocaleDateString()}` : ""}
+
+───────────────────────────────────────
+STATUS: SUCCESSFUL
+───────────────────────────────────────
+
+Thank you for your business!
+
+═══════════════════════════════════════
+    `
+
+    const blob = new Blob([receiptContent], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = `receipt-${transactionId}.txt`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
   }
 
   const handleShareReceipt = () => {
-    // Simulate receipt sharing
-    console.log("[v0] Sharing receipt for transaction:", transactionId)
+    const shareText = `Transaction Receipt\nID: ${transactionId}\nAmount: SCR ${data?.amount || data?.price || "0.00"}\nStatus: Successful`
+
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Transaction Receipt",
+          text: shareText,
+        })
+        .catch(() => {
+          // Fallback: copy to clipboard
+          navigator.clipboard.writeText(shareText)
+          alert("Receipt details copied to clipboard!")
+        })
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(shareText)
+      alert("Receipt details copied to clipboard!")
+    }
   }
 
   return (
@@ -72,24 +127,24 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
         </DialogHeader>
 
         <div className="py-4 space-y-4">
-          <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Transaction ID:</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">Transaction ID:</span>
               <span className="font-mono text-sm">{transactionId}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Date & Time:</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">Date & Time:</span>
               <span className="text-sm">{new Date().toLocaleString()}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Amount Paid:</span>
-              <span className="font-semibold text-green-600">SR {data?.amount || data?.price || "0.00"}</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">Amount Paid:</span>
+              <span className="font-semibold text-green-600">SCR {data?.amount || data?.price || "0.00"}</span>
             </div>
           </div>
 
           {type === "package" && data && (
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-800">
+            <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
                 Your {data.packageName || "package"} package is now active and will expire on{" "}
                 <span className="font-semibold">
                   {data.validity
@@ -101,9 +156,9 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
           )}
 
           {type === "topup" && data && (
-            <div className="text-center p-4 bg-purple-50 rounded-lg">
-              <p className="text-sm text-purple-800">
-                SR {data.amount || "0.00"} has been added to +248 {data.phoneNumber || "N/A"}
+            <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+              <p className="text-sm text-purple-800 dark:text-purple-200">
+                SCR {data.amount || "0.00"} has been added to +248 {data.phoneNumber || "N/A"}
               </p>
             </div>
           )}

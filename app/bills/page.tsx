@@ -6,7 +6,7 @@ import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { DashboardLayout } from "@/components/dashboard-layout"
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { ConfirmationModal } from "@/components/ui/confirmation-modal"
 import { SuccessModal } from "@/components/ui/success-modal"
 import { FileText, AlertTriangle, Calendar, DollarSign, User, MapPin } from "lucide-react"
@@ -150,8 +150,8 @@ export default function BillPayPage() {
     <DashboardLayout>
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Bill Payment</h1>
-          <p className="text-gray-600">Pay utility bills for broadband and mobile services</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Bill Payment</h1>
+          <p className="text-gray-600 dark:text-gray-400">Pay utility bills for broadband and mobile services</p>
         </div>
 
         <Card className="mb-6">
@@ -183,32 +183,32 @@ export default function BillPayPage() {
               </Button>
             </div>
 
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-              <h4 className="font-medium text-gray-900 mb-2">Sample Account Numbers for Testing:</h4>
+            <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Sample Account Numbers for Testing:</h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
                 <button
                   onClick={() => setAccountNumber("FB001234")}
-                  className="flex items-center justify-between p-3 bg-white rounded border hover:border-blue-300 hover:bg-blue-50 transition-colors cursor-pointer"
+                  className="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded border hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors cursor-pointer"
                 >
                   <span className="font-mono font-semibold">FB001234</span>
-                  <span className="text-xs text-gray-500">Fiber Pro - SR 450</span>
+                  <span className="text-xs text-gray-500">Fiber Pro - SCR 450</span>
                 </button>
                 <button
                   onClick={() => setAccountNumber("AD005678")}
-                  className="flex items-center justify-between p-3 bg-white rounded border hover:border-blue-300 hover:bg-blue-50 transition-colors cursor-pointer"
+                  className="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded border hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors cursor-pointer"
                 >
                   <span className="font-mono font-semibold">AD005678</span>
-                  <span className="text-xs text-gray-500">ADSL - SR 250</span>
+                  <span className="text-xs text-gray-500">ADSL - SCR 250</span>
                 </button>
                 <button
                   onClick={() => setAccountNumber("MB987654")}
-                  className="flex items-center justify-between p-3 bg-white rounded border hover:border-blue-300 hover:bg-blue-50 transition-colors cursor-pointer"
+                  className="flex items-center justify-between p-3 bg-white dark:bg-gray-700 rounded border hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors cursor-pointer"
                 >
                   <span className="font-mono font-semibold">MB987654</span>
-                  <span className="text-xs text-gray-500">Mobile - SR 180</span>
+                  <span className="text-xs text-gray-500">Mobile - SCR 180</span>
                 </button>
               </div>
-              <p className="text-xs text-gray-600 mt-2">
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
                 <strong>Click on any account number above to auto-fill and test the bill lookup feature</strong>
               </p>
             </div>
@@ -268,9 +268,9 @@ export default function BillPayPage() {
               <div className="border-t pt-4">
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-lg font-semibold">Amount Due:</span>
-                  <span className="text-2xl font-bold text-blue-600">SR {selectedBill.amount}</span>
+                  <span className="text-2xl font-bold text-blue-600">SCR {selectedBill.amount}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                   <Calendar className="h-4 w-4" />
                   Due Date: {new Date(selectedBill.dueDate).toLocaleDateString()}
                 </div>
@@ -296,7 +296,7 @@ export default function BillPayPage() {
                     setPaymentAmount(selectedBill.amount.toString())
                   }}
                 >
-                  Full Bill Payment (SR {selectedBill.amount})
+                  Full Bill Payment (SCR {selectedBill.amount})
                 </Button>
                 <Button
                   variant={paymentType === "custom" ? "default" : "outline"}
@@ -312,13 +312,13 @@ export default function BillPayPage() {
               <div>
                 <Label htmlFor="amount">Payment Amount</Label>
                 <div className="relative">
-                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">SR</div>
+                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">SCR</div>
                   <StyledInput
                     id="amount"
                     type="number"
                     value={paymentAmount}
                     onChange={(e) => setPaymentAmount(e.target.value)}
-                    className="pl-12"
+                    className="pl-16"
                     min="1"
                     max={selectedBill.amount}
                     disabled={paymentType === "full"}

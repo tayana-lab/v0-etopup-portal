@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { useLanguage } from "@/contexts/language-context"
+import { useLanguage } from "@/lib/contexts/language-context"
 import Autoplay from "embla-carousel-autoplay"
 
 const carouselData = [
@@ -33,8 +33,7 @@ const carouselData = [
     description: "Don't miss out on our exclusive limited-time offers",
     buttonText: "View Offers",
     gradient: "from-green-600 to-blue-600",
-  }
- 
+  },
 ]
 
 export function HeroCarousel() {

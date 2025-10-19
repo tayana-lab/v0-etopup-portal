@@ -1,5 +1,5 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
-import { DashboardOverview } from "@/components/dashboard-overview"
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
+import { DashboardOverview } from "@/components/layout/dashboard-overview"
 
 export default function HomePage() {
   return (

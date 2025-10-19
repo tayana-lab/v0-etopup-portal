@@ -3,9 +3,10 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
-import { ThemeProvider } from "@/contexts/theme-context"
-import { LanguageProvider } from "@/contexts/language-context"
-import { AuthGuard } from "@/components/auth-guard"
+import { ThemeProvider } from "@/lib/contexts/theme-context"
+import { LanguageProvider } from "@/lib/contexts/language-context"
+import { AuthProvider } from "@/lib/stores/auth-store"
+import { AuthGuard } from "@/components/shared/auth-guard"
 import "./globals.css"
 
 const inter = Inter({
@@ -29,9 +30,11 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable}`}>
         <LanguageProvider>
           <ThemeProvider>
-            <AuthGuard>
-              <Suspense fallback={null}>{children}</Suspense>
-            </AuthGuard>
+            <AuthProvider>
+              <AuthGuard>
+                <Suspense fallback={null}>{children}</Suspense>
+              </AuthGuard>
+            </AuthProvider>
           </ThemeProvider>
         </LanguageProvider>
         <Analytics />

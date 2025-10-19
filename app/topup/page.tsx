@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { DashboardLayout } from "@/components/dashboard-layout"
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { StyledInput } from "@/components/ui/styled-input"
@@ -85,8 +85,8 @@ export default function TopUpPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Recharge</h1>
-          <p className="text-gray-600">Mobile account recharge functionality</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Recharge</h1>
+          <p className="text-gray-600 dark:text-gray-400">Mobile account recharge functionality</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -128,7 +128,7 @@ export default function TopUpPage() {
           <Card>
             <CardHeader>
               <CardTitle>Recharge Amount</CardTitle>
-              <CardDescription>Select or enter amount in SR</CardDescription>
+              <CardDescription>Select or enter amount in SCR</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-2">
@@ -139,27 +139,27 @@ export default function TopUpPage() {
                     className="h-12 bg-transparent"
                     onClick={() => handleAmountSelect(amount)}
                   >
-                    SR {amount}
+                    SCR {amount}
                   </Button>
                 ))}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="custom">Custom Amount</Label>
                 <div className="relative">
-                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">SR</div>
+                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">SCR</div>
                   <StyledInput
                     id="custom"
                     type="number"
                     placeholder="Enter amount"
                     value={customAmount}
                     onChange={(e) => handleCustomAmountChange(e.target.value)}
-                    className="pl-12"
+                    className="pl-16"
                     min="1"
                     max="5000"
                   />
                 </div>
                 {customAmount && (Number.parseFloat(customAmount) > 5000 || Number.parseFloat(customAmount) < 1) && (
-                  <p className="text-sm text-red-600">Amount must be between SR 1 and SR 5000</p>
+                  <p className="text-sm text-red-600">Amount must be between SCR 1 and SCR 5000</p>
                 )}
               </div>
 
@@ -167,7 +167,7 @@ export default function TopUpPage() {
                 <div className="border-t pt-4">
                   <div className="flex justify-between items-center mb-4">
                     <span className="font-medium">Recharge Amount:</span>
-                    <span className="text-xl font-bold text-purple-600">SR {getCurrentAmount()}</span>
+                    <span className="text-xl font-bold text-purple-600">SCR {getCurrentAmount()}</span>
                   </div>
                   {phoneNumber && (
                     <div className="flex justify-between items-center mb-4 text-sm text-gray-600">
@@ -189,15 +189,15 @@ export default function TopUpPage() {
           </Card>
         </div>
 
-        <div className="mt-6 bg-purple-50 rounded-lg p-4">
-          <h3 className="font-semibold text-gray-900 mb-2">Recharge Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+        <div className="mt-6 bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+          <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Recharge Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-400">
             <div>
               <p className="font-medium mb-1">Quick Amounts:</p>
               <ul className="space-y-1">
-                <li>• SR 50 - Basic recharge</li>
-                <li>• SR 100-500 - Regular usage</li>
-                <li>• SR 1000+ - Heavy usage</li>
+                <li>• SCR 50 - Basic recharge</li>
+                <li>• SCR 100-500 - Regular usage</li>
+                <li>• SCR 1000+ - Heavy usage</li>
               </ul>
             </div>
             <div>

@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Package, Smartphone, Wifi, Phone, MessageSquare, Star, Clock } from "lucide-react"
-import { DashboardLayout } from "@/components/dashboard-layout"
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { ConfirmationModal } from "@/components/ui/confirmation-modal"
 import { SuccessModal } from "@/components/ui/success-modal"
 
@@ -256,7 +256,7 @@ export default function PurchasePackagesPage() {
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="text-2xl font-bold text-blue-600">SR {pkg.price}</p>
+                            <p className="text-2xl font-bold text-blue-600">SCR {pkg.price}</p>
                             <p className="text-xs text-gray-500 flex items-center gap-1">
                               <Clock className="h-3 w-3" />
                               {pkg.validity}
@@ -316,7 +316,7 @@ export default function PurchasePackagesPage() {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xl font-bold text-blue-600">SR {selectedPackage.price}</p>
+                      <p className="text-xl font-bold text-blue-600">SCR {selectedPackage.price}</p>
                       <Button className="mt-2" onClick={handlePurchaseClick} disabled={!phoneNumber || !numberType}>
                         Purchase Package
                       </Button>
