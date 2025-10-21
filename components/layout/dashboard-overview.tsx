@@ -44,7 +44,7 @@ const kpiData = [
   {
     title: "Active Customers",
     titleKey: "kpi.customers",
-    value: "16",
+    value: "600",
     change: "+15.3% this month",
     trend: "up",
     icon: Users,
@@ -53,7 +53,7 @@ const kpiData = [
   {
     title: "Success Rate",
     titleKey: "kpi.success",
-    value: "69.2%",
+    value: "99.2%",
     change: "+0.3% improvement",
     trend: "up",
     icon: TrendingUp,
