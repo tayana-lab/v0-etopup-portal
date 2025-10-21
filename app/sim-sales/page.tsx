@@ -1,10 +1,7 @@
 "use client"
-
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Users, MapPin, Plane, Heart, ArrowRight } from "lucide-react"
+import { Users, MapPin, Plane, ArrowRight } from "lucide-react"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import Link from "next/link"
 
@@ -14,43 +11,37 @@ const customerTypes = [
     name: "Local",
     description: "Seychelles citizens with full service access",
     icon: Users,
-    color: "bg-blue-500",
+    color: "bg-[#006bb6]", // Blue
     features: ["Full service access", "District/sub-district required", "Local ID verification"],
-    route: "/onboarding?type=local", // Fixed route from /digital-onboard to /onboarding
+    route: "/onboarding?type=local",
   },
   {
     id: "gop",
     name: "GOP Holder",
     description: "Work permit holders with valid employment",
     icon: MapPin,
-    color: "bg-green-500",
+    color: "bg-[#5BCDDB]", // Turquoise
     features: ["Work permit verification", "District/sub-district required", "Employment authorization"],
-    route: "/onboarding?type=gop", // Fixed route from /digital-onboard to /onboarding
+    route: "/onboarding?type=gop",
   },
   {
     id: "tourist",
     name: "Tourist",
     description: "Visitors with temporary connectivity needs",
     icon: Plane,
-    color: "bg-purple-500",
+    color: "bg-[#F27D2F]", // Orange
     features: ["Nationality selection", "Temporary service", "Tourist packages available"],
-    route: "/onboarding?type=tourist", // Fixed route from /digital-onboard to /onboarding
+    route: "/onboarding?type=tourist",
   },
 ]
 
 export default function SimSalePage() {
-  const [favorites, setFavorites] = useState<string[]>([])
-
-  const toggleFavorite = (typeId: string) => {
-    setFavorites((prev) => (prev.includes(typeId) ? prev.filter((id) => id !== typeId) : [...prev, typeId]))
-  }
-
   return (
     <DashboardLayout>
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">SIM Sale</h1>
-          <p className="text-gray-600">Select customer type to begin SIM onboarding process</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">SIM Sale</h1>
+          <p className="text-gray-600 dark:text-gray-400">Select customer type to begin SIM onboarding process</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
@@ -64,35 +55,21 @@ export default function SimSalePage() {
                   <div className={`w-12 h-12 ${type.color} rounded-lg flex items-center justify-center`}>
                     <type.icon className="h-6 w-6 text-white" />
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => toggleFavorite(type.id)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <Heart
-                      className={`h-4 w-4 ${
-                        favorites.includes(type.id) ? "fill-red-500 text-red-500" : "text-gray-400"
-                      }`}
-                    />
-                  </Button>
                 </div>
                 <CardTitle className="text-xl">{type.name}</CardTitle>
-                <p className="text-gray-600 text-sm">{type.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{type.description}</p>
               </CardHeader>
 
               <CardContent className="flex flex-col flex-grow space-y-4">
-                {/* Features area with fixed height */}
                 <div className="space-y-2 min-h-[96px]">
                   {type.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2 text-sm text-gray-600">
+                    <div key={index} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                       <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
                       {feature}
                     </div>
                   ))}
                 </div>
 
-                {/* Button */}
                 <div className="pt-2 mt-auto">
                   <Link href={type.route}>
                     <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-colors">
@@ -107,23 +84,6 @@ export default function SimSalePage() {
             </Card>
           ))}
         </div>
-
-        {favorites.length > 0 && (
-          <div className="mt-8">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Favorites</h2>
-            <div className="flex gap-2 flex-wrap">
-              {favorites.map((fav) => {
-                const type = customerTypes.find((t) => t.id === fav)
-                return type ? (
-                  <Badge key={fav} variant="secondary" className="flex items-center gap-1">
-                    <type.icon className="h-3 w-3" />
-                    {type.name}
-                  </Badge>
-                ) : null
-              })}
-            </div>
-          </div>
-        )}
 
         <div className="mt-12 bg-primary/5 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-foreground mb-2">Quick Tips</h3>
