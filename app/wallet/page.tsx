@@ -109,12 +109,12 @@ export default function MyWalletPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="mb-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">My Wallets</h1>
-              <p className="text-gray-600">Manage your account balances and transaction history</p>
+              <h1 className="text-2xl font-bold text-foreground mb-2">My Wallets</h1>
+              <p className="text-muted-foreground">Manage your account balances and transaction history</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => setBalanceVisible(!balanceVisible)}>
               {balanceVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -260,21 +260,21 @@ export default function MyWalletPage() {
               {filteredTransactions.map((transaction) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     {getTransactionIcon(transaction.type)}
                     <div>
-                      <p className="font-medium">{transaction.description}</p>
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <p className="font-medium text-foreground">{transaction.description}</p>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="h-3 w-3" />
                         {new Date(transaction.date).toLocaleDateString()}
                         <Badge
                           variant="outline"
                           className={
                             transaction.balance === "recharge"
-                              ? "border-blue-200 text-blue-700"
-                              : "border-purple-200 text-purple-700"
+                              ? "border-blue-200 text-blue-700 dark:border-blue-800 dark:text-blue-400"
+                              : "border-purple-200 text-purple-700 dark:border-purple-800 dark:text-purple-400"
                           }
                         >
                           {transaction.balance === "recharge" ? "Recharge" : "Bill-Pay"}
@@ -283,11 +283,16 @@ export default function MyWalletPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`font-semibold ${transaction.amount > 0 ? "text-green-600" : "text-red-600"}`}>
+                    <p
+                      className={`font-semibold ${transaction.amount > 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}
+                    >
                       {transaction.amount > 0 ? "+" : "-"}
                       {formatCurrency(transaction.amount)}
                     </p>
-                    <Badge variant="outline" className="text-green-600 border-green-200">
+                    <Badge
+                      variant="outline"
+                      className="text-green-600 border-green-200 dark:text-green-400 dark:border-green-800"
+                    >
                       {transaction.status}
                     </Badge>
                   </div>
@@ -298,20 +303,22 @@ export default function MyWalletPage() {
         </Card>
 
         {/* Balance Summary */}
-        <div className="mt-6 bg-gray-50 rounded-lg p-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Balance Summary</h3>
+        <div className="mt-6 bg-accent/30 rounded-lg p-6">
+          <h3 className="font-semibold text-foreground mb-4">Balance Summary</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
             <div>
-              <p className="text-2xl font-bold text-blue-600">{formatBalance(rechargeBalance)}</p>
-              <p className="text-sm text-gray-600">Recharge Balance</p>
+              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{formatBalance(rechargeBalance)}</p>
+              <p className="text-sm text-muted-foreground">Recharge Balance</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-purple-600">{formatBalance(billPayBalance)}</p>
-              <p className="text-sm text-gray-600">Bill-Pay Balance</p>
+              <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">{formatBalance(billPayBalance)}</p>
+              <p className="text-sm text-muted-foreground">Bill-Pay Balance</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-green-600">{formatBalance(rechargeBalance + billPayBalance)}</p>
-              <p className="text-sm text-gray-600">Total Balance</p>
+              <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+                {formatBalance(rechargeBalance + billPayBalance)}
+              </p>
+              <p className="text-sm text-muted-foreground">Total Balance</p>
             </div>
           </div>
         </div>
