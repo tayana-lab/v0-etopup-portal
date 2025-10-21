@@ -14,8 +14,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "Telecom Agent Portal",
-  description: "Professional web portal for telecom agents - manage sales, customers, and analytics",
+  title: "eTopUp Portal",
+  description: "eTopUp portal for telecom dealers - manage sales, customers, and analytics",
   generator: "v0.app",
 }
 
