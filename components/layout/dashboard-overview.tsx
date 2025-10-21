@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { HeroCarousel } from "@/components/layout/hero-carousel"
 import { useLanguage } from "@/lib/contexts/language-context"
 import Link from "next/link"
@@ -16,11 +15,11 @@ import {
   ArrowDownRight,
   Phone,
   Smartphone,
-  FileText,
   Plus,
   Activity,
   BarChart3,
   Zap,
+  Wifi,
 } from "lucide-react"
 
 const kpiData = [
@@ -62,78 +61,66 @@ const kpiData = [
   },
 ]
 
-const quickServices = [
+const quickActions = [
   {
     name: "Mobile Top-up",
-    nameKey: "services.mobile-topup",
+    nameKey: "actions.topup",
+    description: "Recharge mobile accounts instantly",
     icon: Phone,
     href: "/topup",
-    color: "bg-blue-50 dark:bg-blue-950/20 text-blue-600",
+    color: "bg-blue-500 hover:bg-blue-600",
+    iconBg: "bg-blue-100 dark:bg-blue-950/30",
+    iconColor: "text-blue-600 dark:text-blue-400",
   },
   {
-    name: "Data Packages",
-    nameKey: "services.data-packages",
+    name: "Package Purchase",
+    nameKey: "actions.package",
+    description: "Buy data and voice packages",
     icon: Package,
     href: "/packages",
-    color: "bg-green-50 dark:bg-green-950/20 text-green-600",
+    color: "bg-green-500 hover:bg-green-600",
+    iconBg: "bg-green-100 dark:bg-green-950/30",
+    iconColor: "text-green-600 dark:text-green-400",
   },
   {
     name: "Bill Payment",
-    nameKey: "services.bill-payment",
+    nameKey: "actions.bill",
+    description: "Pay utility and service bills",
     icon: CreditCard,
     href: "/bills",
-    color: "bg-orange-50 dark:bg-orange-950/20 text-orange-600",
+    color: "bg-orange-500 hover:bg-orange-600",
+    iconBg: "bg-orange-100 dark:bg-orange-950/30",
+    iconColor: "text-orange-600 dark:text-orange-400",
   },
   {
     name: "Fund Request",
-    nameKey: "services.fund-request",
+    nameKey: "actions.fund",
+    description: "Request additional funds",
     icon: DollarSign,
     href: "/funds",
-    color: "bg-purple-50 dark:bg-purple-950/20 text-purple-600",
+    color: "bg-purple-500 hover:bg-purple-600",
+    iconBg: "bg-purple-100 dark:bg-purple-950/30",
+    iconColor: "text-purple-600 dark:text-purple-400",
   },
   {
     name: "SIM Sales",
-    nameKey: "services.sim-sales",
+    nameKey: "actions.sim",
+    description: "Sell and activate SIM cards",
     icon: Smartphone,
-    href: "/sim-sales",
-    color: "bg-blue-50 dark:bg-blue-950/20 text-blue-600",
+    href: "/customers/sim-sales",
+    color: "bg-blue-500 hover:bg-blue-600",
+    iconBg: "bg-blue-100 dark:bg-blue-950/30",
+    iconColor: "text-blue-600 dark:text-blue-400",
   },
   {
-    name: "Job Cards",
-    nameKey: "services.job-cards",
-    icon: FileText,
-    href: "/jobs",
-    color: "bg-indigo-50 dark:bg-indigo-950/20 text-indigo-600",
-  },
-]
-
-const recentTransactions = [
-  {
-    id: "TXN001",
-    type: "Marketing campaign fund request",
-    amount: "SCR 250.00",
-    date: "19/09/2025",
-    status: "Pending",
-    icon: Package,
-    statusColor: "bg-yellow-100 dark:bg-yellow-950/20 text-yellow-800 dark:text-yellow-400",
-  },
-  {
-    id: "TXN002",
-    type: "Emergency fund request for inventory",
-    amount: "SCR 500.00",
-    date: "19/09/2025",
-    status: "Completed",
-    icon: Package,
-    statusColor: "bg-green-100 dark:bg-green-950/20 text-green-800 dark:text-green-400",
-  },
-  {
-    id: "TXN003",
-    type: "3GB Monthly package for +1234567896",
-    amount: "SCR 25.00",
-    date: "19/09/2025",
-    status: "Pending",
-    icon: Package,
-    statusColor: "bg-yellow-100 dark:bg-yellow-950/20 text-yellow-800 dark:text-yellow-400",
+    name: "Internet Services",
+    nameKey: "actions.internet",
+    description: "Manage internet subscriptions",
+    icon: Wifi,
+    href: "/packages",
+    color: "bg-indigo-500 hover:bg-indigo-600",
+    iconBg: "bg-indigo-100 dark:bg-indigo-950/30",
+    iconColor: "text-indigo-600 dark:text-indigo-400",
   },
 ]
 
@@ -164,6 +151,49 @@ const performanceMetrics = [
     icon: BarChart3,
     color: "text-purple-600",
     bgColor: "bg-purple-50 dark:bg-purple-950/20",
+  },
+]
+
+const recentTransactions = [
+  {
+    id: "TXN001",
+    type: "Top Up",
+    customer: "John Doe",
+    amount: "SCR 100.00",
+    date: "2025-01-20 14:30",
+    status: "completed",
+  },
+  {
+    id: "TXN002",
+    type: "Package Purchase",
+    customer: "Jane Smith",
+    amount: "SCR 250.00",
+    date: "2025-01-20 13:15",
+    status: "completed",
+  },
+  {
+    id: "TXN003",
+    type: "Bill Pay",
+    customer: "Mike Johnson",
+    amount: "SCR 450.00",
+    date: "2025-01-20 12:00",
+    status: "completed",
+  },
+  {
+    id: "TXN004",
+    type: "Top Up",
+    customer: "Sarah Williams",
+    amount: "SCR 50.00",
+    date: "2025-01-20 11:45",
+    status: "completed",
+  },
+  {
+    id: "TXN005",
+    type: "Package Purchase",
+    customer: "David Brown",
+    amount: "SCR 300.00",
+    date: "2025-01-20 10:30",
+    status: "completed",
   },
 ]
 
@@ -200,59 +230,26 @@ export function DashboardOverview() {
         <div className="lg:col-span-2 space-y-6">
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground">{t("services.title")}</CardTitle>
+              <CardTitle className="text-foreground">Quick Actions</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-3">
-                {quickServices.map((service) => (
-                  <Button
-                    key={service.name}
-                    variant="outline"
-                    className="h-16 sm:h-20 flex-col gap-2 bg-card hover:bg-accent border-border text-foreground hover:text-accent-foreground"
-                    asChild
-                  >
-                    <Link href={service.href}>
-                      <div className={`p-2 rounded-lg ${service.color}`}>
-                        <service.icon className="h-4 sm:h-5 w-4 sm:w-5" />
-                      </div>
-                      <span className="text-xs sm:text-sm font-medium">{t(service.nameKey)}</span>
-                    </Link>
-                  </Button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-foreground">{t("transactions.title")}</CardTitle>
-              <Button variant="ghost" className="text-primary hover:text-primary/80">
-                {t("transactions.view-all")}
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentTransactions.map((transaction) => (
-                  <div
-                    key={transaction.id}
-                    className="flex items-center justify-between p-3 rounded-lg border border-border bg-card"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <transaction.icon className="h-4 w-4 text-primary" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="font-medium text-foreground text-sm truncate">{transaction.type}</p>
-                        <p className="text-xs text-muted-foreground">{transaction.date}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-medium text-foreground">{transaction.amount}</p>
-                      <Badge className={`text-xs ${transaction.statusColor} border-0`}>
-                        {t(`transactions.${transaction.status.toLowerCase()}`)}
-                      </Badge>
-                    </div>
-                  </div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {quickActions.map((action) => (
+                  <Link key={action.name} href={action.href}>
+                    <Card className="bg-card border-border hover:border-primary transition-all cursor-pointer group h-full">
+                      <CardContent className="p-4">
+                        <div className="flex flex-col items-center text-center gap-3">
+                          <div className={`p-3 rounded-xl ${action.iconBg} group-hover:scale-110 transition-transform`}>
+                            <action.icon className={`h-6 w-6 ${action.iconColor}`} />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-foreground mb-1">{action.name}</h3>
+                            <p className="text-xs text-muted-foreground">{action.description}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 ))}
               </div>
             </CardContent>
@@ -280,6 +277,40 @@ export function DashboardOverview() {
                   <div className="text-xl sm:text-2xl font-bold text-blue-600">SCR 10000.00</div>
                   <div className="text-sm text-blue-700 dark:text-blue-400">{t("funds.monthly-limit")}</div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card border-border">
+            <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <CardTitle className="text-foreground">Recent Transactions</CardTitle>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/reports/total-transactions">View All</Link>
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {recentTransactions.map((transaction) => (
+                  <div
+                    key={transaction.id}
+                    className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="font-semibold text-foreground">{transaction.type}</p>
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400">
+                          {transaction.status}
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{transaction.customer}</p>
+                      <p className="text-xs text-muted-foreground">{transaction.date}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-semibold text-foreground">{transaction.amount}</p>
+                      <p className="text-xs text-muted-foreground">{transaction.id}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>

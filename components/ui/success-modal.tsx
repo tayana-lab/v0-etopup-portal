@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { CheckCircle, Package, Phone, FileText, Download, Share2 } from "lucide-react"
+import { jsPDF } from "jspdf"
 
 interface SuccessModalProps {
   isOpen: boolean
@@ -47,48 +48,119 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
     }
   }
 
-  const handleDownloadReceipt = () => {
-    const receiptContent = `
-═══════════════════════════════════════
-           TRANSACTION RECEIPT
-═══════════════════════════════════════
+  const handleDownloadReceipt = async () => {
+    const currentDate = new Date()
+    const formattedDate = currentDate.toLocaleDateString("en-GB").replace(/\//g, "-")
+    const formattedTime = currentDate.toLocaleTimeString("en-GB", { hour12: false })
+    const formattedDateTime = `${formattedDate} ${formattedTime}`
 
-Transaction ID: ${transactionId}
-Date & Time: ${new Date().toLocaleString()}
-Type: ${type.toUpperCase()}
+    const doc = new jsPDF()
 
-───────────────────────────────────────
-TRANSACTION DETAILS
-───────────────────────────────────────
+    try {
+      const logoImg = new Image()
+      logoImg.crossOrigin = "anonymous"
+      logoImg.src = "/cws-logo.svg"
 
-${type === "package" ? `Package: ${data?.packageName || "N/A"}` : ""}
-${type === "topup" ? `Mobile Number: +248 ${data?.phoneNumber || "N/A"}` : ""}
-${type === "bill" ? `Account Number: ${data?.accountNumber || "N/A"}` : ""}
-${type === "bill" ? `Bill Type: ${data?.billType || "N/A"}` : ""}
+      await new Promise((resolve, reject) => {
+        logoImg.onload = resolve
+        logoImg.onerror = reject
+      })
 
-Amount Paid: SCR ${data?.amount || data?.price || "0.00"}
+      // Add logo to PDF (left side)
+      doc.addImage(logoImg, "PNG", 20, 15, 40, 20)
+    } catch (error) {
+      // If logo fails to load, show placeholder text
+      doc.setFontSize(8)
+      doc.text("LOGO", 30, 21)
+    }
 
-${type === "package" && data?.validity ? `Validity: ${data.validity} days` : ""}
-${type === "package" && data?.validity ? `Expires: ${new Date(Date.now() + Number.parseInt(data.validity) * 24 * 60 * 60 * 1000).toLocaleDateString()}` : ""}
+    // Set font
+    doc.setFont("helvetica")
 
-───────────────────────────────────────
-STATUS: SUCCESSFUL
-───────────────────────────────────────
+    // Company name below logo
+    doc.setFontSize(14)
+    doc.setFont("helvetica", "bold")
+    doc.text("CABLE & WIRELESS", 20, 42)
 
-Thank you for your business!
+    // Right side - Company details
+    doc.setFontSize(11)
+    doc.setFont("helvetica", "bold")
+    doc.text("Cable & Wireless (Seychelles) Ltd", 200, 20, { align: "right" })
 
-═══════════════════════════════════════
-    `
+    doc.setFontSize(9)
+    doc.setFont("helvetica", "normal")
+    doc.text("Francis Rachel Street", 200, 26, { align: "right" })
+    doc.text("P.O Box 4,", 200, 31, { align: "right" })
+    doc.text("Victoria", 200, 36, { align: "right" })
+    doc.text("Mahe", 200, 41, { align: "right" })
+    doc.text("Seychelles", 200, 46, { align: "right" })
 
-    const blob = new Blob([receiptContent], { type: "text/plain" })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement("a")
-    link.href = url
-    link.download = `receipt-${transactionId}.txt`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    URL.revokeObjectURL(url)
+    // Contact information
+    doc.text("Tel           : (+248) 428 4000", 200, 56, { align: "right" })
+    doc.text("Fax           : (+248) 432 2555", 200, 61, { align: "right" })
+    doc.text("Website  : www.cwseychelles.com", 200, 66, { align: "right" })
+
+    // Separator line
+    doc.setLineWidth(0.5)
+    doc.line(20, 72, 190, 72)
+
+    // Receipt title
+    doc.setFontSize(14)
+    doc.setFont("helvetica", "bold")
+    doc.text("eShop Receipt", 105, 82, { align: "center" })
+
+    // Receipt details - Two column layout
+    doc.setFontSize(10)
+    doc.setFont("helvetica", "normal")
+
+    let yPos = 95
+
+    // Row 1
+    doc.text("Date of purchase", 20, yPos)
+    doc.text(`: ${formattedDateTime}`, 70, yPos)
+    doc.text("Receipt No", 120, yPos)
+    doc.text(`: ${transactionId}`, 160, yPos)
+
+    yPos += 7
+    // Row 2
+    doc.text("eShop Customer", 20, yPos)
+    doc.text(`: ${data?.customerName || "Customer"}`, 70, yPos)
+    doc.text("Date", 120, yPos)
+    doc.text(`: ${formattedDate}`, 160, yPos)
+
+    yPos += 7
+    // Row 3
+    doc.text("Service", 20, yPos)
+    const serviceType = type === "bill" ? "Bill Payment" : type === "topup" ? "Prepaid Recharge" : "Package Purchase"
+    doc.text(`: ${serviceType}`, 70, yPos)
+
+    yPos += 7
+    // Row 4
+    doc.text("Account number", 20, yPos)
+    doc.text(`: ${data?.accountNumber || data?.phoneNumber || "N/A"}`, 70, yPos)
+
+    yPos += 7
+    // Row 5
+    doc.text("Account name", 20, yPos)
+    doc.text(`: ${data?.customerName || "Customer"}`, 70, yPos)
+
+    yPos += 7
+    // Row 6
+    doc.text("Amount (SR)", 20, yPos)
+    doc.text(`: ${data?.amount || data?.price || "0.00"}`, 70, yPos)
+
+    yPos += 7
+    // Row 7
+    doc.text("Payment Method", 20, yPos)
+    doc.text(`: ${data?.paymentMethod || "Visa/MasterCard"}`, 70, yPos)
+
+    yPos += 7
+    // Row 8
+    doc.text("Payment Transaction ID", 20, yPos)
+    doc.text(`: ${transactionId}`, 70, yPos)
+
+    // Save the PDF
+    doc.save(`CWS-Receipt-${transactionId}.pdf`)
   }
 
   const handleShareReceipt = () => {
@@ -159,6 +231,14 @@ Thank you for your business!
             <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
               <p className="text-sm text-purple-800 dark:text-purple-200">
                 SCR {data.amount || "0.00"} has been added to +248 {data.phoneNumber || "N/A"}
+              </p>
+            </div>
+          )}
+
+          {type === "bill" && data && (
+            <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <p className="text-sm text-green-800 dark:text-green-200">
+                Your bill for {data.accountNumber || "N/A"} has been paid successfully.
               </p>
             </div>
           )}

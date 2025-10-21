@@ -1,7 +1,9 @@
+"use client"
+
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Phone, Mail, MessageCircle, MapPin, Clock, Globe } from "lucide-react"
+import { Phone, Mail, MapPin, Clock, Globe } from "lucide-react"
 
 export default function ContactUsPage() {
   return (
@@ -45,27 +47,6 @@ export default function ContactUsPage() {
               <Button variant="outline" className="w-full bg-transparent">
                 <Mail className="h-4 w-4 mr-2" />
                 Send Email
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageCircle className="h-5 w-5 text-green-500" />
-                WhatsApp
-              </CardTitle>
-              <CardDescription>Chat with us on WhatsApp</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="text-lg font-medium">+248 428 4000</div>
-              <p className="text-sm text-muted-foreground">Quick responses during business hours</p>
-              <Button
-                variant="outline"
-                className="w-full bg-green-50 hover:bg-green-100 dark:bg-green-950/20 dark:hover:bg-green-950/30"
-              >
-                <MessageCircle className="h-4 w-4 mr-2" />
-                Open WhatsApp
               </Button>
             </CardContent>
           </Card>
@@ -132,10 +113,6 @@ export default function ContactUsPage() {
               <Button variant="outline" className="h-16 flex-col bg-transparent">
                 <Globe className="h-5 w-5 mb-1" />
                 Website
-              </Button>
-              <Button variant="outline" className="h-16 flex-col bg-transparent">
-                <MessageCircle className="h-5 w-5 mb-1" />
-                Live Chat
               </Button>
               <Button variant="outline" className="h-16 flex-col bg-transparent">
                 <Phone className="h-5 w-5 mb-1" />

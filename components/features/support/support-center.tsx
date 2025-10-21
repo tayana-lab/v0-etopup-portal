@@ -11,7 +11,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   HelpCircle,
-  MessageSquare,
   Phone,
   Mail,
   FileText,
@@ -99,13 +98,6 @@ const contactMethods = [
     icon: Mail,
     color: "text-chart-2",
   },
-  {
-    method: "Live Chat",
-    details: "Available in portal",
-    hours: "Mon-Fri 8AM-6PM",
-    icon: MessageSquare,
-    color: "text-chart-3",
-  },
 ]
 
 const resources = [
@@ -175,6 +167,11 @@ export function SupportCenter() {
     }
   }
 
+  const handleLiveChat = () => {
+    // This would typically open a chat widget or redirect to a chat service
+    alert("Live chat feature will be available soon!")
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -184,7 +181,7 @@ export function SupportCenter() {
       </div>
 
       {/* Quick Contact Methods */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         {contactMethods.map((contact) => (
           <Card key={contact.method} className="bg-card">
             <CardContent className="p-4">
@@ -192,7 +189,7 @@ export function SupportCenter() {
                 <div className="p-2 rounded-lg bg-secondary/10">
                   <contact.icon className={`h-5 w-5 ${contact.color}`} />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="font-medium text-card-foreground">{contact.method}</h3>
                   <p className="text-sm text-muted-foreground">{contact.details}</p>
                   <p className="text-xs text-muted-foreground">{contact.hours}</p>
@@ -434,14 +431,6 @@ export function SupportCenter() {
                     <p className="font-medium text-card-foreground">Email Support</p>
                     <p className="text-sm text-muted-foreground">support@telecom.sc</p>
                     <p className="text-xs text-muted-foreground">Response within 4 hours</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MessageSquare className="h-5 w-5 text-chart-3" />
-                  <div>
-                    <p className="font-medium text-card-foreground">Live Chat</p>
-                    <p className="text-sm text-muted-foreground">Available in portal</p>
-                    <p className="text-xs text-muted-foreground">Mon-Fri 8AM-6PM</p>
                   </div>
                 </div>
               </CardContent>

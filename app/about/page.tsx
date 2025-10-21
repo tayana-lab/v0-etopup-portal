@@ -57,7 +57,7 @@ export default function AboutPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">About eTopup Portal</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">About eTopUp Portal</h1>
           <p className="text-muted-foreground">Your trusted partner for telecom services and digital transactions</p>
         </div>
 

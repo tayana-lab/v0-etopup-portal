@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { ThemeProvider } from "@/lib/contexts/theme-context"
 import { LanguageProvider } from "@/lib/contexts/language-context"
@@ -37,7 +36,6 @@ export default function RootLayout({
             </AuthProvider>
           </ThemeProvider>
         </LanguageProvider>
-        <Analytics />
       </body>
     </html>
   )

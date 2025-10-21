@@ -7,13 +7,34 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Smartphone, CheckCircle, Clock, AlertCircle } from "lucide-react"
+import { Smartphone, CheckCircle, Clock, AlertCircle, MapPin, Globe, Plane } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 const simTypes = [
-  { value: "prepaid", label: "Prepaid SIM", price: "SCR 25", description: "Standard prepaid service" },
-  { value: "postpaid", label: "Postpaid SIM", price: "SCR 50", description: "Monthly billing service" },
-  { value: "data-only", label: "Data Only SIM", price: "SCR 30", description: "Internet only service" },
-  { value: "business", label: "Business SIM", price: "SCR 75", description: "Corporate service plan" },
+  {
+    value: "local",
+    label: "Local SIM",
+    price: "SCR 25",
+    description: "For Seychelles residents",
+    icon: MapPin,
+    iconBg: "bg-[#006bb6]",
+  },
+  {
+    value: "gop",
+    label: "GOP SIM",
+    price: "SCR 50",
+    description: "Government official plan",
+    icon: Globe,
+    iconBg: "bg-[#006bb6]",
+  },
+  {
+    value: "tourist",
+    label: "Tourist SIM",
+    price: "SCR 30",
+    description: "For visitors to Seychelles",
+    icon: Plane,
+    iconBg: "bg-[#006bb6]",
+  },
 ]
 
 const recentSales = [
@@ -21,7 +42,7 @@ const recentSales = [
     id: "SIM001",
     customer: "John Doe",
     simNumber: "+248 123 4567",
-    type: "Prepaid",
+    type: "Local SIM",
     amount: "SCR 25",
     status: "activated",
     time: "10 min ago",
@@ -30,7 +51,7 @@ const recentSales = [
     id: "SIM002",
     customer: "Jane Smith",
     simNumber: "+248 987 6543",
-    type: "Postpaid",
+    type: "GOP SIM",
     amount: "SCR 50",
     status: "pending",
     time: "25 min ago",
@@ -39,8 +60,8 @@ const recentSales = [
     id: "SIM003",
     customer: "Mike Johnson",
     simNumber: "+248 555 0123",
-    type: "Business",
-    amount: "SCR 75",
+    type: "Tourist SIM",
+    amount: "SCR 30",
     status: "activated",
     time: "1 hour ago",
   },
@@ -52,6 +73,7 @@ export function SimSalesService() {
   const [customerPhone, setCustomerPhone] = useState("")
   const [customerEmail, setCustomerEmail] = useState("")
   const [idNumber, setIdNumber] = useState("")
+  const router = useRouter()
 
   const handleSimSale = () => {
     console.log("Processing SIM sale:", {
@@ -61,6 +83,10 @@ export function SimSalesService() {
       customerEmail,
       idNumber,
     })
+  }
+
+  const handleStartOnboarding = () => {
+    router.push("/onboarding")
   }
 
   const getStatusIcon = (status: string) => {
@@ -79,9 +105,15 @@ export function SimSalesService() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-foreground text-balance">SIM Sales Service</h1>
-        <p className="text-muted-foreground mt-2">Sell and activate new SIM cards for customers.</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground text-balance">SIM Sales Service</h1>
+          <p className="text-muted-foreground mt-2">Sell and activate new SIM cards for customers.</p>
+        </div>
+        {/* Start Onboarding button */}
+        <Button onClick={handleStartOnboarding} size="lg">
+          Start Onboarding
+        </Button>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -98,22 +130,27 @@ export function SimSalesService() {
               {/* SIM Type Selection */}
               <div className="space-y-3">
                 <Label>SIM Type</Label>
-                <div className="grid gap-3 md:grid-cols-2">
+                <div className="grid gap-3 md:grid-cols-3">
                   {simTypes.map((sim) => (
                     <div
                       key={sim.value}
                       className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
                         selectedSimType === sim.value
-                          ? "border-secondary bg-secondary/5"
-                          : "border-border hover:border-secondary/50"
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
                       }`}
                       onClick={() => setSelectedSimType(sim.value)}
                     >
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-medium text-card-foreground">{sim.label}</h3>
-                        <span className="font-bold text-secondary">{sim.price}</span>
+                      <div className="flex flex-col items-center text-center gap-3">
+                        <div className={`p-3 rounded-full ${sim.iconBg}`}>
+                          <sim.icon className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-card-foreground">{sim.label}</h3>
+                          <p className="text-sm text-muted-foreground mt-1">{sim.description}</p>
+                          <span className="font-bold text-primary mt-2 block">{sim.price}</span>
+                        </div>
                       </div>
-                      <p className="text-sm text-muted-foreground">{sim.description}</p>
                     </div>
                   ))}
                 </div>
@@ -258,20 +295,16 @@ export function SimSalesService() {
             <CardContent>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Prepaid SIMs</span>
+                  <span className="text-muted-foreground">Local SIMs</span>
                   <span className="font-medium text-card-foreground">45</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Postpaid SIMs</span>
+                  <span className="text-muted-foreground">GOP SIMs</span>
                   <span className="font-medium text-card-foreground">32</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Data Only SIMs</span>
+                  <span className="text-muted-foreground">Tourist SIMs</span>
                   <span className="font-medium text-card-foreground">28</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Business SIMs</span>
-                  <span className="font-medium text-card-foreground">15</span>
                 </div>
               </div>
             </CardContent>
