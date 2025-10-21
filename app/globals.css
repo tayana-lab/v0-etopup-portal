@@ -75,67 +75,197 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
-/* Updated blue theme to use #0584dc color and ensure proper application across all components */
+/* Added new Pantone color themes from user's palette */
+/* Pantone 318 - Light Turquoise/Cyan Theme */
+.theme-turquoise {
+  --primary: #5bcddb; /* Pantone 318 */
+  --primary-foreground: oklch(0.145 0 0); /* dark text */
+  --secondary: #91dde6; /* lighter turquoise */
+  --secondary-foreground: oklch(0.145 0 0);
+  --accent: #5bcddb;
+  --accent-foreground: oklch(0.145 0 0);
+  --ring: #5bcddb;
+  --chart-1: #5bcddb;
+  --chart-2: #91dde6;
+  --chart-3: #3bbdcd;
+  --chart-4: #a8e4ed;
+  --chart-5: #2aadc0;
+  --sidebar-primary: #5bcddb;
+  --sidebar-accent: #91dde6;
+  --sidebar-ring: #5bcddb;
+}
+
+.dark.theme-turquoise {
+  --primary: #91dde6; /* brighter for dark mode */
+  --secondary: #3bbdcd;
+  --accent: #91dde6;
+  --chart-1: #91dde6;
+  --chart-2: #5bcddb;
+  --chart-3: #3bbdcd;
+  --chart-4: #a8e4ed;
+  --chart-5: #2aadc0;
+  --sidebar-primary: #91dde6;
+  --sidebar-accent: #3bbdcd;
+}
+
+/* Pantone 012 - Bright Yellow Theme */
+.theme-yellow {
+  --primary: #ffd100; /* Pantone 012 */
+  --primary-foreground: oklch(0.145 0 0); /* dark text */
+  --secondary: #ffe066; /* lighter yellow */
+  --secondary-foreground: oklch(0.145 0 0);
+  --accent: #ffd100;
+  --accent-foreground: oklch(0.145 0 0);
+  --ring: #ffd100;
+  --chart-1: #ffd100;
+  --chart-2: #ffe066;
+  --chart-3: #e6bc00;
+  --chart-4: #ffeb99;
+  --chart-5: #cca700;
+  --sidebar-primary: #ffd100;
+  --sidebar-accent: #ffe066;
+  --sidebar-ring: #ffd100;
+}
+
+.dark.theme-yellow {
+  --primary: #ffe066; /* brighter for dark mode */
+  --secondary: #e6bc00;
+  --accent: #ffe066;
+  --chart-1: #ffe066;
+  --chart-2: #ffd100;
+  --chart-3: #e6bc00;
+  --chart-4: #ffeb99;
+  --chart-5: #cca700;
+  --sidebar-primary: #ffe066;
+  --sidebar-accent: #e6bc00;
+}
+
+/* Pantone 316 - Dark Teal Theme */
+.theme-teal {
+  --primary: #006a72; /* Pantone 316 */
+  --primary-foreground: oklch(1 0 0); /* white text */
+  --secondary: #008a94; /* lighter teal */
+  --secondary-foreground: oklch(1 0 0);
+  --accent: #006a72;
+  --accent-foreground: oklch(1 0 0);
+  --ring: #006a72;
+  --chart-1: #006a72;
+  --chart-2: #008a94;
+  --chart-3: #005560;
+  --chart-4: #00a5b0;
+  --chart-5: #004550;
+  --sidebar-primary: #006a72;
+  --sidebar-accent: #008a94;
+  --sidebar-ring: #006a72;
+}
+
+.dark.theme-teal {
+  --primary: #008a94; /* brighter for dark mode */
+  --secondary: #005560;
+  --accent: #008a94;
+  --chart-1: #008a94;
+  --chart-2: #006a72;
+  --chart-3: #005560;
+  --chart-4: #00a5b0;
+  --chart-5: #004550;
+  --sidebar-primary: #008a94;
+  --sidebar-accent: #005560;
+}
+
+/* Pantone 1595 - Orange Theme */
+.theme-orange {
+  --primary: #f27d2f; /* Pantone 1595 */
+  --primary-foreground: oklch(1 0 0); /* white text */
+  --secondary: #f59d5f; /* lighter orange */
+  --secondary-foreground: oklch(1 0 0);
+  --accent: #f27d2f;
+  --accent-foreground: oklch(1 0 0);
+  --ring: #f27d2f;
+  --chart-1: #f27d2f;
+  --chart-2: #f59d5f;
+  --chart-3: #d96d1f;
+  --chart-4: #f8bd8f;
+  --chart-5: #c05d1f;
+  --sidebar-primary: #f27d2f;
+  --sidebar-accent: #f59d5f;
+  --sidebar-ring: #f27d2f;
+}
+
+.dark.theme-orange {
+  --primary: #f59d5f; /* brighter for dark mode */
+  --secondary: #d96d1f;
+  --accent: #f59d5f;
+  --chart-1: #f59d5f;
+  --chart-2: #f27d2f;
+  --chart-3: #d96d1f;
+  --chart-4: #f8bd8f;
+  --chart-5: #c05d1f;
+  --sidebar-primary: #f59d5f;
+  --sidebar-accent: #d96d1f;
+}
+
+/* Pantone 428 - Light Gray Theme */
+.theme-gray {
+  --primary: #d9d9d6; /* Pantone 428 */
+  --primary-foreground: oklch(0.145 0 0); /* dark text */
+  --secondary: #e5e5e3; /* lighter gray */
+  --secondary-foreground: oklch(0.145 0 0);
+  --accent: #d9d9d6;
+  --accent-foreground: oklch(0.145 0 0);
+  --ring: #d9d9d6;
+  --chart-1: #d9d9d6;
+  --chart-2: #e5e5e3;
+  --chart-3: #c0c0be;
+  --chart-4: #f0f0ef;
+  --chart-5: #a8a8a6;
+  --sidebar-primary: #d9d9d6;
+  --sidebar-accent: #e5e5e3;
+  --sidebar-ring: #d9d9d6;
+}
+
+.dark.theme-gray {
+  --primary: #e5e5e3; /* brighter for dark mode */
+  --secondary: #c0c0be;
+  --accent: #e5e5e3;
+  --chart-1: #e5e5e3;
+  --chart-2: #d9d9d6;
+  --chart-3: #c0c0be;
+  --chart-4: #f0f0ef;
+  --chart-5: #a8a8a6;
+  --sidebar-primary: #e5e5e3;
+  --sidebar-accent: #c0c0be;
+}
+
+/* Added Blue Theme #006bb6 */
 .theme-blue {
-  --primary: #0584dc; /* #0584dc blue */
-  --primary-foreground: oklch(1 0 0); /* white */
-  --secondary: #3da5f5; /* lighter blue */
-  --secondary-foreground: oklch(1 0 0); /* white */
-  --accent: #0584dc; /* matching primary */
-  --accent-foreground: oklch(1 0 0); /* white */
-  --ring: #0584dc; /* blue focus ring */
-  --chart-1: #0584dc; /* primary blue */
-  --chart-2: #3da5f5; /* secondary blue */
-  --chart-3: #0466c8; /* darker blue */
-  --chart-4: #74c0fc; /* light blue */
-  --chart-5: #023e8a; /* deep blue */
-  --sidebar-primary: #0584dc; /* blue sidebar */
-  --sidebar-accent: #3da5f5; /* light blue accent */
-  --sidebar-ring: #0584dc; /* blue ring */
+  --primary: #006bb6; /* Blue */
+  --primary-foreground: oklch(1 0 0); /* white text */
+  --secondary: #3388cc; /* lighter blue */
+  --secondary-foreground: oklch(1 0 0);
+  --accent: #006bb6;
+  --accent-foreground: oklch(1 0 0);
+  --ring: #006bb6;
+  --chart-1: #006bb6;
+  --chart-2: #3388cc;
+  --chart-3: #005599;
+  --chart-4: #66a3d9;
+  --chart-5: #004477;
+  --sidebar-primary: #006bb6;
+  --sidebar-accent: #3388cc;
+  --sidebar-ring: #006bb6;
 }
 
 .dark.theme-blue {
-  --primary: #3da5f5; /* brighter blue for dark mode */
-  --secondary: #0466c8; /* darker blue secondary */
-  --accent: #3da5f5; /* bright blue accent */
-  --chart-1: #3da5f5;
-  --chart-2: #0584dc;
-  --chart-3: #0466c8;
-  --chart-4: #74c0fc;
-  --chart-5: #023e8a;
-  --sidebar-primary: #3da5f5;
-  --sidebar-accent: #0466c8;
-}
-
-.theme-purple {
-  --primary: oklch(0.6 0.25 300); /* rich purple */
-  --primary-foreground: oklch(1 0 0); /* white */
-  --secondary: oklch(0.7 0.15 310); /* lighter purple */
-  --secondary-foreground: oklch(1 0 0); /* white */
-  --accent: oklch(0.6 0.25 300); /* matching primary */
-  --accent-foreground: oklch(1 0 0); /* white */
-  --ring: oklch(0.6 0.25 300); /* purple focus ring */
-  --chart-1: oklch(0.6 0.25 300); /* primary purple */
-  --chart-2: oklch(0.7 0.15 310); /* secondary purple */
-  --chart-3: oklch(0.5 0.2 290); /* darker purple */
-  --chart-4: oklch(0.75 0.1 320); /* light purple */
-  --chart-5: oklch(0.55 0.3 280); /* deep purple */
-  --sidebar-primary: oklch(0.6 0.25 300); /* purple sidebar */
-  --sidebar-accent: oklch(0.7 0.15 310); /* light purple accent */
-  --sidebar-ring: oklch(0.6 0.25 300); /* purple ring */
-}
-
-.dark.theme-purple {
-  --primary: oklch(0.75 0.25 300); /* brighter purple for dark mode */
-  --secondary: oklch(0.4 0.15 310); /* darker purple secondary */
-  --accent: oklch(0.75 0.25 300); /* bright purple accent */
-  --chart-1: oklch(0.75 0.25 300);
-  --chart-2: oklch(0.65 0.2 310);
-  --chart-3: oklch(0.55 0.15 290);
-  --chart-4: oklch(0.8 0.1 320);
-  --chart-5: oklch(0.7 0.3 280);
-  --sidebar-primary: oklch(0.75 0.25 300);
-  --sidebar-accent: oklch(0.4 0.15 310);
+  --primary: #3388cc; /* brighter for dark mode */
+  --secondary: #005599;
+  --accent: #3388cc;
+  --chart-1: #3388cc;
+  --chart-2: #006bb6;
+  --chart-3: #005599;
+  --chart-4: #66a3d9;
+  --chart-5: #004477;
+  --sidebar-primary: #3388cc;
+  --sidebar-accent: #005599;
 }
 
 @theme inline {
