@@ -41,6 +41,11 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
 
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">Color Theme</DropdownMenuLabel>
+        <DropdownMenuItem onClick={() => setColorTheme("blue")} className="flex items-center gap-2">
+          <div className="h-4 w-4 rounded-full bg-[#006bb6]" />
+          Blue
+          {colorTheme === "blue" && <Check className="h-4 w-4 ml-auto" />}
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setColorTheme("turquoise")} className="flex items-center gap-2">
           <div className="h-4 w-4 rounded-full bg-[#5BCDDB]" />
           Turquoise
@@ -65,11 +70,6 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
           <div className="h-4 w-4 rounded-full bg-[#D9D9D6]" />
           Gray
           {colorTheme === "gray" && <Check className="h-4 w-4 ml-auto" />}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setColorTheme("blue")} className="flex items-center gap-2">
-          <div className="h-4 w-4 rounded-full bg-[#006bb6]" />
-          Blue
-          {colorTheme === "blue" && <Check className="h-4 w-4 ml-auto" />}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

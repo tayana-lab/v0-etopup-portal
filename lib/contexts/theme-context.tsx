@@ -4,7 +4,7 @@ import type React from "react"
 import { createContext, useContext, useEffect, useState } from "react"
 
 type Mode = "light" | "dark"
-type ColorTheme = "turquoise" | "yellow" | "teal" | "orange" | "gray" | "blue"
+type ColorTheme = "blue" | "turquoise" | "yellow" | "teal" | "orange" | "gray"
 
 interface ThemeContextType {
   mode: Mode
@@ -17,7 +17,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<Mode>("light")
-  const [colorTheme, setColorTheme] = useState<ColorTheme>("turquoise")
+  const [colorTheme, setColorTheme] = useState<ColorTheme>("blue")
 
   useEffect(() => {
     const savedMode = localStorage.getItem("mode") as Mode
@@ -27,7 +27,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setMode(savedMode)
     }
 
-    if (savedColorTheme && ["turquoise", "yellow", "teal", "orange", "gray", "blue"].includes(savedColorTheme)) {
+    if (savedColorTheme && ["blue", "turquoise", "yellow", "teal", "orange", "gray"].includes(savedColorTheme)) {
       setColorTheme(savedColorTheme)
     }
   }, [])
@@ -37,12 +37,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     root.classList.remove(
       "dark",
+      "theme-blue",
       "theme-turquoise",
       "theme-yellow",
       "theme-teal",
       "theme-orange",
       "theme-gray",
-      "theme-blue",
     )
     root.classList.add(`theme-${colorTheme}`)
 
