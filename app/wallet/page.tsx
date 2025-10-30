@@ -124,7 +124,7 @@ export default function MyWalletPage() {
 
         {/* Wallet Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+          <Card className="bg-gradient-to-br from-[#006bb6] to-[#0056a3] text-white">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center justify-between">
                 <span className="flex items-center gap-2">
@@ -159,7 +159,7 @@ export default function MyWalletPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white">
+          <Card className="bg-gradient-to-br from-[#5BCDDB] to-[#3AAFBF] text-white">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center justify-between">
                 <span className="flex items-center gap-2">
@@ -174,7 +174,7 @@ export default function MyWalletPage() {
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <p className="text-purple-100 text-sm">Available Balance</p>
+                  <p className="text-cyan-100 text-sm">Available Balance</p>
                   <p className="text-3xl font-bold">{formatBalance(billPayBalance)}</p>
                 </div>
                 <div className="flex gap-2">

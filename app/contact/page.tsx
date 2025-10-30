@@ -15,7 +15,7 @@ export default function ContactUsPage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
-          <Card>
+          <Card className="md:col-span-2">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Phone className="h-5 w-5 text-blue-600" />
@@ -23,13 +23,45 @@ export default function ContactUsPage() {
               </CardTitle>
               <CardDescription>Call us for immediate assistance</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="text-2xl font-bold text-blue-600">+248 428 4000</div>
-              <p className="text-sm text-muted-foreground">Available 24/7 for urgent support</p>
-              <Button className="w-full">
-                <Phone className="h-4 w-4 mr-2" />
-                Call Now
-              </Button>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2 p-4 rounded-lg border bg-card">
+                  <div className="text-sm font-medium text-muted-foreground">Support Line (North & Central)</div>
+                  <div className="text-2xl font-bold text-blue-600">2598080</div>
+                  <Button className="w-full" onClick={() => window.open("tel:2598080")}>
+                    <Phone className="h-4 w-4 mr-2" />
+                    Call Now
+                  </Button>
+                </div>
+
+                <div className="space-y-2 p-4 rounded-lg border bg-card">
+                  <div className="text-sm font-medium text-muted-foreground">Support Line (South & Central)</div>
+                  <div className="text-2xl font-bold text-blue-600">2596969</div>
+                  <Button className="w-full" onClick={() => window.open("tel:2596969")}>
+                    <Phone className="h-4 w-4 mr-2" />
+                    Call Now
+                  </Button>
+                </div>
+
+                <div className="space-y-2 p-4 rounded-lg border bg-card">
+                  <div className="text-sm font-medium text-muted-foreground">Support Line (Praslin & La Digue)</div>
+                  <div className="text-2xl font-bold text-blue-600">2529993</div>
+                  <Button className="w-full" onClick={() => window.open("tel:2529993")}>
+                    <Phone className="h-4 w-4 mr-2" />
+                    Call Now
+                  </Button>
+                </div>
+
+                <div className="space-y-2 p-4 rounded-lg border bg-card">
+                  <div className="text-sm font-medium text-muted-foreground">Support Line (Single Dealers)</div>
+                  <div className="text-2xl font-bold text-blue-600">2595553</div>
+                  <Button className="w-full" onClick={() => window.open("tel:2595553")}>
+                    <Phone className="h-4 w-4 mr-2" />
+                    Call Now
+                  </Button>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground mt-4">Available 24/7 for urgent support</p>
             </CardContent>
           </Card>
 
@@ -42,9 +74,13 @@ export default function ContactUsPage() {
               <CardDescription>Send us your questions via email</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="text-lg font-medium">info@cwseychelles.com</div>
+              <div className="text-lg font-medium">commercialteam@cwseychelles.com</div>
               <p className="text-sm text-muted-foreground">We'll respond within 24 hours</p>
-              <Button variant="outline" className="w-full bg-transparent">
+              <Button
+                variant="outline"
+                className="w-full bg-transparent"
+                onClick={() => window.open("mailto:commercialteam@cwseychelles.com")}
+              >
                 <Mail className="h-4 w-4 mr-2" />
                 Send Email
               </Button>

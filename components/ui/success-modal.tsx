@@ -50,9 +50,15 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
 
   const handleDownloadReceipt = async () => {
     const currentDate = new Date()
-    const formattedDate = currentDate.toLocaleDateString("en-GB").replace(/\//g, "-")
-    const formattedTime = currentDate.toLocaleTimeString("en-GB", { hour12: false })
-    const formattedDateTime = `${formattedDate} ${formattedTime}`
+    const day = String(currentDate.getDate()).padStart(2, "0")
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0")
+    const year = currentDate.getFullYear()
+    const hours = String(currentDate.getHours()).padStart(2, "0")
+    const minutes = String(currentDate.getMinutes()).padStart(2, "0")
+    const seconds = String(currentDate.getSeconds()).padStart(2, "0")
+
+    const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`
+    const formattedDate = `${day}/${month}/${year}`
 
     const doc = new jsPDF()
 
@@ -66,105 +72,93 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
         logoImg.onerror = reject
       })
 
-      // Add logo to PDF (left side)
       doc.addImage(logoImg, "PNG", 20, 15, 40, 20)
     } catch (error) {
-      // If logo fails to load, show placeholder text
       doc.setFontSize(8)
       doc.text("LOGO", 30, 21)
     }
 
-    // Set font
     doc.setFont("helvetica")
-
-    // Company name below logo
     doc.setFontSize(14)
     doc.setFont("helvetica", "bold")
     doc.text("CABLE & WIRELESS", 20, 42)
 
-    // Right side - Company details
     doc.setFontSize(11)
     doc.setFont("helvetica", "bold")
-    doc.text("Cable & Wireless (Seychelles) Ltd", 200, 20, { align: "right" })
+    doc.text("Cable & Wireless (Seychelles) Ltd", 105, 20, { align: "center" })
 
     doc.setFontSize(9)
     doc.setFont("helvetica", "normal")
-    doc.text("Francis Rachel Street", 200, 26, { align: "right" })
-    doc.text("P.O Box 4,", 200, 31, { align: "right" })
-    doc.text("Victoria", 200, 36, { align: "right" })
-    doc.text("Mahe", 200, 41, { align: "right" })
-    doc.text("Seychelles", 200, 46, { align: "right" })
+    doc.text("Francis Rachel Street", 105, 26, { align: "center" })
+    doc.text("P.O Box 4,", 105, 31, { align: "center" })
+    doc.text("Victoria", 105, 36, { align: "center" })
+    doc.text("Mahe", 105, 41, { align: "center" })
+    doc.text("Seychelles", 105, 46, { align: "center" })
 
-    // Contact information
-    doc.text("Tel           : (+248) 428 4000", 200, 56, { align: "right" })
-    doc.text("Fax           : (+248) 432 2555", 200, 61, { align: "right" })
-    doc.text("Website  : www.cwseychelles.com", 200, 66, { align: "right" })
+    doc.text("Tel        : (+248) 428 4000", 105, 56, { align: "center" })
+    doc.text("Fax       : (+248) 432 2555", 105, 61, { align: "center" })
+    doc.text("Website : www.cwseychelles.com", 105, 66, { align: "center" })
 
-    // Separator line
     doc.setLineWidth(0.5)
     doc.line(20, 72, 190, 72)
 
-    // Receipt title
     doc.setFontSize(14)
     doc.setFont("helvetica", "bold")
     doc.text("eShop Receipt", 105, 82, { align: "center" })
 
-    // Receipt details - Two column layout
     doc.setFontSize(10)
     doc.setFont("helvetica", "normal")
 
     let yPos = 95
+    const labelX = 20
+    const valueX = 75
 
-    // Row 1
-    doc.text("Date of purchase", 20, yPos)
-    doc.text(`: ${formattedDateTime}`, 70, yPos)
-    doc.text("Receipt No", 120, yPos)
-    doc.text(`: ${transactionId}`, 160, yPos)
-
-    yPos += 7
-    // Row 2
-    doc.text("eShop Customer", 20, yPos)
-    doc.text(`: ${data?.customerName || "Customer"}`, 70, yPos)
-    doc.text("Date", 120, yPos)
-    doc.text(`: ${formattedDate}`, 160, yPos)
-
-    yPos += 7
-    // Row 3
-    doc.text("Service", 20, yPos)
     const serviceType = type === "bill" ? "Bill Payment" : type === "topup" ? "Prepaid Recharge" : "Package Purchase"
-    doc.text(`: ${serviceType}`, 70, yPos)
+
+    doc.text("Date of purchase:", labelX, yPos)
+    doc.text(formattedDateTime, valueX, yPos)
 
     yPos += 7
-    // Row 4
-    doc.text("Account number", 20, yPos)
-    doc.text(`: ${data?.accountNumber || data?.phoneNumber || "N/A"}`, 70, yPos)
+    doc.text("eShop Customer:", labelX, yPos)
+    doc.text(data?.customerName || "Customer", valueX, yPos)
 
     yPos += 7
-    // Row 5
-    doc.text("Account name", 20, yPos)
-    doc.text(`: ${data?.customerName || "Customer"}`, 70, yPos)
+    doc.text("Service:", labelX, yPos)
+    doc.text(serviceType, valueX, yPos)
 
     yPos += 7
-    // Row 6
-    doc.text("Amount (SR)", 20, yPos)
-    doc.text(`: ${data?.amount || data?.price || "0.00"}`, 70, yPos)
+    doc.text("Account number:", labelX, yPos)
+    doc.text(data?.accountNumber || data?.phoneNumber || "N/A", valueX, yPos)
 
     yPos += 7
-    // Row 7
-    doc.text("Payment Method", 20, yPos)
-    doc.text(`: ${data?.paymentMethod || "Visa/MasterCard"}`, 70, yPos)
+    doc.text("Account name:", labelX, yPos)
+    doc.text(data?.accountName || data?.customerName || "Customer", valueX, yPos)
 
     yPos += 7
-    // Row 8
-    doc.text("Payment Transaction ID", 20, yPos)
-    doc.text(`: ${transactionId}`, 70, yPos)
+    doc.text("Amount (SR):", labelX, yPos)
+    doc.text(String(data?.amount || data?.price || "0.00"), valueX, yPos)
 
-    // Save the PDF
+    yPos += 7
+    doc.text("Payment Method:", labelX, yPos)
+    doc.text(data?.paymentMethod || "Visa/MasterCard", valueX, yPos)
+
+    yPos += 7
+    doc.text("Payment Transaction ID:", labelX, yPos)
+    doc.text(transactionId, valueX, yPos)
+
+    yPos += 7
+    doc.text("Receipt No:", labelX, yPos)
+    doc.text(transactionId, valueX, yPos)
+
+    yPos += 7
+    doc.text("Date:", labelX, yPos)
+    doc.text(formattedDate, valueX, yPos)
+
     doc.save(`CWS-Receipt-${transactionId}.pdf`)
   }
 
   const handleShareReceipt = () => {
-    const shareText = `Transaction Receipt\nID: ${transactionId}\nAmount: SCR ${data?.amount || data?.price || "0.00"}\nStatus: Successful`
+    const shareText = `Transaction Receipt\nID: ${transactionId}\nAmount: SR ${data?.amount || data?.price || "0.00"}\nStatus: Successful`
 
     if (navigator.share) {
       navigator
@@ -173,12 +167,10 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
           text: shareText,
         })
         .catch(() => {
-          // Fallback: copy to clipboard
           navigator.clipboard.writeText(shareText)
           alert("Receipt details copied to clipboard!")
         })
     } else {
-      // Fallback: copy to clipboard
       navigator.clipboard.writeText(shareText)
       alert("Receipt details copied to clipboard!")
     }
@@ -210,7 +202,7 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-600 dark:text-gray-400">Amount Paid:</span>
-              <span className="font-semibold text-green-600">SCR {data?.amount || data?.price || "0.00"}</span>
+              <span className="font-semibold text-green-600">SR {data?.amount || data?.price || "0.00"}</span>
             </div>
           </div>
 
@@ -230,7 +222,7 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
           {type === "topup" && data && (
             <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
               <p className="text-sm text-purple-800 dark:text-purple-200">
-                SCR {data.amount || "0.00"} has been added to +248 {data.phoneNumber || "N/A"}
+                SR {data.amount || "0.00"} has been added to +248 {data.phoneNumber || "N/A"}
               </p>
             </div>
           )}

@@ -9,19 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {
-  HelpCircle,
-  Phone,
-  Mail,
-  FileText,
-  Search,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  Book,
-  Video,
-  Download,
-} from "lucide-react"
+import { HelpCircle, FileText, Search, Clock, CheckCircle, AlertCircle, Book, Video, Download } from "lucide-react"
 
 const supportTickets = [
   {
@@ -80,23 +68,6 @@ const faqItems = [
     answer:
       "Valid ID card (front and back), proof of address, and completed registration form are required for new customer registration.",
     category: "Customer Management",
-  },
-]
-
-const contactMethods = [
-  {
-    method: "Phone Support",
-    details: "+248 4 123 456",
-    hours: "24/7 Available",
-    icon: Phone,
-    color: "text-chart-1",
-  },
-  {
-    method: "Email Support",
-    details: "support@telecom.sc",
-    hours: "Response within 4 hours",
-    icon: Mail,
-    color: "text-chart-2",
   },
 ]
 
@@ -167,11 +138,6 @@ export function SupportCenter() {
     }
   }
 
-  const handleLiveChat = () => {
-    // This would typically open a chat widget or redirect to a chat service
-    alert("Live chat feature will be available soon!")
-  }
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -180,33 +146,12 @@ export function SupportCenter() {
         <p className="text-muted-foreground mt-2">Get help, access resources, and manage support tickets.</p>
       </div>
 
-      {/* Quick Contact Methods */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {contactMethods.map((contact) => (
-          <Card key={contact.method} className="bg-card">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-secondary/10">
-                  <contact.icon className={`h-5 w-5 ${contact.color}`} />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-medium text-card-foreground">{contact.method}</h3>
-                  <p className="text-sm text-muted-foreground">{contact.details}</p>
-                  <p className="text-xs text-muted-foreground">{contact.hours}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
       {/* Support Tabs */}
       <Tabs defaultValue="tickets" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="tickets">Support Tickets</TabsTrigger>
           <TabsTrigger value="faq">FAQ</TabsTrigger>
           <TabsTrigger value="resources">Resources</TabsTrigger>
-          <TabsTrigger value="contact">Contact</TabsTrigger>
         </TabsList>
 
         <TabsContent value="tickets" className="space-y-6">
@@ -407,58 +352,6 @@ export function SupportCenter() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="contact" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card className="bg-card">
-              <CardHeader>
-                <CardTitle className="text-card-foreground">Contact Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Phone className="h-5 w-5 text-chart-1" />
-                  <div>
-                    <p className="font-medium text-card-foreground">Phone Support</p>
-                    <p className="text-sm text-muted-foreground">+248 4 123 456</p>
-                    <p className="text-xs text-muted-foreground">Available 24/7</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-chart-2" />
-                  <div>
-                    <p className="font-medium text-card-foreground">Email Support</p>
-                    <p className="text-sm text-muted-foreground">support@telecom.sc</p>
-                    <p className="text-xs text-muted-foreground">Response within 4 hours</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-card">
-              <CardHeader>
-                <CardTitle className="text-card-foreground">Office Hours</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Monday - Friday</span>
-                  <span className="font-medium text-card-foreground">8:00 AM - 6:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Saturday</span>
-                  <span className="font-medium text-card-foreground">9:00 AM - 2:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Sunday</span>
-                  <span className="font-medium text-card-foreground">Closed</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Emergency Support</span>
-                  <span className="font-medium text-card-foreground">24/7 Available</span>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </TabsContent>
       </Tabs>
