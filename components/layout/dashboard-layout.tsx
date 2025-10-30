@@ -95,6 +95,24 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     return () => clearInterval(interval)
   }, [])
 
+  useEffect(() => {
+    const allRoutes = [
+      ...tabNavigation.map((item) => item.href),
+      ...coreServices.map((item) => item.href),
+      ...userManagement.map((item) => item.href),
+      ...additionalServices.map((item) => item.href),
+    ]
+
+    // Prefetch all routes after a short delay to avoid blocking initial render
+    const timer = setTimeout(() => {
+      allRoutes.forEach((href) => {
+        router.prefetch(href)
+      })
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [router])
+
   const handleLogout = () => {
     logout()
     router.push("/login")
@@ -170,6 +188,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      prefetch={true}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground",
                         isActive ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground",
@@ -197,6 +216,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      prefetch={true}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground",
                         isActive ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground",
@@ -224,6 +244,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      prefetch={true}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground",
                         isActive ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground",
@@ -251,6 +272,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      prefetch={true}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent hover:text-accent-foreground",
                         isActive ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground",
@@ -293,6 +315,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Separator className="my-1" />
                   <Link
                     href="/profile"
+                    prefetch={true}
                     className="flex items-center rounded-sm px-2 py-1.5 text-sm hover:bg-accent cursor-pointer"
                     onClick={() => setProfileOpen(false)}
                   >
@@ -324,11 +347,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </Button>
 
           <div className="flex-1 min-w-0">
-            <h1 className="text-lg sm:text-xl font-semibold text-foreground truncate">
-              {greeting}
-            </h1>
+            <h1 className="text-lg sm:text-xl font-semibold text-foreground truncate">{greeting}</h1>
             <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
-            Welcome back {user?.name || "User"}, manage your services and track performance
+              Welcome back {user?.name || "User"}, manage your services and track performance
             </p>
           </div>
 
@@ -379,6 +400,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Separator className="my-2" />
                   <Link
                     href="/notifications"
+                    prefetch={true}
                     className="flex items-center justify-center w-full text-center text-sm py-2 hover:bg-accent rounded-md"
                     onClick={() => setNotificationOpen(false)}
                   >
