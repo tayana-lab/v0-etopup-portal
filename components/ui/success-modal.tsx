@@ -62,97 +62,77 @@ export function SuccessModal({ isOpen, onClose, type, data, transactionId }: Suc
 
     const doc = new jsPDF()
 
-    try {
-      const logoImg = new Image()
-      logoImg.crossOrigin = "anonymous"
-      logoImg.src = "/cws-logo.svg"
-
-      await new Promise((resolve, reject) => {
-        logoImg.onload = resolve
-        logoImg.onerror = reject
-      })
-
-      doc.addImage(logoImg, "PNG", 20, 15, 40, 20)
-    } catch (error) {
-      doc.setFontSize(8)
-      doc.text("LOGO", 30, 21)
-    }
-
-    doc.setFont("helvetica")
-    doc.setFontSize(14)
     doc.setFont("helvetica", "bold")
-    doc.text("CABLE & WIRELESS", 20, 42)
+    doc.setFontSize(16)
+    doc.text("Cable & Wireless (Seychelles) Ltd", 20, 20)
 
-    doc.setFontSize(11)
-    doc.setFont("helvetica", "bold")
-    doc.text("Cable & Wireless (Seychelles) Ltd", 105, 20, { align: "center" })
-
-    doc.setFontSize(9)
     doc.setFont("helvetica", "normal")
-    doc.text("Francis Rachel Street", 105, 26, { align: "center" })
-    doc.text("P.O Box 4,", 105, 31, { align: "center" })
-    doc.text("Victoria", 105, 36, { align: "center" })
-    doc.text("Mahe", 105, 41, { align: "center" })
-    doc.text("Seychelles", 105, 46, { align: "center" })
+    doc.setFontSize(10)
 
-    doc.text("Tel        : (+248) 428 4000", 105, 56, { align: "center" })
-    doc.text("Fax       : (+248) 432 2555", 105, 61, { align: "center" })
-    doc.text("Website : www.cwseychelles.com", 105, 66, { align: "center" })
+    // Left column - Address
+    doc.text("Francis Rachel Street", 20, 30)
+    doc.text("P.O Box 4,", 20, 36)
+    doc.text("Victoria", 20, 42)
+    doc.text("Mahe", 20, 48)
+    doc.text("Seychelles", 20, 54)
+
+    // Right column - Contact details (aligned to right)
+    doc.text("Tel        : (+248) 428 4000", 120, 30)
+    doc.text("Fax       : (+248) 432 2555", 120, 36)
+    doc.text("Website : www.cwseychelles.com", 120, 42)
 
     doc.setLineWidth(0.5)
-    doc.line(20, 72, 190, 72)
+    doc.line(20, 62, 190, 62)
 
-    doc.setFontSize(14)
     doc.setFont("helvetica", "bold")
-    doc.text("eShop Receipt", 105, 82, { align: "center" })
+    doc.setFontSize(16)
+    doc.text("eShop Receipt", 105, 75, { align: "center" })
 
-    doc.setFontSize(10)
     doc.setFont("helvetica", "normal")
-
-    let yPos = 95
-    const labelX = 20
-    const valueX = 75
+    doc.setFontSize(10)
 
     const serviceType = type === "bill" ? "Bill Payment" : type === "topup" ? "Prepaid Recharge" : "Package Purchase"
 
-    doc.text("Date of purchase:", labelX, yPos)
-    doc.text(formattedDateTime, valueX, yPos)
+    let yPos = 90
 
-    yPos += 7
-    doc.text("eShop Customer:", labelX, yPos)
-    doc.text(data?.customerName || "Customer", valueX, yPos)
+    // Left column details
+    doc.text("Date of purchase", 20, yPos)
+    doc.text(`: ${formattedDateTime}`, 70, yPos)
 
-    yPos += 7
-    doc.text("Service:", labelX, yPos)
-    doc.text(serviceType, valueX, yPos)
+    // Right column details
+    doc.text("Receipt No", 120, yPos)
+    doc.text(`: ${transactionId}`, 160, yPos)
 
-    yPos += 7
-    doc.text("Account number:", labelX, yPos)
-    doc.text(data?.accountNumber || data?.phoneNumber || "N/A", valueX, yPos)
+    yPos += 8
+    doc.text("eShop Customer", 20, yPos)
+    doc.text(`: ${data?.customerName || "Customer"}`, 70, yPos)
 
-    yPos += 7
-    doc.text("Account name:", labelX, yPos)
-    doc.text(data?.accountName || data?.customerName || "Customer", valueX, yPos)
+    doc.text("Date", 120, yPos)
+    doc.text(`: ${formattedDate}`, 160, yPos)
 
-    yPos += 7
-    doc.text("Amount (SR):", labelX, yPos)
-    doc.text(String(data?.amount || data?.price || "0.00"), valueX, yPos)
+    yPos += 8
+    doc.text("Service", 20, yPos)
+    doc.text(`: ${serviceType}`, 70, yPos)
 
-    yPos += 7
-    doc.text("Payment Method:", labelX, yPos)
-    doc.text(data?.paymentMethod || "Visa/MasterCard", valueX, yPos)
+    yPos += 8
+    doc.text("Account number", 20, yPos)
+    doc.text(`: ${data?.accountNumber || data?.phoneNumber || "N/A"}`, 70, yPos)
 
-    yPos += 7
-    doc.text("Payment Transaction ID:", labelX, yPos)
-    doc.text(transactionId, valueX, yPos)
+    yPos += 8
+    doc.text("Account name", 20, yPos)
+    doc.text(`: ${data?.accountName || data?.customerName || "Customer"}`, 70, yPos)
 
-    yPos += 7
-    doc.text("Receipt No:", labelX, yPos)
-    doc.text(transactionId, valueX, yPos)
+    yPos += 8
+    doc.text("Amount (SR)", 20, yPos)
+    doc.text(`: ${data?.amount || data?.price || "0.00"}`, 70, yPos)
 
-    yPos += 7
-    doc.text("Date:", labelX, yPos)
-    doc.text(formattedDate, valueX, yPos)
+    yPos += 8
+    doc.text("Payment Method", 20, yPos)
+    doc.text(`: ${data?.paymentMethod || "Visa/MasterCard"}`, 70, yPos)
+
+    yPos += 8
+    doc.text("Payment Transaction ID", 20, yPos)
+    doc.text(`: ${transactionId}`, 70, yPos)
 
     doc.save(`CWS-Receipt-${transactionId}.pdf`)
   }
