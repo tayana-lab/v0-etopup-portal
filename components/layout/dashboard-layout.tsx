@@ -32,7 +32,6 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { ThemeSwitcher } from "@/components/shared/theme-switcher"
-import { LanguageSwitcher } from "@/components/shared/language-switcher"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { useAuthStore } from "@/lib/stores/auth-store"
 import Image from "next/image"
@@ -165,9 +164,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       >
         <div className="flex h-16 items-center justify-between px-6 border-b border-border flex-shrink-0">
           <div className="flex items-center gap-2">
-            <div className="h-10 w-10 flex items-center justify-center">
-              <Image src="/cws-small-logo.jpg" alt="CWS Logo" width={40} height={40} className="rounded-lg" />
-            </div>
+            <Image src="/cws-small-logo.jpg" alt="CWS Logo" width={56} height={56} className="rounded-lg" />
             <span className="text-lg font-semibold text-foreground">eTopUp</span>
           </div>
           <Button variant="ghost" size="sm" className="lg:hidden" onClick={() => setSidebarOpen(false)}>
@@ -354,7 +351,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            <LanguageSwitcher />
+            {/* <LanguageSwitcher /> */}
             <ThemeSwitcher />
             <Popover open={notificationOpen} onOpenChange={setNotificationOpen}>
               <PopoverTrigger asChild>
