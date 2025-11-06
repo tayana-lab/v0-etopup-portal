@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import type React from "react"
+
+import { useState, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -49,8 +51,28 @@ export function DigitalOnboarding() {
     marketingConsent: false,
   })
 
+  const [uploadedDocuments, setUploadedDocuments] = useState<{ name: string; url: string }[]>([])
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (files) {
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader()
+        reader.onloadend = () => {
+          setUploadedDocuments((prev) => [...prev, { name: file.name, url: reader.result as string }])
+        }
+        reader.readAsDataURL(file)
+      })
+    }
+  }
+
+  const handleRemoveDocument = (index: number) => {
+    setUploadedDocuments((prev) => prev.filter((_, i) => i !== index))
   }
 
   const handleNext = () => {
@@ -67,6 +89,7 @@ export function DigitalOnboarding() {
 
   const handleSubmit = () => {
     console.log("Submitting onboarding data:", formData)
+    console.log("Uploaded documents:", uploadedDocuments)
   }
 
   const isStepComplete = (stepId: number) => {
@@ -78,7 +101,7 @@ export function DigitalOnboarding() {
       case 3:
         return formData.address && formData.district
       case 4:
-        return true // Document upload step
+        return uploadedDocuments.length > 0 // Check if documents are uploaded
       case 5:
         return formData.serviceType && formData.simType && formData.termsAccepted
       default:
@@ -286,15 +309,46 @@ export function DigitalOnboarding() {
               {/* Step 4: Document Upload */}
               {currentStep === 4 && (
                 <div className="space-y-4">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*,.pdf"
+                    multiple
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+
                   <div className="text-center p-8 border-2 border-dashed border-border rounded-lg">
                     <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-lg font-medium text-card-foreground mb-2">Upload Identity Documents</h3>
                     <p className="text-muted-foreground mb-4">Upload clear photos of ID card (front and back)</p>
-                    <Button variant="outline">
+                    <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
                       <Upload className="h-4 w-4 mr-2" />
                       Choose Files
                     </Button>
                   </div>
+
+                  {uploadedDocuments.length > 0 && (
+                    <div className="space-y-2">
+                      <Label>Uploaded Documents</Label>
+                      <div className="grid gap-2">
+                        {uploadedDocuments.map((doc, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted/50"
+                          >
+                            <div className="flex items-center gap-3">
+                              <FileText className="h-5 w-5 text-muted-foreground" />
+                              <span className="text-sm font-medium">{doc.name}</span>
+                            </div>
+                            <Button variant="ghost" size="sm" onClick={() => handleRemoveDocument(index)}>
+                              Remove
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

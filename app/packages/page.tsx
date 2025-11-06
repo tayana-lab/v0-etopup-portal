@@ -11,6 +11,7 @@ import { Package, Smartphone, Wifi, Phone, MessageSquare, Star, Clock } from "lu
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { ConfirmationModal } from "@/components/ui/confirmation-modal"
 import { SuccessModal } from "@/components/ui/success-modal"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 const packages = {
   popular: [
@@ -105,6 +106,8 @@ export default function PurchasePackagesPage() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [transactionId, setTransactionId] = useState("")
 
+  const { t } = useLanguage()
+
   const detectNumberType = (number: string) => {
     // Simulate number type detection
     const cleanNumber = number.replace(/^\+248/, "").replace(/\s/g, "")
@@ -171,28 +174,28 @@ export default function PurchasePackagesPage() {
     <DashboardLayout>
       <div className="max-w-6xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Purchase Packages</h1>
-          <p className="text-gray-600">Select and purchase mobile service packages</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("packages.title")}</h1>
+          <p className="text-gray-600">{t("packages.subtitle")}</p>
         </div>
 
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Smartphone className="h-5 w-5" />
-              Mobile Number
+              {t("packages.mobile-number")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="phone">Mobile Number</Label>
+                <Label htmlFor="phone">{t("packages.mobile-number")}</Label>
                 <div className="flex">
                   <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     +248
                   </span>
                   <StyledInput
                     id="phone"
-                    placeholder="Enter Mobile Number"
+                    placeholder={t("packages.enter-number")}
                     value={phoneNumber}
                     onChange={(e) => handlePhoneChange(e.target.value)}
                     className="rounded-l-none"
@@ -201,7 +204,9 @@ export default function PurchasePackagesPage() {
                 </div>
                 {numberType && (
                   <div className="mt-2">
-                    <Badge variant={numberType === "Prepaid" ? "default" : "secondary"}>{numberType}</Badge>
+                    <Badge variant={numberType === "Prepaid" ? "default" : "secondary"}>
+                      {t(`packages.${numberType.toLowerCase()}`)}
+                    </Badge>
                   </div>
                 )}
               </div>
@@ -215,19 +220,19 @@ export default function PurchasePackagesPage() {
               <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="popular" className="flex items-center gap-2">
                   <Star className="h-4 w-4" />
-                  Popular
+                  {t("packages.popular")}
                 </TabsTrigger>
                 <TabsTrigger value="data" className="flex items-center gap-2">
                   <Wifi className="h-4 w-4" />
-                  Data
+                  {t("packages.data")}
                 </TabsTrigger>
                 <TabsTrigger value="voice" className="flex items-center gap-2">
                   <Phone className="h-4 w-4" />
-                  Voice
+                  {t("packages.voice")}
                 </TabsTrigger>
                 <TabsTrigger value="combo" className="flex items-center gap-2">
                   <Package className="h-4 w-4" />
-                  Combo
+                  {t("packages.combo")}
                 </TabsTrigger>
               </TabsList>
 
@@ -247,7 +252,7 @@ export default function PurchasePackagesPage() {
                             <CardTitle className="text-lg">{pkg.name}</CardTitle>
                             <div className="flex items-center gap-2 mt-1">
                               <Badge variant={pkg.numberType === "Prepaid" ? "default" : "secondary"}>
-                                {pkg.numberType}
+                                {t(`packages.${pkg.numberType.toLowerCase()}`)}
                               </Badge>
                               <div className="flex items-center gap-1">
                                 <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
@@ -270,17 +275,17 @@ export default function PurchasePackagesPage() {
                           <div>
                             <Wifi className="h-4 w-4 mx-auto text-blue-500 mb-1" />
                             <p className="text-sm font-medium">{pkg.data}</p>
-                            <p className="text-xs text-gray-500">Data</p>
+                            <p className="text-xs text-gray-500">{t("packages.data")}</p>
                           </div>
                           <div>
                             <Phone className="h-4 w-4 mx-auto text-green-500 mb-1" />
                             <p className="text-sm font-medium">{pkg.voice}</p>
-                            <p className="text-xs text-gray-500">Voice</p>
+                            <p className="text-xs text-gray-500">{t("packages.voice")}</p>
                           </div>
                           <div>
                             <MessageSquare className="h-4 w-4 mx-auto text-purple-500 mb-1" />
                             <p className="text-sm font-medium">{pkg.sms}</p>
-                            <p className="text-xs text-gray-500">SMS</p>
+                            <p className="text-xs text-gray-500">{t("packages.sms")}</p>
                           </div>
                         </div>
 
@@ -304,7 +309,7 @@ export default function PurchasePackagesPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Package className="h-5 w-5" />
-                    Selected Package
+                    {t("packages.selected-package")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -318,7 +323,7 @@ export default function PurchasePackagesPage() {
                     <div className="text-right">
                       <p className="text-xl font-bold text-blue-600">SCR {selectedPackage.price}</p>
                       <Button className="mt-2" onClick={handlePurchaseClick} disabled={!phoneNumber || !numberType}>
-                        Purchase Package
+                        {t("packages.purchase")}
                       </Button>
                     </div>
                   </div>
@@ -330,9 +335,7 @@ export default function PurchasePackagesPage() {
           phoneNumber &&
           !numberType && (
             <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <p className="text-sm text-yellow-800">
-                Enter a valid mobile number to see available packages for your account type.
-              </p>
+              <p className="text-sm text-yellow-800">{t("packages.enter-valid")}</p>
             </div>
           )
         )}

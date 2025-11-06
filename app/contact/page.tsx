@@ -4,14 +4,23 @@ import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Phone, Mail, MapPin, Clock, Globe } from "lucide-react"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 export default function ContactUsPage() {
+  const { t } = useLanguage()
+
+  const handleViewOnMap = () => {
+    // Cable & Wireless Seychelles location coordinates
+    const location = "Cable+&+Wireless+Seychelles,+Victoria,+Mahé,+Seychelles"
+    window.open(`https://www.google.com/maps/search/?api=1&query=${location}`, "_blank")
+  }
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Contact Us</h1>
-          <p className="text-muted-foreground">Get in touch with our support team</p>
+          <h1 className="text-2xl font-bold text-foreground">{t("nav.contact")}</h1>
+          <p className="text-muted-foreground">{t("contact.description")}</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -19,49 +28,57 @@ export default function ContactUsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Phone className="h-5 w-5 text-blue-600" />
-                Phone Support
+                {t("contact.phoneSupport")}
               </CardTitle>
-              <CardDescription>Call us for immediate assistance</CardDescription>
+              <CardDescription>{t("contact.phoneSupportDesc")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2 p-4 rounded-lg border bg-card">
-                  <div className="text-sm font-medium text-muted-foreground">Support Line (North & Central)</div>
+                  <div className="text-sm font-medium text-muted-foreground">
+                    {t("contact.supportLineNorthCentral")}
+                  </div>
                   <div className="text-2xl font-bold text-blue-600">2598080</div>
                   <Button className="w-full" onClick={() => window.open("tel:2598080")}>
                     <Phone className="h-4 w-4 mr-2" />
-                    Call Now
+                    {t("contact.callNow")}
                   </Button>
                 </div>
 
                 <div className="space-y-2 p-4 rounded-lg border bg-card">
-                  <div className="text-sm font-medium text-muted-foreground">Support Line (South & Central)</div>
+                  <div className="text-sm font-medium text-muted-foreground">
+                    {t("contact.supportLineSouthCentral")}
+                  </div>
                   <div className="text-2xl font-bold text-blue-600">2596969</div>
                   <Button className="w-full" onClick={() => window.open("tel:2596969")}>
                     <Phone className="h-4 w-4 mr-2" />
-                    Call Now
+                    {t("contact.callNow")}
                   </Button>
                 </div>
 
                 <div className="space-y-2 p-4 rounded-lg border bg-card">
-                  <div className="text-sm font-medium text-muted-foreground">Support Line (Praslin & La Digue)</div>
+                  <div className="text-sm font-medium text-muted-foreground">
+                    {t("contact.supportLinePraslinLaDigue")}
+                  </div>
                   <div className="text-2xl font-bold text-blue-600">2529993</div>
                   <Button className="w-full" onClick={() => window.open("tel:2529993")}>
                     <Phone className="h-4 w-4 mr-2" />
-                    Call Now
+                    {t("contact.callNow")}
                   </Button>
                 </div>
 
                 <div className="space-y-2 p-4 rounded-lg border bg-card">
-                  <div className="text-sm font-medium text-muted-foreground">Support Line (Single Dealers)</div>
+                  <div className="text-sm font-medium text-muted-foreground">
+                    {t("contact.supportLineSingleDealers")}
+                  </div>
                   <div className="text-2xl font-bold text-blue-600">2595553</div>
                   <Button className="w-full" onClick={() => window.open("tel:2595553")}>
                     <Phone className="h-4 w-4 mr-2" />
-                    Call Now
+                    {t("contact.callNow")}
                   </Button>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground mt-4">Available 24/7 for urgent support</p>
+              <p className="text-sm text-muted-foreground mt-4">{t("contact.available247")}</p>
             </CardContent>
           </Card>
 
@@ -69,20 +86,20 @@ export default function ContactUsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Mail className="h-5 w-5 text-green-600" />
-                Email Support
+                {t("contact.emailSupport")}
               </CardTitle>
-              <CardDescription>Send us your questions via email</CardDescription>
+              <CardDescription>{t("contact.emailSupportDesc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="text-lg font-medium">commercialteam@cwseychelles.com</div>
-              <p className="text-sm text-muted-foreground">We'll respond within 24 hours</p>
+              <p className="text-sm text-muted-foreground">{t("contact.responseTime")}</p>
               <Button
                 variant="outline"
                 className="w-full bg-transparent"
                 onClick={() => window.open("mailto:commercialteam@cwseychelles.com")}
               >
                 <Mail className="h-4 w-4 mr-2" />
-                Send Email
+                {t("contact.sendEmail")}
               </Button>
             </CardContent>
           </Card>
@@ -91,18 +108,18 @@ export default function ContactUsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-red-600" />
-                Office Location
+                {t("contact.officeLocation")}
               </CardTitle>
-              <CardDescription>Visit our main office</CardDescription>
+              <CardDescription>{t("contact.officeLocationDesc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
                 <p className="font-medium">Cable & Wireless Seychelles</p>
                 <p className="text-sm text-muted-foreground">Victoria, Mahé, Seychelles</p>
               </div>
-              <Button variant="outline" className="w-full bg-transparent">
+              <Button variant="outline" className="w-full bg-transparent" onClick={handleViewOnMap}>
                 <MapPin className="h-4 w-4 mr-2" />
-                View on Map
+                {t("contact.viewOnMap")}
               </Button>
             </CardContent>
           </Card>
@@ -112,25 +129,25 @@ export default function ContactUsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Clock className="h-5 w-5" />
-              Business Hours
+              {t("contact.businessHours")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <h4 className="font-medium mb-2">Customer Service</h4>
+                <h4 className="font-medium mb-2">{t("contact.customerService")}</h4>
                 <div className="space-y-1 text-sm text-muted-foreground">
-                  <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
-                  <p>Saturday: 8:00 AM - 1:00 PM</p>
-                  <p>Sunday: Closed</p>
+                  <p>{t("contact.mondayFriday")}</p>
+                  <p>{t("contact.saturday")}</p>
+                  <p>{t("contact.sunday")}</p>
                 </div>
               </div>
               <div>
-                <h4 className="font-medium mb-2">Emergency Support</h4>
+                <h4 className="font-medium mb-2">{t("contact.emergencySupport")}</h4>
                 <div className="space-y-1 text-sm text-muted-foreground">
-                  <p>Available 24/7</p>
-                  <p>For urgent technical issues</p>
-                  <p>Network outages and emergencies</p>
+                  <p>{t("contact.available247")}</p>
+                  <p>{t("contact.urgentIssues")}</p>
+                  <p>{t("contact.networkOutages")}</p>
                 </div>
               </div>
             </div>
@@ -141,18 +158,18 @@ export default function ContactUsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Globe className="h-5 w-5" />
-              Additional Resources
+              {t("contact.additionalResources")}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-3">
-              <Button variant="outline" className="h-16 flex-col bg-transparent">
+            <div className="grid gap-4">
+              <Button
+                variant="outline"
+                className="h-16 flex-col bg-transparent"
+                onClick={() => window.open("https://www.cwseychelles.com/", "_blank")}
+              >
                 <Globe className="h-5 w-5 mb-1" />
-                Website
-              </Button>
-              <Button variant="outline" className="h-16 flex-col bg-transparent">
-                <Phone className="h-5 w-5 mb-1" />
-                Callback Request
+                {t("contact.website")}
               </Button>
             </div>
           </CardContent>

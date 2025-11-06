@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button"
 import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { ConfirmationModal } from "@/components/ui/confirmation-modal"
 import { SuccessModal } from "@/components/ui/success-modal"
-import { FileText, AlertTriangle, Calendar, DollarSign, User, MapPin } from "lucide-react"
+import { FileText, AlertTriangle, Calendar, DollarSign } from "lucide-react"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 const mockBills = {
   broadband: [
@@ -20,7 +20,7 @@ const mockBills = {
       serviceAddress: "Victoria, Mahe",
       planType: "Fiber Pro",
       amount: 450,
-      dueDate: "2024-01-15",
+      dueDate: "2025-01-15",
       status: "overdue",
       dataUsage: "85%",
       planDetails: "100 Mbps Unlimited",
@@ -32,7 +32,7 @@ const mockBills = {
       serviceAddress: "Anse Royale, Mahe",
       planType: "ADSL Standard",
       amount: 250,
-      dueDate: "2024-01-20",
+      dueDate: "2025-01-18",
       status: "due",
       dataUsage: "45%",
       planDetails: "20 Mbps 500GB",
@@ -46,7 +46,7 @@ const mockBills = {
       serviceAddress: "Praslin",
       planType: "Business Mobile",
       amount: 180,
-      dueDate: "2024-01-18",
+      dueDate: "2025-01-16",
       status: "current",
       dataUsage: "60%",
       planDetails: "Unlimited calls + 15GB",
@@ -65,6 +65,7 @@ export default function BillPayPage() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [transactionId, setTransactionId] = useState("")
   const [hasSearched, setHasSearched] = useState(false)
+  const { t } = useLanguage()
 
   const detectServiceType = (accountNum: string) => {
     if (accountNum.startsWith("FB") || accountNum.startsWith("AD")) {
@@ -150,41 +151,43 @@ export default function BillPayPage() {
     <DashboardLayout>
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Bill Payment</h1>
-          <p className="text-gray-600 dark:text-gray-400">Pay utility bills for broadband and mobile services</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t("bills.title")}</h1>
+          <p className="text-gray-600 dark:text-gray-400">{t("bills.description")}</p>
         </div>
 
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
-              Account Lookup
+              {t("bills.account-lookup")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-4">
               <div className="flex-1 space-y-2">
-                <Label htmlFor="account">Account Number</Label>
+                <Label htmlFor="account">{t("bills.account-number")}</Label>
                 <StyledInput
                   id="account"
-                  placeholder="Enter Account Number"
+                  placeholder={t("bills.enter-account")}
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
                   maxLength={8}
                 />
                 {accountNumber && detectServiceType(accountNumber) && (
                   <p className="text-sm text-blue-600 mt-1">
-                    Detected: {detectServiceType(accountNumber) === "broadband" ? "Broadband" : "Mobile"} Service
+                    {t("bills.detected")}:{" "}
+                    {detectServiceType(accountNumber) === "broadband" ? t("bills.broadband") : t("bills.mobile")}{" "}
+                    {t("bills.service")}
                   </p>
                 )}
               </div>
               <Button onClick={handleAccountLookup} disabled={!accountNumber || isLoading} className="mt-6">
-                {isLoading ? "Looking up..." : "Lookup Bill"}
+                {isLoading ? t("bills.looking-up") : t("bills.lookup-bill")}
               </Button>
             </div>
 
             <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Sample Account Numbers for Testing:</h4>
+              <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">{t("bills.sample-accounts")}</h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
                 <button
                   onClick={() => setAccountNumber("FB001234")}
@@ -209,82 +212,18 @@ export default function BillPayPage() {
                 </button>
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
-                <strong>Click on any account number above to auto-fill and test the bill lookup feature</strong>
+                <strong>{t("bills.click-autofill")}</strong>
               </p>
             </div>
           </CardContent>
         </Card>
 
         {selectedBill && (
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <User className="h-5 w-5" />
-                  Bill Details
-                </span>
-                <div className="flex items-center gap-2">
-                  {getUrgencyIcon(selectedBill.status)}
-                  <Badge className={getStatusColor(selectedBill.status)}>{selectedBill.status.toUpperCase()}</Badge>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500">Customer Name</p>
-                  <p className="font-medium">{selectedBill.customerName}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Account Number</p>
-                  <p className="font-medium">{selectedBill.accountNumber}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Service Address</p>
-                  <p className="font-medium flex items-center gap-1">
-                    <MapPin className="h-3 w-3" />
-                    {selectedBill.serviceAddress}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Plan Type</p>
-                  <p className="font-medium">{selectedBill.planType}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Plan Details</p>
-                  <p className="font-medium">{selectedBill.planDetails}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Data Usage</p>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-gray-200 rounded-full h-2">
-                      <div className="bg-blue-500 h-2 rounded-full" style={{ width: selectedBill.dataUsage }}></div>
-                    </div>
-                    <span className="text-sm font-medium">{selectedBill.dataUsage}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t pt-4">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-lg font-semibold">Amount Due:</span>
-                  <span className="text-2xl font-bold text-blue-600">SCR {selectedBill.amount}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Calendar className="h-4 w-4" />
-                  Due Date: {new Date(selectedBill.dueDate).toLocaleDateString()}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {selectedBill && (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <DollarSign className="h-5 w-5" />
-                Payment Options
+                {t("bills.payment-options")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -296,7 +235,7 @@ export default function BillPayPage() {
                     setPaymentAmount(selectedBill.amount.toString())
                   }}
                 >
-                  Full Bill Payment (SCR {selectedBill.amount})
+                  {t("bills.full-payment")} (SCR {selectedBill.amount})
                 </Button>
                 <Button
                   variant={paymentType === "custom" ? "default" : "outline"}
@@ -305,12 +244,12 @@ export default function BillPayPage() {
                     setPaymentAmount("")
                   }}
                 >
-                  Custom Amount
+                  {t("bills.custom-amount")}
                 </Button>
               </div>
 
               <div>
-                <Label htmlFor="amount">Payment Amount</Label>
+                <Label htmlFor="amount">{t("bills.payment-amount")}</Label>
                 <div className="relative">
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">SCR</div>
                   <StyledInput
@@ -332,7 +271,7 @@ export default function BillPayPage() {
                 disabled={!paymentAmount || Number.parseFloat(paymentAmount) <= 0}
                 onClick={handlePaymentClick}
               >
-                Proceed to Payment
+                {t("bills.proceed-payment")}
               </Button>
             </CardContent>
           </Card>
@@ -343,18 +282,20 @@ export default function BillPayPage() {
             <CardContent className="pt-6">
               <div className="flex items-center gap-2 text-yellow-800">
                 <AlertTriangle className="h-4 w-4" />
-                <p>No bill found for account number: {accountNumber}</p>
+                <p>
+                  {t("bills.no-bill-found")}: {accountNumber}
+                </p>
               </div>
-              <p className="text-sm text-yellow-700 mt-1">Please check the account number and try again.</p>
+              <p className="text-sm text-yellow-700 mt-1">{t("bills.check-number")}</p>
             </CardContent>
           </Card>
         )}
 
         <div className="mt-6 bg-blue-50 rounded-lg p-4">
-          <h3 className="font-semibold text-gray-900 mb-2">Supported Services</h3>
+          <h3 className="font-semibold text-gray-900 mb-2">{t("bills.supported-services")}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
             <div>
-              <p className="font-medium mb-1">Broadband Services:</p>
+              <p className="font-medium mb-1">{t("bills.broadband-services")}:</p>
               <ul className="space-y-1">
                 <li>• Fiber Pro (High-speed fiber)</li>
                 <li>• ADSL Standard (Traditional broadband)</li>
@@ -362,7 +303,7 @@ export default function BillPayPage() {
               </ul>
             </div>
             <div>
-              <p className="font-medium mb-1">Mobile Services:</p>
+              <p className="font-medium mb-1">{t("bills.mobile-services")}:</p>
               <ul className="space-y-1">
                 <li>• Postpaid plans</li>
                 <li>• Business accounts</li>

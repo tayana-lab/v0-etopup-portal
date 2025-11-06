@@ -2,13 +2,13 @@
 
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useState } from "react"
-import { Search, Plus, QrCode, Download, Upload, AlertTriangle, CheckCircle, Package } from "lucide-react"
+import { Search, AlertTriangle, CheckCircle, Package } from "lucide-react"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 const simInventory = [
   {
@@ -18,7 +18,7 @@ const simInventory = [
     type: "Prepaid",
     status: "Active",
     plan: "Basic Plan",
-    activationDate: "2025-01-10",
+    activationDate: "2025-01-15",
     expiryDate: "2025-12-31",
     location: "Store A",
     statusColor: "bg-green-100 text-green-800",
@@ -42,7 +42,7 @@ const simInventory = [
     type: "Prepaid",
     status: "Suspended",
     plan: "Standard Plan",
-    activationDate: "2025-01-05",
+    activationDate: "2025-01-10",
     expiryDate: "2025-06-30",
     location: "Store B",
     statusColor: "bg-red-100 text-red-800",
@@ -74,6 +74,8 @@ export default function SimInventoryPage() {
   const [typeFilter, setTypeFilter] = useState("all")
   const [locationFilter, setLocationFilter] = useState("all")
 
+  const { t } = useLanguage()
+
   const filteredInventory = simInventory.filter((sim) => {
     const matchesSearch =
       sim.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -91,22 +93,8 @@ export default function SimInventoryPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">SIM Inventory Management</h1>
-            <p className="text-gray-600">Track and manage SIM card inventory across all locations</p>
-          </div>
-          <div className="flex gap-3">
-            <Button variant="outline">
-              <Upload className="h-4 w-4 mr-2" />
-              Import
-            </Button>
-            <Button variant="outline">
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-              <Plus className="h-4 w-4 mr-2" />
-              Add SIM Cards
-            </Button>
+            <h1 className="text-2xl font-bold text-gray-900">{t("inventory.title")}</h1>
+            <p className="text-gray-600">{t("inventory.subtitle")}</p>
           </div>
         </div>
 
@@ -116,7 +104,9 @@ export default function SimInventoryPage() {
             <Card key={stat.title}>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                  <p className="text-sm font-medium text-gray-600">
+                    {t(stat.title.toLowerCase().replace(/\s+/g, "-"))}
+                  </p>
                   <div className={`p-2 rounded-lg ${stat.bgColor}`}>
                     <stat.icon className={`h-4 w-4 ${stat.color}`} />
                   </div>
@@ -130,14 +120,14 @@ export default function SimInventoryPage() {
         {/* Filters and Search */}
         <Card>
           <CardContent className="p-6">
-            <div className="grid gap-4 md:grid-cols-5">
+            <div className="grid gap-4 md:grid-cols-4">
               <div>
-                <Label htmlFor="search">Search SIM Cards</Label>
+                <Label htmlFor="search">{t("inventory.search")}</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     id="search"
-                    placeholder="Search by ID, ICCID, or MSISDN..."
+                    placeholder={t("inventory.search-placeholder")}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
@@ -145,52 +135,46 @@ export default function SimInventoryPage() {
                 </div>
               </div>
               <div>
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="status">{t("inventory.filter-status")}</Label>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Statuses" />
+                    <SelectValue placeholder={t("inventory.all-status")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Statuses</SelectItem>
-                    <SelectItem value="available">Available</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="suspended">Suspended</SelectItem>
-                    <SelectItem value="deactivated">Deactivated</SelectItem>
+                    <SelectItem value="all">{t("inventory.all-status")}</SelectItem>
+                    <SelectItem value="available">{t("inventory.available")}</SelectItem>
+                    <SelectItem value="active">{t("inventory.active")}</SelectItem>
+                    <SelectItem value="suspended">{t("inventory.suspended")}</SelectItem>
+                    <SelectItem value="deactivated">{t("inventory.deactivated")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label htmlFor="type">Type</Label>
+                <Label htmlFor="type">{t("inventory.filter-type")}</Label>
                 <Select value={typeFilter} onValueChange={setTypeFilter}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Types" />
+                    <SelectValue placeholder={t("inventory.all-types")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="prepaid">Prepaid</SelectItem>
-                    <SelectItem value="postpaid">Postpaid</SelectItem>
+                    <SelectItem value="all">{t("inventory.all-types")}</SelectItem>
+                    <SelectItem value="prepaid">{t("inventory.prepaid")}</SelectItem>
+                    <SelectItem value="postpaid">{t("inventory.postpaid")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label htmlFor="location">Location</Label>
+                <Label htmlFor="location">{t("inventory.filter-location")}</Label>
                 <Select value={locationFilter} onValueChange={setLocationFilter}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Locations" />
+                    <SelectValue placeholder={t("inventory.all-locations")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Locations</SelectItem>
+                    <SelectItem value="all">{t("inventory.all-locations")}</SelectItem>
                     <SelectItem value="store a">Store A</SelectItem>
                     <SelectItem value="store b">Store B</SelectItem>
                     <SelectItem value="warehouse">Warehouse</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
-              <div className="flex items-end">
-                <Button variant="outline" className="w-full bg-transparent">
-                  <QrCode className="h-4 w-4 mr-2" />
-                  Scan QR
-                </Button>
               </div>
             </div>
           </CardContent>
@@ -199,22 +183,23 @@ export default function SimInventoryPage() {
         {/* SIM Inventory Table */}
         <Card>
           <CardHeader>
-            <CardTitle>SIM Card Inventory ({filteredInventory.length} items)</CardTitle>
+            <CardTitle>
+              {t("inventory.title")} ({filteredInventory.length} {t("inventory.items")})
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">SIM ID</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">ICCID</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">MSISDN</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Type</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Status</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Plan</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Location</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Activation Date</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">Actions</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-900">{t("inventory.sim-id")}</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-900">{t("inventory.iccid")}</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-900">{t("inventory.msisdn")}</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-900">{t("inventory.type")}</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-900">{t("inventory.status")}</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-900">{t("inventory.plan")}</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-900">{t("inventory.location")}</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-900">{t("inventory.activation-date")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -230,16 +215,6 @@ export default function SimInventoryPage() {
                       <td className="py-3 px-4 text-gray-600">{sim.plan}</td>
                       <td className="py-3 px-4 text-gray-600">{sim.location}</td>
                       <td className="py-3 px-4 text-gray-600">{sim.activationDate}</td>
-                      <td className="py-3 px-4">
-                        <div className="flex gap-2">
-                          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/90">
-                            View
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-700">
-                            Edit
-                          </Button>
-                        </div>
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -254,8 +229,8 @@ export default function SimInventoryPage() {
               <div className="text-gray-400 mb-4">
                 <Package className="h-12 w-12 mx-auto" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No SIM cards found</h3>
-              <p className="text-gray-600">Try adjusting your search criteria or add new SIM cards to inventory.</p>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">{t("inventory.no-sims")}</h3>
+              <p className="text-gray-600">{t("inventory.adjust-search")}</p>
             </CardContent>
           </Card>
         )}

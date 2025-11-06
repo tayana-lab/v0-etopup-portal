@@ -18,6 +18,7 @@ import {
   Smartphone,
 } from "lucide-react"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 const mockTransactions = [
   {
@@ -26,7 +27,7 @@ const mockTransactions = [
     description: "Mobile TopUp - +248 4567890",
     amount: -100,
     balance: "recharge",
-    date: "2024-01-15T10:30:00",
+    date: "2025-01-06T10:30:00",
     status: "completed",
   },
   {
@@ -35,7 +36,7 @@ const mockTransactions = [
     description: "Broadband Bill - FB001234",
     amount: -450,
     balance: "billpay",
-    date: "2024-01-14T15:45:00",
+    date: "2025-01-05T15:45:00",
     status: "completed",
   },
   {
@@ -44,7 +45,7 @@ const mockTransactions = [
     description: "Fund Request Approved",
     amount: 1000,
     balance: "recharge",
-    date: "2024-01-13T09:15:00",
+    date: "2025-01-04T09:15:00",
     status: "completed",
   },
   {
@@ -53,7 +54,7 @@ const mockTransactions = [
     description: "Super Value Pack",
     amount: -150,
     balance: "recharge",
-    date: "2024-01-12T14:20:00",
+    date: "2025-01-03T14:20:00",
     status: "completed",
   },
   {
@@ -62,7 +63,7 @@ const mockTransactions = [
     description: "SMS Bundle - 500 SMS",
     amount: -25,
     balance: "recharge",
-    date: "2024-01-11T11:10:00",
+    date: "2025-01-02T11:10:00",
     status: "completed",
   },
 ]
@@ -74,6 +75,8 @@ export default function MyWalletPage() {
 
   const rechargeBalance = 2450.75
   const billPayBalance = 1200.5
+
+  const { t } = useLanguage()
 
   const getTransactionIcon = (type: string) => {
     switch (type) {
@@ -92,11 +95,46 @@ export default function MyWalletPage() {
     }
   }
 
-  const filteredTransactions = mockTransactions.filter((transaction) => {
-    if (selectedFilter === "all") return true
-    if (selectedFilter === "recharge") return transaction.balance === "recharge"
-    if (selectedFilter === "billpay") return transaction.balance === "billpay"
+  const isWithinDateRange = (transactionDate: string, filter: string) => {
+    if (filter === "all") return true
+
+    const txDate = new Date(transactionDate)
+    const now = new Date()
+
+    // Reset time to start of day for accurate comparison
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const txDay = new Date(txDate.getFullYear(), txDate.getMonth(), txDate.getDate())
+
+    if (filter === "today") {
+      return txDay.getTime() === today.getTime()
+    }
+
+    if (filter === "week") {
+      const weekAgo = new Date(today)
+      weekAgo.setDate(weekAgo.getDate() - 7)
+      return txDay >= weekAgo
+    }
+
+    if (filter === "month") {
+      const monthAgo = new Date(today)
+      monthAgo.setMonth(monthAgo.getMonth() - 1)
+      return txDay >= monthAgo
+    }
+
     return true
+  }
+
+  const filteredTransactions = mockTransactions.filter((transaction) => {
+    // Filter by transaction type
+    const typeMatch =
+      selectedFilter === "all" ||
+      (selectedFilter === "recharge" && transaction.balance === "recharge") ||
+      (selectedFilter === "billpay" && transaction.balance === "billpay")
+
+    // Filter by date range
+    const dateMatch = isWithinDateRange(transaction.date, dateFilter)
+
+    return typeMatch && dateMatch
   })
 
   const formatCurrency = (amount: number) => {
@@ -113,8 +151,8 @@ export default function MyWalletPage() {
         <div className="mb-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-foreground mb-2">My Wallets</h1>
-              <p className="text-muted-foreground">Manage your account balances and transaction history</p>
+              <h1 className="text-2xl font-bold text-foreground mb-2">{t("wallet.title")}</h1>
+              <p className="text-muted-foreground">{t("wallet.description")}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => setBalanceVisible(!balanceVisible)}>
               {balanceVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -129,30 +167,30 @@ export default function MyWalletPage() {
               <CardTitle className="flex items-center justify-between">
                 <span className="flex items-center gap-2">
                   <Wallet className="h-5 w-5" />
-                  Recharge Balance
+                  {t("wallet.recharge-balance")}
                 </span>
                 <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                  Prepaid
+                  {t("wallet.prepaid")}
                 </Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <p className="text-blue-100 text-sm">Available Balance</p>
+                  <p className="text-blue-100 text-sm">{t("wallet.available-balance")}</p>
                   <p className="text-3xl font-bold">{formatBalance(rechargeBalance)}</p>
                 </div>
                 <div className="flex gap-2">
                   <Button size="sm" className="bg-white/20 hover:bg-white/30 border-white/30">
                     <Plus className="h-4 w-4 mr-1" />
-                    Add Funds
+                    {t("wallet.add-funds")}
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
                     className="border-white/30 text-white hover:bg-white/10 bg-transparent"
                   >
-                    Transfer
+                    {t("wallet.transfer")}
                   </Button>
                 </div>
               </div>
@@ -164,30 +202,30 @@ export default function MyWalletPage() {
               <CardTitle className="flex items-center justify-between">
                 <span className="flex items-center gap-2">
                   <CreditCard className="h-5 w-5" />
-                  Bill-Pay Balance
+                  {t("wallet.billpay-balance")}
                 </span>
                 <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                  Postpaid
+                  {t("wallet.postpaid")}
                 </Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <p className="text-cyan-100 text-sm">Available Balance</p>
+                  <p className="text-cyan-100 text-sm">{t("wallet.available-balance")}</p>
                   <p className="text-3xl font-bold">{formatBalance(billPayBalance)}</p>
                 </div>
                 <div className="flex gap-2">
                   <Button size="sm" className="bg-white/20 hover:bg-white/30 border-white/30">
                     <Plus className="h-4 w-4 mr-1" />
-                    Add Funds
+                    {t("wallet.add-funds")}
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
                     className="border-white/30 text-white hover:bg-white/10 bg-transparent"
                   >
-                    Transfer
+                    {t("wallet.transfer")}
                   </Button>
                 </div>
               </div>
@@ -198,25 +236,25 @@ export default function MyWalletPage() {
         {/* Quick Actions */}
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle>{t("wallet.quick-actions")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Button variant="outline" className="h-20 flex-col gap-2 bg-transparent">
                 <Plus className="h-6 w-6" />
-                <span className="text-sm">Fund Request</span>
+                <span className="text-sm">{t("wallet.fund-request")}</span>
               </Button>
               <Button variant="outline" className="h-20 flex-col gap-2 bg-transparent">
                 <ArrowUpRight className="h-6 w-6" />
-                <span className="text-sm">Transfer Funds</span>
+                <span className="text-sm">{t("wallet.transfer-funds")}</span>
               </Button>
               <Button variant="outline" className="h-20 flex-col gap-2 bg-transparent">
                 <Smartphone className="h-6 w-6" />
-                <span className="text-sm">Mobile TopUp</span>
+                <span className="text-sm">{t("wallet.mobile-topup")}</span>
               </Button>
               <Button variant="outline" className="h-20 flex-col gap-2 bg-transparent">
                 <CreditCard className="h-6 w-6" />
-                <span className="text-sm">Pay Bills</span>
+                <span className="text-sm">{t("wallet.pay-bills")}</span>
               </Button>
             </div>
           </CardContent>
@@ -228,7 +266,7 @@ export default function MyWalletPage() {
             <div className="flex justify-between items-center">
               <CardTitle className="flex items-center gap-2">
                 <Filter className="h-5 w-5" />
-                Transaction History
+                {t("wallet.transaction-history")}
               </CardTitle>
               <div className="flex gap-2">
                 <Select value={selectedFilter} onValueChange={setSelectedFilter}>
@@ -236,9 +274,9 @@ export default function MyWalletPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Transactions</SelectItem>
-                    <SelectItem value="recharge">Recharge Balance</SelectItem>
-                    <SelectItem value="billpay">Bill-Pay Balance</SelectItem>
+                    <SelectItem value="all">{t("wallet.all-transactions")}</SelectItem>
+                    <SelectItem value="recharge">{t("wallet.recharge-balance")}</SelectItem>
+                    <SelectItem value="billpay">{t("wallet.billpay-balance")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={dateFilter} onValueChange={setDateFilter}>
@@ -246,10 +284,10 @@ export default function MyWalletPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Time</SelectItem>
-                    <SelectItem value="today">Today</SelectItem>
-                    <SelectItem value="week">This Week</SelectItem>
-                    <SelectItem value="month">This Month</SelectItem>
+                    <SelectItem value="all">{t("common.allTime")}</SelectItem>
+                    <SelectItem value="today">{t("common.today")}</SelectItem>
+                    <SelectItem value="week">{t("common.thisWeek")}</SelectItem>
+                    <SelectItem value="month">{t("common.thisMonth")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -277,7 +315,7 @@ export default function MyWalletPage() {
                               : "border-purple-200 text-purple-700 dark:border-purple-800 dark:text-purple-400"
                           }
                         >
-                          {transaction.balance === "recharge" ? "Recharge" : "Bill-Pay"}
+                          {transaction.balance === "recharge" ? t("wallet.recharge") : t("wallet.billpay")}
                         </Badge>
                       </div>
                     </div>
@@ -293,7 +331,7 @@ export default function MyWalletPage() {
                       variant="outline"
                       className="text-green-600 border-green-200 dark:text-green-400 dark:border-green-800"
                     >
-                      {transaction.status}
+                      {t("common.completed")}
                     </Badge>
                   </div>
                 </div>
@@ -304,21 +342,21 @@ export default function MyWalletPage() {
 
         {/* Balance Summary */}
         <div className="mt-6 bg-accent/30 rounded-lg p-6">
-          <h3 className="font-semibold text-foreground mb-4">Balance Summary</h3>
+          <h3 className="font-semibold text-foreground mb-4">{t("wallet.balance-summary")}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
             <div>
               <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{formatBalance(rechargeBalance)}</p>
-              <p className="text-sm text-muted-foreground">Recharge Balance</p>
+              <p className="text-sm text-muted-foreground">{t("wallet.recharge-balance")}</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">{formatBalance(billPayBalance)}</p>
-              <p className="text-sm text-muted-foreground">Bill-Pay Balance</p>
+              <p className="text-sm text-muted-foreground">{t("wallet.billpay-balance")}</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                 {formatBalance(rechargeBalance + billPayBalance)}
               </p>
-              <p className="text-sm text-muted-foreground">Total Balance</p>
+              <p className="text-sm text-muted-foreground">{t("wallet.total-balance")}</p>
             </div>
           </div>
         </div>

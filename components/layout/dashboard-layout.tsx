@@ -165,8 +165,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       >
         <div className="flex h-16 items-center justify-between px-6 border-b border-border flex-shrink-0">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 flex items-center justify-center">
-              <Image src="/cws-small-logo.jpg" alt="CWS Logo" width={32} height={32} className="rounded-lg" />
+            <div className="h-10 w-10 flex items-center justify-center">
+              <Image src="/cws-small-logo.jpg" alt="CWS Logo" width={40} height={40} className="rounded-lg" />
             </div>
             <span className="text-lg font-semibold text-foreground">eTopUp</span>
           </div>

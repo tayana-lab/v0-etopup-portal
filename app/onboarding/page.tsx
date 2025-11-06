@@ -1,6 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import type React from "react"
+import { useLanguage } from "@/lib/contexts/language-context"
+
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
@@ -28,11 +31,11 @@ interface CustomerData {
 }
 
 const steps = [
-  { id: 1, name: "ID Scanning", icon: FileText, description: "Document scanning with camera" },
-  { id: 2, name: "Customer Details", icon: User, description: "Auto-filled form with validation" },
-  { id: 3, name: "Package Selection", icon: Package, description: "Service plan selection" },
-  { id: 4, name: "SIM Selection", icon: Smartphone, description: "Available SIM card selection" },
-  { id: 5, name: "Confirmation", icon: CheckCircle, description: "Digital signature and final review" },
+  { id: 1, name: "onboarding.id-scanning", icon: FileText, description: "onboarding.id-scanning-desc" },
+  { id: 2, name: "onboarding.customer-details", icon: User, description: "onboarding.customer-details-desc" },
+  { id: 3, name: "onboarding.package-selection", icon: Package, description: "onboarding.package-selection-desc" },
+  { id: 4, name: "onboarding.sim-selection", icon: Smartphone, description: "onboarding.sim-selection-desc" },
+  { id: 5, name: "onboarding.confirmation", icon: CheckCircle, description: "onboarding.confirmation-desc" },
 ]
 
 const packages = [
@@ -106,7 +109,20 @@ export default function DigitalOnboardPage() {
     { id: "SIM005", number: "2484567894", status: "available" },
   ])
 
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   const progress = (currentStep / steps.length) * 100
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setCustomerData((prev) => ({ ...prev, idDocument: reader.result as string }))
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const handleNext = () => {
     if (currentStep < steps.length) {
@@ -124,6 +140,8 @@ export default function DigitalOnboardPage() {
     (sim) => sim.number.includes(simSearch) || sim.id.toLowerCase().includes(simSearch.toLowerCase()),
   )
 
+  const { t } = useLanguage()
+
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
@@ -132,24 +150,31 @@ export default function DigitalOnboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="h-5 w-5" />
-                ID Document Scanning
+                {t("onboarding.id-document-scanning")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
               <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-8 text-center">
                 {customerData.idDocument ? (
-                  <img
-                    src={customerData.idDocument || "/placeholder.svg"}
-                    alt="ID Document"
-                    className="mx-auto max-w-md rounded-lg"
-                  />
+                  <div className="space-y-4">
+                    <img
+                      src={customerData.idDocument || "/placeholder.svg"}
+                      alt="ID Document"
+                      className="mx-auto max-w-md rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                    />
+                    <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
+                      <FileText className="h-4 w-4 mr-2" />
+                      {t("onboarding.change-document")}
+                    </Button>
+                  </div>
                 ) : (
                   <div className="border-2 border-dashed border-blue-300 dark:border-blue-700 rounded-lg p-8">
                     <FileText className="h-12 w-12 mx-auto text-gray-400 mb-2" />
-                    <p className="text-gray-500 dark:text-gray-400 mb-4">Scan customer ID document</p>
-                    <Button>
+                    <p className="text-gray-500 dark:text-gray-400 mb-4">{t("onboarding.scan-upload")}</p>
+                    <Button onClick={() => fileInputRef.current?.click()}>
                       <FileText className="h-4 w-4 mr-2" />
-                      Scan Document
+                      {t("onboarding.upload-document")}
                     </Button>
                   </div>
                 )}
@@ -164,13 +189,13 @@ export default function DigitalOnboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5" />
-                Customer Details
+                {t("onboarding.customer-details")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="firstName">{t("onboarding.first-name")}</Label>
                   <StyledInput
                     id="firstName"
                     value={customerData.firstName}
@@ -178,7 +203,7 @@ export default function DigitalOnboardPage() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="lastName">{t("onboarding.last-name")}</Label>
                   <StyledInput
                     id="lastName"
                     value={customerData.lastName}
@@ -188,7 +213,7 @@ export default function DigitalOnboardPage() {
               </div>
 
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("onboarding.email")}</Label>
                 <StyledInput
                   id="email"
                   type="email"
@@ -198,7 +223,7 @@ export default function DigitalOnboardPage() {
               </div>
 
               <div>
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="phone">{t("onboarding.phone")}</Label>
                 <StyledInput
                   id="phone"
                   value={customerData.phone}
@@ -207,7 +232,7 @@ export default function DigitalOnboardPage() {
               </div>
 
               <div>
-                <Label htmlFor="address">Address</Label>
+                <Label htmlFor="address">{t("onboarding.address")}</Label>
                 <StyledInput
                   id="address"
                   value={customerData.address}
@@ -218,13 +243,13 @@ export default function DigitalOnboardPage() {
               {(customerData.type === "local" || customerData.type === "gop") && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="district">District</Label>
+                    <Label htmlFor="district">{t("onboarding.district")}</Label>
                     <Select
                       value={customerData.district}
                       onValueChange={(value) => setCustomerData((prev) => ({ ...prev, district: value }))}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select district" />
+                        <SelectValue placeholder={t("onboarding.select-district")} />
                       </SelectTrigger>
                       <SelectContent>
                         {districts.map((district) => (
@@ -236,7 +261,7 @@ export default function DigitalOnboardPage() {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="subDistrict">Sub-District</Label>
+                    <Label htmlFor="subDistrict">{t("onboarding.sub-district")}</Label>
                     <StyledInput
                       id="subDistrict"
                       value={customerData.subDistrict}
@@ -248,13 +273,13 @@ export default function DigitalOnboardPage() {
 
               {customerData.type === "tourist" && (
                 <div>
-                  <Label htmlFor="nationality">Nationality</Label>
+                  <Label htmlFor="nationality">{t("onboarding.nationality")}</Label>
                   <Select
                     value={customerData.nationality}
                     onValueChange={(value) => setCustomerData((prev) => ({ ...prev, nationality: value }))}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select nationality" />
+                      <SelectValue placeholder={t("onboarding.select-nationality")} />
                     </SelectTrigger>
                     <SelectContent>
                       {nationalities.map((nationality) => (
@@ -276,7 +301,7 @@ export default function DigitalOnboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Package className="h-5 w-5" />
-                Package Selection
+                {t("onboarding.package-selection")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -311,7 +336,7 @@ export default function DigitalOnboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Smartphone className="h-5 w-5" />
-                SIM Selection
+                {t("onboarding.sim-selection")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -319,7 +344,7 @@ export default function DigitalOnboardPage() {
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <StyledInput
-                    placeholder="Search SIM by number or ID"
+                    placeholder={t("onboarding.search-sim")}
                     value={simSearch}
                     onChange={(e) => setSimSearch(e.target.value)}
                     className="pl-10"
@@ -327,7 +352,7 @@ export default function DigitalOnboardPage() {
                 </div>
                 <Button variant="outline">
                   <QrCode className="h-4 w-4 mr-2" />
-                  Scan QR
+                  {t("onboarding.scan-qr")}
                 </Button>
               </div>
 
@@ -345,10 +370,12 @@ export default function DigitalOnboardPage() {
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="font-medium">{sim.number}</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">ID: {sim.id}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {t("onboarding.id")}: {sim.id}
+                        </p>
                       </div>
                       <Badge variant="outline" className="text-green-600 border-green-600">
-                        Available
+                        {t("onboarding.available")}
                       </Badge>
                     </div>
                   </div>
@@ -364,54 +391,54 @@ export default function DigitalOnboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5" />
-                Confirmation & Digital Signature
+                {t("onboarding.confirmation-signature")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                <h3 className="font-semibold mb-3">Customer Summary</h3>
+                <h3 className="font-semibold mb-3">{t("onboarding.customer-summary")}</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-gray-500 dark:text-gray-400">Name</p>
+                    <p className="text-gray-500 dark:text-gray-400">{t("onboarding.name")}</p>
                     <p className="font-medium">
                       {customerData.firstName} {customerData.lastName}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500 dark:text-gray-400">Email</p>
+                    <p className="text-gray-500 dark:text-gray-400">{t("onboarding.email")}</p>
                     <p className="font-medium">{customerData.email}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500 dark:text-gray-400">Phone</p>
+                    <p className="text-gray-500 dark:text-gray-400">{t("onboarding.phone")}</p>
                     <p className="font-medium">{customerData.phone}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500 dark:text-gray-400">Package</p>
+                    <p className="text-gray-500 dark:text-gray-400">{t("onboarding.package")}</p>
                     <p className="font-medium">{customerData.selectedPackage?.name}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500 dark:text-gray-400">SIM Number</p>
+                    <p className="text-gray-500 dark:text-gray-400">{t("onboarding.sim-number")}</p>
                     <p className="font-medium">
                       {availableSims.find((s) => s.id === customerData.selectedSim)?.number}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-500 dark:text-gray-400">Customer Type</p>
+                    <p className="text-gray-500 dark:text-gray-400">{t("onboarding.customer-type")}</p>
                     <p className="font-medium capitalize">{customerData.type}</p>
                   </div>
                 </div>
               </div>
 
               <div>
-                <Label>Digital Signature</Label>
+                <Label>{t("onboarding.digital-signature")}</Label>
                 <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8 text-center">
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">Customer signature area</p>
-                  <Button variant="outline">Capture Signature</Button>
+                  <p className="text-gray-500 dark:text-gray-400 mb-4">{t("onboarding.signature-area")}</p>
+                  <Button variant="outline">{t("onboarding.capture-signature")}</Button>
                 </div>
               </div>
 
               <Button className="w-full" size="lg">
-                Complete Onboarding
+                {t("onboarding.complete-onboarding")}
               </Button>
             </CardContent>
           </Card>
@@ -426,17 +453,19 @@ export default function DigitalOnboardPage() {
     <DashboardLayout>
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold mb-2">Digital Onboarding</h1>
-          <p className="text-muted-foreground">Complete customer onboarding process for SIM sales</p>
+          <h1 className="text-2xl font-bold mb-2">{t("onboarding.title")}</h1>
+          <p className="text-muted-foreground">{t("onboarding.description")}</p>
         </div>
 
         {/* Progress indicator */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <span className="text-sm font-medium">
-              Step {currentStep} of {steps.length}
+              {t("onboarding.step")} {currentStep} {t("onboarding.of")} {steps.length}
             </span>
-            <span className="text-sm text-muted-foreground">{Math.round(progress)}% Complete</span>
+            <span className="text-sm text-muted-foreground">
+              {Math.round(progress)}% {t("onboarding.complete")}
+            </span>
           </div>
           <Progress value={progress} className="mb-4" />
 
@@ -454,7 +483,7 @@ export default function DigitalOnboardPage() {
                 >
                   {index + 1 < currentStep ? <CheckCircle className="h-4 w-4" /> : <step.icon className="h-4 w-4" />}
                 </div>
-                <span className="text-xs text-muted-foreground mt-1 text-center max-w-20">{step.name}</span>
+                <span className="text-xs text-muted-foreground mt-1 text-center max-w-20">{t(step.name)}</span>
               </div>
             ))}
           </div>
@@ -467,10 +496,10 @@ export default function DigitalOnboardPage() {
         <div className="flex justify-between">
           <Button variant="outline" onClick={handlePrevious} disabled={currentStep === 1}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Previous
+            {t("common.previous")}
           </Button>
           <Button onClick={handleNext} disabled={currentStep === steps.length}>
-            Next
+            {t("common.next")}
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </div>

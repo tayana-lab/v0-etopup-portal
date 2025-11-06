@@ -15,6 +15,12 @@ export function LanguageSwitcher({ className }: { className?: string }) {
     { code: "fr" as const, name: t("language.french"), flag: "🇫🇷" },
   ]
 
+  const handleLanguageChange = (langCode: "en" | "fr") => {
+    console.log("[v0] Language switcher: changing to", langCode)
+    setLanguage(langCode)
+    setOpen(false)
+  }
+
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
@@ -26,7 +32,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => setLanguage(lang.code)}
+            onClick={() => handleLanguageChange(lang.code)}
             className="flex items-center justify-between cursor-pointer"
           >
             <div className="flex items-center gap-2">

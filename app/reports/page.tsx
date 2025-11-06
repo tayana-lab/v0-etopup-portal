@@ -1,9 +1,27 @@
+"use client"
+
+import { useState } from "react"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { BarChart3, TrendingUp, DollarSign, Users, Smartphone, Phone, Wallet } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import {
+  BarChart3,
+  TrendingUp,
+  DollarSign,
+  Users,
+  Smartphone,
+  Phone,
+  Wallet,
+  CalendarIcon,
+  Download,
+} from "lucide-react"
 import Link from "next/link"
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 const reportCards = [
   {
@@ -57,27 +75,101 @@ const reportCards = [
 ]
 
 export default function ReportsPage() {
+  const [timeRange, setTimeRange] = useState("today")
+  const [dateRange, setDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({
+    from: undefined,
+    to: undefined,
+  })
+  const [showDatePicker, setShowDatePicker] = useState(false)
+  const { t } = useLanguage()
+
+  const handleTimeRangeChange = (value: string) => {
+    setTimeRange(value)
+    if (value === "custom") {
+      setShowDatePicker(true)
+    }
+  }
+
+  const handleExportData = () => {
+    const csvContent = [
+      ["Report", "Value", "Change"],
+      ...reportCards.map((report) => [report.title, report.value, report.change]),
+    ]
+      .map((row) => row.join(","))
+      .join("\n")
+
+    const blob = new Blob([csvContent], { type: "text/csv" })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `reports-${format(new Date(), "yyyy-MM-dd")}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+  }
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
-            <p className="text-gray-600">Business analytics and performance tracking</p>
+            <h1 className="text-2xl font-bold text-foreground">{t("nav.reports")}</h1>
+            <p className="text-muted-foreground">{t("reports.description")}</p>
           </div>
           <div className="flex items-center gap-4">
-            <Select defaultValue="today">
+            <Select value={timeRange} onValueChange={handleTimeRangeChange}>
               <SelectTrigger className="w-40">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="today">Today</SelectItem>
-                <SelectItem value="week">This Week</SelectItem>
-                <SelectItem value="month">This Month</SelectItem>
-                <SelectItem value="custom">Custom Range</SelectItem>
+                <SelectItem value="today">{t("common.today")}</SelectItem>
+                <SelectItem value="week">{t("common.thisWeek")}</SelectItem>
+                <SelectItem value="month">{t("common.thisMonth")}</SelectItem>
+                <SelectItem value="custom">{t("reports.customRange")}</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline">Export Data</Button>
+
+            {timeRange === "custom" && (
+              <Popover open={showDatePicker} onOpenChange={setShowDatePicker}>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className={cn("w-[280px] justify-start text-left font-normal")}>
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {dateRange.from ? (
+                      dateRange.to ? (
+                        <>
+                          {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")}
+                        </>
+                      ) : (
+                        format(dateRange.from, "LLL dd, y")
+                      )
+                    ) : (
+                      <span>{t("reports.pickDateRange")}</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    initialFocus
+                    mode="range"
+                    defaultMonth={dateRange.from}
+                    selected={dateRange}
+                    onSelect={(range) => {
+                      setDateRange(range || { from: undefined, to: undefined })
+                      if (range?.from && range?.to) {
+                        setShowDatePicker(false)
+                      }
+                    }}
+                    numberOfMonths={2}
+                  />
+                </PopoverContent>
+              </Popover>
+            )}
+
+            <Button variant="outline" onClick={handleExportData}>
+              <Download className="h-4 w-4 mr-2" />
+              {t("reports.exportData")}
+            </Button>
           </div>
         </div>
 
@@ -104,22 +196,22 @@ export default function ReportsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Quick Report Actions</CardTitle>
-            <CardDescription>Generate detailed reports for specific metrics</CardDescription>
+            <CardTitle>{t("reports.quickActions")}</CardTitle>
+            <CardDescription>{t("reports.quickActionsDesc")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" className="h-20 flex-col bg-transparent">
                 <BarChart3 className="h-6 w-6 mb-2" />
-                Sales Report
+                {t("reports.salesReport")}
               </Button>
               <Button variant="outline" className="h-20 flex-col bg-transparent">
                 <Users className="h-6 w-6 mb-2" />
-                Customer Report
+                {t("reports.customerReport")}
               </Button>
               <Button variant="outline" className="h-20 flex-col bg-transparent">
                 <Smartphone className="h-6 w-6 mb-2" />
-                Inventory Report
+                {t("reports.inventoryReport")}
               </Button>
             </div>
           </CardContent>

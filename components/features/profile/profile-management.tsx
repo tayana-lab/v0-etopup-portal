@@ -213,7 +213,7 @@ export function ProfileManagement() {
               {/* Password Change */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-card-foreground">Change Password</h3>
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="current-password">Current Password</Label>
                     <div className="relative">
@@ -232,9 +232,15 @@ export function ProfileManagement() {
                       </Button>
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="new-password">New Password</Label>
-                    <Input id="new-password" type="password" placeholder="Enter new password" />
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="new-password">New Password</Label>
+                      <Input id="new-password" type="password" placeholder="Enter new password" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="confirm-password">Confirm New Password</Label>
+                      <Input id="confirm-password" type="password" placeholder="Confirm new password" />
+                    </div>
                   </div>
                 </div>
                 <Button>Change Password</Button>

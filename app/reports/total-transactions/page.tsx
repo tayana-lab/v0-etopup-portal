@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowLeft, Download, CreditCard, TrendingUp, Users, Activity } from "lucide-react"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import Link from "next/link"
+import { format } from "date-fns"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 const transactionData = [
   { period: "Jan 2024", count: 180, success: 175, failed: 5, successRate: 97.2 },
@@ -27,10 +29,37 @@ const transactionTypes = [
 
 export default function TotalTransactionsPage() {
   const [timeRange, setTimeRange] = useState("6months")
+  const [transactionType, setTransactionType] = useState("all")
+  const { t } = useLanguage()
 
   const totalTransactions = transactionData.reduce((sum, data) => sum + data.count, 0)
   const totalSuccess = transactionData.reduce((sum, data) => sum + data.success, 0)
   const overallSuccessRate = ((totalSuccess / totalTransactions) * 100).toFixed(1)
+
+  const filteredData = transactionData.filter((data) => {
+    if (transactionType === "all") return true
+    // Filter logic can be extended based on transaction type
+    return true
+  })
+
+  const handleExportReport = () => {
+    const csvContent = [
+      ["Period", "Total", "Success", "Failed", "Success Rate"],
+      ...transactionData.map((data) => [data.period, data.count, data.success, data.failed, `${data.successRate}%`]),
+    ]
+      .map((row) => row.join(","))
+      .join("\n")
+
+    const blob = new Blob([csvContent], { type: "text/csv" })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `total-transactions-report-${format(new Date(), "yyyy-MM-dd")}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+  }
 
   return (
     <DashboardLayout>
@@ -40,21 +69,46 @@ export default function TotalTransactionsPage() {
             <Link href="/reports">
               <Button variant="outline" size="sm">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Reports
+                {t("transactions.view-all")}
               </Button>
             </Link>
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-900 mb-1">Total Transactions Report</h1>
-              <p className="text-gray-600">Transaction volume analysis and success rates</p>
+              <h1 className="text-2xl font-bold text-foreground mb-1">Total Transactions Report</h1>
+              <p className="text-muted-foreground">Transaction volume analysis and success rates</p>
             </div>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleExportReport}>
               <Download className="h-4 w-4 mr-2" />
               Export Report
             </Button>
           </div>
+
+          <div className="flex gap-4">
+            <Select value={transactionType} onValueChange={setTransactionType}>
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder="Transaction Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Transactions</SelectItem>
+                <SelectItem value="topup">Mobile Recharge</SelectItem>
+                <SelectItem value="package">Package Purchase</SelectItem>
+                <SelectItem value="bill">Bill Payment</SelectItem>
+                <SelectItem value="sim">SIM Sale</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={timeRange} onValueChange={setTimeRange}>
+              <SelectTrigger className="w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="3months">Last 3 Months</SelectItem>
+                <SelectItem value="6months">Last 6 Months</SelectItem>
+                <SelectItem value="1year">Last Year</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
-        {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-3">
@@ -111,7 +165,6 @@ export default function TotalTransactionsPage() {
           </Card>
         </div>
 
-        {/* Monthly Breakdown */}
         <Card className="mb-6">
           <CardHeader>
             <div className="flex justify-between items-center">
@@ -130,7 +183,7 @@ export default function TotalTransactionsPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {transactionData.map((data, index) => (
+              {filteredData.map((data, index) => (
                 <div key={index} className="border rounded-lg p-4">
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="font-semibold text-lg">{data.period}</h3>
@@ -163,7 +216,6 @@ export default function TotalTransactionsPage() {
           </CardContent>
         </Card>
 
-        {/* Transaction Types */}
         <Card>
           <CardHeader>
             <CardTitle>Transaction Types Breakdown</CardTitle>

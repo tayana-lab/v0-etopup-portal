@@ -1,15 +1,15 @@
 "use client"
 
+import { useLanguage } from "@/lib/contexts/language-context"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { StyledInput } from "@/components/ui/styled-input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useState } from "react"
-import { Search, Plus, Eye, Edit, Trash2, Clock, CheckCircle, AlertCircle } from "lucide-react"
+import { Search, Eye, Edit, Trash2, Clock, CheckCircle, AlertCircle } from "lucide-react"
 
 const jobCards = [
   {
@@ -20,8 +20,8 @@ const jobCards = [
     priority: "High",
     status: "In Progress",
     assignedTo: "Agent 1",
-    createdDate: "2025-01-15",
-    dueDate: "2025-01-16",
+    createdDate: "2025-01-18",
+    dueDate: "2025-01-20",
     description: "Customer reports SIM card not working after recent update",
     statusColor: "bg-yellow-100 text-yellow-800",
     priorityColor: "bg-red-100 text-red-800",
@@ -34,8 +34,8 @@ const jobCards = [
     priority: "Medium",
     status: "Completed",
     assignedTo: "Agent 2",
-    createdDate: "2025-01-14",
-    dueDate: "2025-01-15",
+    createdDate: "2025-01-17",
+    dueDate: "2025-01-18",
     description: "Customer experiencing poor network coverage in residential area",
     statusColor: "bg-green-100 text-green-800",
     priorityColor: "bg-yellow-100 text-yellow-800",
@@ -48,8 +48,8 @@ const jobCards = [
     priority: "Low",
     status: "Pending",
     assignedTo: "Agent 1",
-    createdDate: "2025-01-15",
-    dueDate: "2025-01-17",
+    createdDate: "2025-01-18",
+    dueDate: "2025-01-22",
     description: "Customer unable to process monthly bill payment through app",
     statusColor: "bg-gray-100 text-gray-800",
     priorityColor: "bg-blue-100 text-blue-800",
@@ -57,10 +57,10 @@ const jobCards = [
 ]
 
 export default function JobCardPage() {
+  const { t } = useLanguage()
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [priorityFilter, setPriorityFilter] = useState("all")
-  const [showCreateForm, setShowCreateForm] = useState(false)
 
   const filteredJobCards = jobCards.filter((job) => {
     const matchesSearch =
@@ -89,18 +89,9 @@ export default function JobCardPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Job Card Management</h1>
-            <p className="text-gray-600">Track and manage customer service requests and technical issues</p>
-          </div>
-          <Button
-            onClick={() => setShowCreateForm(true)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Create Job Card
-          </Button>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">{t("jobs.title")}</h1>
+          <p className="text-gray-600">{t("jobs.subtitle")}</p>
         </div>
 
         {/* Filters and Search */}
@@ -108,12 +99,12 @@ export default function JobCardPage() {
           <CardContent className="p-6">
             <div className="grid gap-4 md:grid-cols-4">
               <div>
-                <Label htmlFor="search">Search Job Cards</Label>
+                <Label htmlFor="search">{t("common.search")}</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <StyledInput
                     id="search"
-                    placeholder="Search by ID, title, or customer..."
+                    placeholder={t("jobs.search-placeholder")}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
@@ -121,36 +112,36 @@ export default function JobCardPage() {
                 </div>
               </div>
               <div>
-                <Label htmlFor="status">Filter by Status</Label>
+                <Label htmlFor="status">{t("jobs.filter-status")}</Label>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Statuses" />
+                    <SelectValue placeholder={t("jobs.all-statuses")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Statuses</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="in progress">In Progress</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="all">{t("jobs.all-statuses")}</SelectItem>
+                    <SelectItem value="pending">{t("jobs.pending")}</SelectItem>
+                    <SelectItem value="in progress">{t("jobs.in-progress")}</SelectItem>
+                    <SelectItem value="completed">{t("jobs.completed")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label htmlFor="priority">Filter by Priority</Label>
+                <Label htmlFor="priority">{t("jobs.filter-priority")}</Label>
                 <Select value={priorityFilter} onValueChange={setPriorityFilter}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Priorities" />
+                    <SelectValue placeholder={t("jobs.all-priorities")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Priorities</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="all">{t("jobs.all-priorities")}</SelectItem>
+                    <SelectItem value="high">{t("jobs.high")}</SelectItem>
+                    <SelectItem value="medium">{t("jobs.medium")}</SelectItem>
+                    <SelectItem value="low">{t("jobs.low")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="flex items-end">
                 <Button variant="outline" className="w-full bg-transparent">
-                  Export Report
+                  {t("jobs.export-report")}
                 </Button>
               </div>
             </div>
@@ -174,22 +165,22 @@ export default function JobCardPage() {
                     </div>
                     <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4 text-sm text-gray-600">
                       <div>
-                        <span className="font-medium">Job ID:</span> {job.id}
+                        <span className="font-medium">{t("jobs.job-id")}:</span> {job.id}
                       </div>
                       <div>
-                        <span className="font-medium">Customer:</span> {job.customer}
+                        <span className="font-medium">{t("jobs.customer")}:</span> {job.customer}
                       </div>
                       <div>
-                        <span className="font-medium">Phone:</span> {job.phone}
+                        <span className="font-medium">{t("jobs.phone")}:</span> {job.phone}
                       </div>
                       <div>
-                        <span className="font-medium">Assigned To:</span> {job.assignedTo}
+                        <span className="font-medium">{t("jobs.assigned-to")}:</span> {job.assignedTo}
                       </div>
                       <div>
-                        <span className="font-medium">Created:</span> {job.createdDate}
+                        <span className="font-medium">{t("jobs.created")}:</span> {job.createdDate}
                       </div>
                       <div>
-                        <span className="font-medium">Due Date:</span> {job.dueDate}
+                        <span className="font-medium">{t("jobs.due-date")}:</span> {job.dueDate}
                       </div>
                     </div>
                     <p className="text-gray-700 mt-3">{job.description}</p>
@@ -217,82 +208,10 @@ export default function JobCardPage() {
               <div className="text-gray-400 mb-4">
                 <AlertCircle className="h-12 w-12 mx-auto" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No job cards found</h3>
-              <p className="text-gray-600">Try adjusting your search criteria or create a new job card.</p>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">{t("jobs.no-jobs")}</h3>
+              <p className="text-gray-600">{t("jobs.adjust-search")}</p>
             </CardContent>
           </Card>
-        )}
-
-        {/* Create Job Card Form Modal would go here */}
-        {showCreateForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-              <CardHeader>
-                <CardTitle>Create New Job Card</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="jobTitle">Job Title</Label>
-                    <StyledInput id="jobTitle" placeholder="Enter job title" />
-                  </div>
-                  <div>
-                    <Label htmlFor="customerName">Customer Name</Label>
-                    <StyledInput id="customerName" placeholder="Enter customer name" />
-                  </div>
-                  <div>
-                    <Label htmlFor="customerPhone">Customer Mobile Number</Label>
-                    <StyledInput id="customerPhone" placeholder="Enter Mobile Number" />
-                  </div>
-                  <div>
-                    <Label htmlFor="priority">Priority</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select priority" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="high">High</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="low">Low</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="assignedTo">Assign To</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select agent" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="agent1">Agent 1</SelectItem>
-                        <SelectItem value="agent2">Agent 2</SelectItem>
-                        <SelectItem value="agent3">Agent 3</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="dueDate">Due Date</Label>
-                    <StyledInput id="dueDate" type="date" />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea id="description" placeholder="Describe the issue or request in detail..." rows={4} />
-                </div>
-                <div className="flex justify-end gap-3 pt-4">
-                  <Button variant="outline" onClick={() => setShowCreateForm(false)}>
-                    Cancel
-                  </Button>
-                  <Button
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                    onClick={() => setShowCreateForm(false)}
-                  >
-                    Create Job Card
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         )}
       </div>
     </DashboardLayout>

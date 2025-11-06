@@ -9,10 +9,12 @@ import { Label } from "@/components/ui/label"
 import { QrCode, Phone } from "lucide-react"
 import { ConfirmationModal } from "@/components/ui/confirmation-modal"
 import { SuccessModal } from "@/components/ui/success-modal"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 const quickAmounts = [50, 100, 200, 500, 1000, 2000]
 
 export default function TopUpPage() {
+  const { t } = useLanguage()
   const [phoneNumber, setPhoneNumber] = useState("")
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null)
   const [customAmount, setCustomAmount] = useState("")
@@ -85,8 +87,8 @@ export default function TopUpPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Recharge</h1>
-          <p className="text-gray-600 dark:text-gray-400">Mobile account recharge functionality</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t("topup.title")}</h1>
+          <p className="text-gray-600 dark:text-gray-400">{t("topup.subtitle")}</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -94,20 +96,20 @@ export default function TopUpPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Phone className="h-5 w-5" />
-                Mobile Number
+                {t("topup.mobile-number")}
               </CardTitle>
-              <CardDescription>Enter the mobile number to recharge</CardDescription>
+              <CardDescription>{t("topup.enter-mobile")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="mobile">Mobile Number</Label>
+                <Label htmlFor="mobile">{t("topup.mobile-number")}</Label>
                 <div className="flex">
                   <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     +248
                   </span>
                   <StyledInput
                     id="mobile"
-                    placeholder="Enter Mobile Number"
+                    placeholder={t("topup.enter-number")}
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     className="rounded-l-none"
@@ -115,20 +117,20 @@ export default function TopUpPage() {
                   />
                 </div>
                 {phoneNumber && phoneNumber.length !== 7 && (
-                  <p className="text-sm text-red-600">Phone number must be 7 digits</p>
+                  <p className="text-sm text-red-600">{t("topup.phone-digits")}</p>
                 )}
               </div>
               <Button variant="outline" className="w-full bg-transparent" onClick={handleQRScan}>
                 <QrCode className="h-4 w-4 mr-2" />
-                Scan QR Code
+                {t("topup.scan-qr")}
               </Button>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Recharge Amount</CardTitle>
-              <CardDescription>Select or enter amount in SCR</CardDescription>
+              <CardTitle>{t("topup.recharge-amount")}</CardTitle>
+              <CardDescription>{t("topup.select-amount")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-2">
@@ -144,13 +146,13 @@ export default function TopUpPage() {
                 ))}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="custom">Custom Amount</Label>
+                <Label htmlFor="custom">{t("topup.custom-amount")}</Label>
                 <div className="relative">
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">SCR</div>
                   <StyledInput
                     id="custom"
                     type="number"
-                    placeholder="Enter amount"
+                    placeholder={t("topup.enter-amount")}
                     value={customAmount}
                     onChange={(e) => handleCustomAmountChange(e.target.value)}
                     className="pl-16"
@@ -159,19 +161,19 @@ export default function TopUpPage() {
                   />
                 </div>
                 {customAmount && (Number.parseFloat(customAmount) > 5000 || Number.parseFloat(customAmount) < 1) && (
-                  <p className="text-sm text-red-600">Amount must be between SCR 1 and SCR 5000</p>
+                  <p className="text-sm text-red-600">{t("topup.amount-range")}</p>
                 )}
               </div>
 
               {getCurrentAmount() > 0 && (
                 <div className="border-t pt-4">
                   <div className="flex justify-between items-center mb-4">
-                    <span className="font-medium">Recharge Amount:</span>
+                    <span className="font-medium">{t("topup.recharge-amount")}:</span>
                     <span className="text-xl font-bold text-purple-600">SCR {getCurrentAmount()}</span>
                   </div>
                   {phoneNumber && (
                     <div className="flex justify-between items-center mb-4 text-sm text-gray-600">
-                      <span>Mobile Number:</span>
+                      <span>{t("topup.mobile-number")}:</span>
                       <span>+248 {phoneNumber}</span>
                     </div>
                   )}
@@ -183,29 +185,29 @@ export default function TopUpPage() {
                 disabled={!isValidForm()}
                 onClick={handleTopupClick}
               >
-                Proceed to Payment
+                {t("topup.proceed-payment")}
               </Button>
             </CardContent>
           </Card>
         </div>
 
         <div className="mt-6 bg-blue-50 dark:bg-purple-900/20 rounded-lg p-4">
-          <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Recharge Information</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">{t("topup.info-title")}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-400">
             <div>
-              <p className="font-medium mb-1">Quick Amounts:</p>
+              <p className="font-medium mb-1">{t("topup.quick-amounts")}</p>
               <ul className="space-y-1">
-                <li>• SCR 50 - Basic recharge</li>
-                <li>• SCR 100-500 - Regular usage</li>
-                <li>• SCR 1000+ - Heavy usage</li>
+                <li>• {t("topup.basic-recharge")}</li>
+                <li>• {t("topup.regular-usage")}</li>
+                <li>• {t("topup.heavy-usage")}</li>
               </ul>
             </div>
             <div>
-              <p className="font-medium mb-1">Features:</p>
+              <p className="font-medium mb-1">{t("topup.features")}</p>
               <ul className="space-y-1">
-                <li>• Instant credit transfer</li>
-                <li>• QR code scanning</li>
-                <li>• Custom amount support</li>
+                <li>• {t("topup.instant-credit")}</li>
+                <li>• {t("topup.qr-scanning")}</li>
+                <li>• {t("topup.custom-support")}</li>
               </ul>
             </div>
           </div>

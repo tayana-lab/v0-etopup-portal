@@ -16,9 +16,6 @@ import {
   Phone,
   Smartphone,
   Plus,
-  Activity,
-  BarChart3,
-  Zap,
   Wifi,
 } from "lucide-react"
 
@@ -64,7 +61,7 @@ const kpiData = [
 const quickActions = [
   {
     name: "Mobile Top-up",
-    nameKey: "actions.topup",
+    nameKey: "services.mobile-topup",
     description: "Recharge mobile accounts instantly",
     icon: Phone,
     href: "/topup",
@@ -74,7 +71,7 @@ const quickActions = [
   },
   {
     name: "Package Purchase",
-    nameKey: "actions.package",
+    nameKey: "services.data-packages",
     description: "Buy data and voice packages",
     icon: Package,
     href: "/packages",
@@ -84,7 +81,7 @@ const quickActions = [
   },
   {
     name: "Bill Payment",
-    nameKey: "actions.bill",
+    nameKey: "services.bill-payment",
     description: "Pay utility and service bills",
     icon: CreditCard,
     href: "/bills",
@@ -94,7 +91,7 @@ const quickActions = [
   },
   {
     name: "Fund Request",
-    nameKey: "actions.fund",
+    nameKey: "services.fund-request",
     description: "Request additional funds",
     icon: DollarSign,
     href: "/funds",
@@ -104,7 +101,7 @@ const quickActions = [
   },
   {
     name: "SIM Sales",
-    nameKey: "actions.sim",
+    nameKey: "services.sim-sales",
     description: "Sell and activate SIM cards",
     icon: Smartphone,
     href: "/customers/sim-sales",
@@ -114,7 +111,7 @@ const quickActions = [
   },
   {
     name: "Internet Services",
-    nameKey: "actions.internet",
+    nameKey: "services.data-packages",
     description: "Manage internet subscriptions",
     icon: Wifi,
     href: "/packages",
@@ -124,33 +121,36 @@ const quickActions = [
   },
 ]
 
-const performanceMetrics = [
+const popularServices = [
   {
-    title: "System Uptime",
-    titleKey: "metrics.uptime",
-    value: "99.9%",
-    subtitle: "Last 30 days",
-    icon: Activity,
-    color: "text-green-600",
-    bgColor: "bg-green-50 dark:bg-green-950/20",
-  },
-  {
-    title: "Avg Response Time",
-    titleKey: "metrics.response-time",
-    value: "1.2s",
-    subtitle: "API performance",
-    icon: Zap,
+    title: "Mobile Top-up",
+    titleKey: "services.mobile-topup",
+    transactions: "156",
+    revenue: "SCR 15,600",
+    icon: Phone,
     color: "text-blue-600",
     bgColor: "bg-blue-50 dark:bg-blue-950/20",
+    trend: "+18%",
   },
   {
-    title: "Monthly Growth",
-    titleKey: "metrics.growth",
-    value: "+24%",
-    subtitle: "Transaction volume",
-    icon: BarChart3,
-    color: "text-purple-600",
-    bgColor: "bg-purple-50 dark:bg-purple-950/20",
+    title: "Data Packages",
+    titleKey: "services.data-packages",
+    transactions: "89",
+    revenue: "SCR 22,250",
+    icon: Package,
+    color: "text-green-600",
+    bgColor: "bg-green-50 dark:bg-green-950/20",
+    trend: "+12%",
+  },
+  {
+    title: "Bill Payments",
+    titleKey: "services.bill-payment",
+    transactions: "45",
+    revenue: "SCR 18,900",
+    icon: CreditCard,
+    color: "text-orange-600",
+    bgColor: "bg-orange-50 dark:bg-orange-950/20",
+    trend: "+8%",
   },
 ]
 
@@ -160,7 +160,7 @@ const recentTransactions = [
     type: "Top Up",
     customer: "John Doe",
     amount: "SCR 100.00",
-    date: "2025-01-20 14:30",
+    date: "2025-01-06 14:30",
     status: "completed",
   },
   {
@@ -168,7 +168,7 @@ const recentTransactions = [
     type: "Package Purchase",
     customer: "Jane Smith",
     amount: "SCR 250.00",
-    date: "2025-01-20 13:15",
+    date: "2025-01-06 13:15",
     status: "completed",
   },
   {
@@ -176,7 +176,7 @@ const recentTransactions = [
     type: "Bill Pay",
     customer: "Mike Johnson",
     amount: "SCR 450.00",
-    date: "2025-01-20 12:00",
+    date: "2025-01-06 12:00",
     status: "completed",
   },
   {
@@ -184,7 +184,7 @@ const recentTransactions = [
     type: "Top Up",
     customer: "Sarah Williams",
     amount: "SCR 50.00",
-    date: "2025-01-20 11:45",
+    date: "2025-01-06 11:45",
     status: "completed",
   },
   {
@@ -192,7 +192,7 @@ const recentTransactions = [
     type: "Package Purchase",
     customer: "David Brown",
     amount: "SCR 300.00",
-    date: "2025-01-20 10:30",
+    date: "2025-01-06 10:30",
     status: "completed",
   },
 ]
@@ -230,7 +230,7 @@ export function DashboardOverview() {
         <div className="lg:col-span-2 space-y-6">
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground">Quick Actions</CardTitle>
+              <CardTitle className="text-foreground">{t("services.title")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -243,7 +243,7 @@ export function DashboardOverview() {
                             <action.icon className={`h-6 w-6 ${action.iconColor}`} />
                           </div>
                           <div>
-                            <h3 className="font-semibold text-foreground mb-1">{action.name}</h3>
+                            <h3 className="font-semibold text-foreground mb-1">{t(action.nameKey)}</h3>
                             <p className="text-xs text-muted-foreground">{action.description}</p>
                           </div>
                         </div>
@@ -283,9 +283,9 @@ export function DashboardOverview() {
 
           <Card className="bg-card border-border">
             <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <CardTitle className="text-foreground">Recent Transactions</CardTitle>
+              <CardTitle className="text-foreground">{t("transactions.title")}</CardTitle>
               <Button variant="outline" size="sm" asChild>
-                <Link href="/reports/total-transactions">View All</Link>
+                <Link href="/reports/total-transactions">{t("transactions.view-all")}</Link>
               </Button>
             </CardHeader>
             <CardContent>
@@ -299,7 +299,7 @@ export function DashboardOverview() {
                       <div className="flex items-center gap-2 mb-1">
                         <p className="font-semibold text-foreground">{transaction.type}</p>
                         <span className="px-2 py-0.5 text-xs rounded-full bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400">
-                          {transaction.status}
+                          {t("transactions.completed")}
                         </span>
                       </div>
                       <p className="text-sm text-muted-foreground">{transaction.customer}</p>
@@ -319,23 +319,28 @@ export function DashboardOverview() {
         <div>
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground">Performance Metrics</CardTitle>
+              <CardTitle className="text-foreground">{t("dashboard.popular-services")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {performanceMetrics.map((metric, index) => (
+                {popularServices.map((service, index) => (
                   <div
                     key={index}
                     className="p-4 rounded-lg border border-border bg-card hover:bg-accent/50 transition-colors"
                   >
                     <div className="flex items-start gap-3">
-                      <div className={`p-2 rounded-lg ${metric.bgColor}`}>
-                        <metric.icon className={`h-5 w-5 ${metric.color}`} />
+                      <div className={`p-2 rounded-lg ${service.bgColor}`}>
+                        <service.icon className={`h-5 w-5 ${service.color}`} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-muted-foreground">{metric.title}</p>
-                        <p className="text-2xl font-bold text-foreground mt-1">{metric.value}</p>
-                        <p className="text-xs text-muted-foreground mt-1">{metric.subtitle}</p>
+                        <p className="text-sm font-medium text-muted-foreground">{t(service.titleKey)}</p>
+                        <p className="text-2xl font-bold text-foreground mt-1">{service.revenue}</p>
+                        <div className="flex items-center justify-between mt-1">
+                          <p className="text-xs text-muted-foreground">
+                            {service.transactions} {t("dashboard.transactions")}
+                          </p>
+                          <span className="text-xs font-medium text-green-600">{service.trend}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
