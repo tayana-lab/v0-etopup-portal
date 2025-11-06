@@ -464,6 +464,14 @@ const translations = {
     "onboarding.complete-onboarding": "Complete Onboarding",
     "onboarding.validity": "Validity",
     "onboarding.id": "ID",
+
+    // Common terms
+    "common.completed": "Completed",
+    "common.pending": "Pending",
+    "common.today": "Today",
+    "common.thisWeek": "This Week",
+    "common.thisMonth": "This Month",
+    "common.allTime": "All Time",
   },
   fr: {
     // Navigation sections
@@ -919,6 +927,14 @@ const translations = {
     "onboarding.complete-onboarding": "Terminer l'Intégration",
     "onboarding.validity": "Validité",
     "onboarding.id": "ID",
+
+    // Common terms
+    "common.completed": "Terminé",
+    "common.pending": "En Attente",
+    "common.today": "Aujourd'hui",
+    "common.thisWeek": "Cette Semaine",
+    "common.thisMonth": "Ce Mois",
+    "common.allTime": "Tout le Temps",
   },
 }
 
