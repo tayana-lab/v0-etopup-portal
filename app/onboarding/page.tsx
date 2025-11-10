@@ -3,6 +3,7 @@
 import type React from "react"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { useRouter } from "next/navigation"
 
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
@@ -114,6 +115,7 @@ export default function DigitalOnboardPage() {
   const [isDrawing, setIsDrawing] = useState(false)
   const signatureCanvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
 
   const progress = (currentStep / steps.length) * 100
 
@@ -626,7 +628,7 @@ export default function DigitalOnboardPage() {
             <Button
               onClick={() => {
                 setShowCongratulations(false)
-                window.location.href = "/dashboard"
+                router.push("/dashboard")
               }}
               className="w-full"
               size="lg"
