@@ -593,8 +593,8 @@ export default function DigitalOnboardPage() {
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/20">
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
-            <DialogTitle className="text-2xl">{t("onboarding.congratulations")}</DialogTitle>
-            <DialogDescription className="text-base pt-2">
+            <DialogTitle className="text-2xl text-center">{t("onboarding.congratulations")}</DialogTitle>
+            <DialogDescription className="text-base pt-2 text-center">
               {t("onboarding.onboarding-complete-message")}
             </DialogDescription>
           </DialogHeader>
