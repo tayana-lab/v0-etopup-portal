@@ -461,9 +461,17 @@ const translations = {
     "onboarding.digital-signature": "Digital Signature",
     "onboarding.signature-area": "Customer signature area",
     "onboarding.capture-signature": "Capture Signature",
+    "onboarding.clear-signature": "Clear Signature",
     "onboarding.complete-onboarding": "Complete Onboarding",
     "onboarding.validity": "Validity",
     "onboarding.id": "ID",
+    "onboarding.congratulations": "Congratulations!",
+    "onboarding.onboarding-complete-message":
+      "Your onboarding process has been completed successfully. Welcome to Cable & Wireless Seychelles!",
+    "onboarding.welcome-message": "Welcome to CWS!",
+    "onboarding.activation-message":
+      "Your SIM card and services will be activated within the next 24 hours. You will receive a confirmation SMS once your account is ready.",
+    "onboarding.go-to-dashboard": "Go to Dashboard",
 
     // Common terms
     "common.completed": "Completed",
@@ -472,6 +480,8 @@ const translations = {
     "common.thisWeek": "This Week",
     "common.thisMonth": "This Month",
     "common.allTime": "All Time",
+    "common.previous": "Previous",
+    "common.next": "Next",
   },
   fr: {
     // Navigation sections
@@ -613,7 +623,7 @@ const translations = {
     "contact.emailSupportDesc": "Envoyez-nous vos questions et nous répondrons dans les 24 heures",
     "contact.officeLocationDesc": "Visitez notre bureau principal à Victoria, Mahé",
     "contact.responseTime": "Temps de réponse: Dans les 24 heures",
-    "contact.available247": "Disponible 24/7",
+    "contact.available247": " Disponible 24/7",
     "contact.mondayFriday": "Lundi - Vendredi: 8h00 - 17h00",
     "contact.saturday": "Samedi: 9h00 - 13h00",
     "contact.sunday": "Dimanche: Fermé",
@@ -878,7 +888,7 @@ const translations = {
 
     // Notifications page
     "notifications.title": "Notifications",
-    "notifications.subtitle": "Voir vos notifications",
+    "notifications.subtitle": "View your notifications",
 
     // Onboarding page
     "onboarding.title": "Intégration Numérique",
@@ -924,9 +934,17 @@ const translations = {
     "onboarding.digital-signature": "Signature Numérique",
     "onboarding.signature-area": "Zone de signature du client",
     "onboarding.capture-signature": "Capturer la Signature",
+    "onboarding.clear-signature": "Effacer la Signature",
     "onboarding.complete-onboarding": "Terminer l'Intégration",
     "onboarding.validity": "Validité",
     "onboarding.id": "ID",
+    "onboarding.congratulations": "Félicitations!",
+    "onboarding.onboarding-complete-message":
+      "Votre processus d'intégration a été complété avec succès. Bienvenue chez Cable & Wireless Seychelles!",
+    "onboarding.welcome-message": "Bienvenue chez CWS!",
+    "onboarding.activation-message":
+      "Votre carte SIM et vos services seront activés dans les prochaines 24 heures. Vous recevrez un SMS de confirmation une fois votre compte prêt.",
+    "onboarding.go-to-dashboard": "Aller au Tableau de Bord",
 
     // Common terms
     "common.completed": "Terminé",
@@ -935,6 +953,8 @@ const translations = {
     "common.thisWeek": "Cette Semaine",
     "common.thisMonth": "Ce Mois",
     "common.allTime": "Tout le Temps",
+    "common.previous": "Précédent",
+    "common.next": "Suivant",
   },
 }
 

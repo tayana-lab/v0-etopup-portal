@@ -10,9 +10,7 @@ export default function ContactUsPage() {
   const { t } = useLanguage()
 
   const handleViewOnMap = () => {
-    // Cable & Wireless Seychelles location coordinates
-    const location = "Cable+&+Wireless+Seychelles,+Victoria,+Mahé,+Seychelles"
-    window.open(`https://www.google.com/maps/search/?api=1&query=${location}`, "_blank")
+    window.open("https://maps.app.goo.gl/NcrhrFV9kwxF78Rg6", "_blank")
   }
 
   return (
@@ -28,9 +26,9 @@ export default function ContactUsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Phone className="h-5 w-5 text-blue-600" />
-                {t("contact.phoneSupport")}
+                {t("contact.phone-support")}
               </CardTitle>
-              <CardDescription>{t("contact.phoneSupportDesc")}</CardDescription>
+              <CardDescription>{t("contact.phone-desc")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2">
@@ -41,7 +39,7 @@ export default function ContactUsPage() {
                   <div className="text-2xl font-bold text-blue-600">2598080</div>
                   <Button className="w-full" onClick={() => window.open("tel:2598080")}>
                     <Phone className="h-4 w-4 mr-2" />
-                    {t("contact.callNow")}
+                    {t("contact.call-now")}
                   </Button>
                 </div>
 
@@ -52,7 +50,7 @@ export default function ContactUsPage() {
                   <div className="text-2xl font-bold text-blue-600">2596969</div>
                   <Button className="w-full" onClick={() => window.open("tel:2596969")}>
                     <Phone className="h-4 w-4 mr-2" />
-                    {t("contact.callNow")}
+                    {t("contact.call-now")}
                   </Button>
                 </div>
 
@@ -63,7 +61,7 @@ export default function ContactUsPage() {
                   <div className="text-2xl font-bold text-blue-600">2529993</div>
                   <Button className="w-full" onClick={() => window.open("tel:2529993")}>
                     <Phone className="h-4 w-4 mr-2" />
-                    {t("contact.callNow")}
+                    {t("contact.call-now")}
                   </Button>
                 </div>
 
@@ -74,7 +72,7 @@ export default function ContactUsPage() {
                   <div className="text-2xl font-bold text-blue-600">2595553</div>
                   <Button className="w-full" onClick={() => window.open("tel:2595553")}>
                     <Phone className="h-4 w-4 mr-2" />
-                    {t("contact.callNow")}
+                    {t("contact.call-now")}
                   </Button>
                 </div>
               </div>
@@ -86,9 +84,9 @@ export default function ContactUsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Mail className="h-5 w-5 text-green-600" />
-                {t("contact.emailSupport")}
+                {t("contact.email-support")}
               </CardTitle>
-              <CardDescription>{t("contact.emailSupportDesc")}</CardDescription>
+              <CardDescription>{t("contact.email-desc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="text-lg font-medium">commercialteam@cwseychelles.com</div>
@@ -99,7 +97,7 @@ export default function ContactUsPage() {
                 onClick={() => window.open("mailto:commercialteam@cwseychelles.com")}
               >
                 <Mail className="h-4 w-4 mr-2" />
-                {t("contact.sendEmail")}
+                {t("contact.send-email")}
               </Button>
             </CardContent>
           </Card>
@@ -108,9 +106,9 @@ export default function ContactUsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-red-600" />
-                {t("contact.officeLocation")}
+                {t("contact.office-location")}
               </CardTitle>
-              <CardDescription>{t("contact.officeLocationDesc")}</CardDescription>
+              <CardDescription>{t("contact.office-desc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -119,7 +117,7 @@ export default function ContactUsPage() {
               </div>
               <Button variant="outline" className="w-full bg-transparent" onClick={handleViewOnMap}>
                 <MapPin className="h-4 w-4 mr-2" />
-                {t("contact.viewOnMap")}
+                {t("contact.view-map")}
               </Button>
             </CardContent>
           </Card>
@@ -129,13 +127,13 @@ export default function ContactUsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Clock className="h-5 w-5" />
-              {t("contact.businessHours")}
+              {t("contact.business-hours")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <h4 className="font-medium mb-2">{t("contact.customerService")}</h4>
+                <h4 className="font-medium mb-2">{t("contact.customer-service")}</h4>
                 <div className="space-y-1 text-sm text-muted-foreground">
                   <p>{t("contact.mondayFriday")}</p>
                   <p>{t("contact.saturday")}</p>
@@ -143,7 +141,7 @@ export default function ContactUsPage() {
                 </div>
               </div>
               <div>
-                <h4 className="font-medium mb-2">{t("contact.emergencySupport")}</h4>
+                <h4 className="font-medium mb-2">{t("contact.emergency-support")}</h4>
                 <div className="space-y-1 text-sm text-muted-foreground">
                   <p>{t("contact.available247")}</p>
                   <p>{t("contact.urgentIssues")}</p>
@@ -158,7 +156,7 @@ export default function ContactUsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Globe className="h-5 w-5" />
-              {t("contact.additionalResources")}
+              {t("contact.additional-resources")}
             </CardTitle>
           </CardHeader>
           <CardContent>

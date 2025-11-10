@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useLanguage } from "@/lib/contexts/language-context"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
@@ -89,6 +90,7 @@ const nationalities = [
 
 export default function DigitalOnboardPage() {
   const [currentStep, setCurrentStep] = useState(1)
+  const [showCongratulations, setShowCongratulations] = useState(false)
   const [customerData, setCustomerData] = useState<CustomerData>({
     type: "local",
     firstName: "",
@@ -109,6 +111,8 @@ export default function DigitalOnboardPage() {
     { id: "SIM005", number: "2484567894", status: "available" },
   ])
 
+  const [isDrawing, setIsDrawing] = useState(false)
+  const signatureCanvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const progress = (currentStep / steps.length) * 100
@@ -141,6 +145,67 @@ export default function DigitalOnboardPage() {
   )
 
   const { t } = useLanguage()
+
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    setIsDrawing(true)
+    const canvas = signatureCanvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
+    const rect = canvas.getBoundingClientRect()
+    const x = "touches" in e ? e.touches[0].clientX - rect.left : e.clientX - rect.left
+    const y = "touches" in e ? e.touches[0].clientY - rect.top : e.clientY - rect.top
+
+    ctx.beginPath()
+    ctx.moveTo(x, y)
+  }
+
+  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing) return
+
+    const canvas = signatureCanvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
+    const rect = canvas.getBoundingClientRect()
+    const x = "touches" in e ? e.touches[0].clientX - rect.left : e.clientX - rect.left
+    const y = "touches" in e ? e.touches[0].clientY - rect.top : e.clientY - rect.top
+
+    ctx.lineTo(x, y)
+    ctx.strokeStyle = "#000"
+    ctx.lineWidth = 2
+    ctx.lineCap = "round"
+    ctx.lineJoin = "round"
+    ctx.stroke()
+  }
+
+  const stopDrawing = () => {
+    setIsDrawing(false)
+    const canvas = signatureCanvasRef.current
+    if (canvas) {
+      const signatureData = canvas.toDataURL()
+      setCustomerData((prev) => ({ ...prev, signature: signatureData }))
+    }
+  }
+
+  const clearSignature = () => {
+    const canvas = signatureCanvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    setCustomerData((prev) => ({ ...prev, signature: undefined }))
+  }
+
+  const handleCompleteOnboarding = () => {
+    setShowCongratulations(true)
+  }
 
   const renderStepContent = () => {
     switch (currentStep) {
@@ -431,13 +496,29 @@ export default function DigitalOnboardPage() {
 
               <div>
                 <Label>{t("onboarding.digital-signature")}</Label>
-                <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8 text-center">
-                  <p className="text-gray-500 dark:text-gray-400 mb-4">{t("onboarding.signature-area")}</p>
-                  <Button variant="outline">{t("onboarding.capture-signature")}</Button>
+                <div className="border-2 border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
+                  <canvas
+                    ref={signatureCanvasRef}
+                    width={600}
+                    height={200}
+                    className="w-full bg-white cursor-crosshair touch-none"
+                    onMouseDown={startDrawing}
+                    onMouseMove={draw}
+                    onMouseUp={stopDrawing}
+                    onMouseLeave={stopDrawing}
+                    onTouchStart={startDrawing}
+                    onTouchMove={draw}
+                    onTouchEnd={stopDrawing}
+                  />
+                </div>
+                <div className="flex justify-end mt-2">
+                  <Button variant="outline" size="sm" onClick={clearSignature}>
+                    {t("onboarding.clear-signature")}
+                  </Button>
                 </div>
               </div>
 
-              <Button className="w-full" size="lg">
+              <Button className="w-full" size="lg" onClick={handleCompleteOnboarding}>
                 {t("onboarding.complete-onboarding")}
               </Button>
             </CardContent>
@@ -504,6 +585,57 @@ export default function DigitalOnboardPage() {
           </Button>
         </div>
       </div>
+
+      {/* Congratulations modal */}
+      <Dialog open={showCongratulations} onOpenChange={setShowCongratulations}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/20">
+              <CheckCircle className="h-8 w-8 text-green-600" />
+            </div>
+            <DialogTitle className="text-2xl">{t("onboarding.congratulations")}</DialogTitle>
+            <DialogDescription className="text-base pt-2">
+              {t("onboarding.onboarding-complete-message")}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="py-4 space-y-4">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-lg text-center space-y-2">
+              <p className="text-lg font-semibold text-blue-900 dark:text-blue-100">
+                {t("onboarding.welcome-message")}
+              </p>
+              <p className="text-sm text-gray-700 dark:text-gray-300">
+                {customerData.firstName} {customerData.lastName}
+              </p>
+              <div className="pt-2 space-y-1">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {t("onboarding.phone")}: {availableSims.find((s) => s.id === customerData.selectedSim)?.number}
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {t("onboarding.package")}: {customerData.selectedPackage?.name}
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+              <p className="text-sm text-blue-800 dark:text-blue-200 text-center">
+                {t("onboarding.activation-message")}
+              </p>
+            </div>
+
+            <Button
+              onClick={() => {
+                setShowCongratulations(false)
+                window.location.href = "/dashboard"
+              }}
+              className="w-full"
+              size="lg"
+            >
+              {t("onboarding.go-to-dashboard")}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   )
 }
