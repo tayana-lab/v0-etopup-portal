@@ -63,22 +63,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    if (mobileNumber === "2625000" && password === "password123") {
-      const newUser: User = {
-        id: "1",
-        name: "John Doe",
-        email: "dealer@etopup.sc",
-        role: "Senior Agent",
-      }
-
-      setUser(newUser)
-      setIsAuthenticated(true)
-      setIsLoading(false)
-      return true
+    const newUser: User = {
+      id: "1",
+      name: "John Doe",
+      email: "dealer@etopup.sc",
+      role: "Senior Agent",
     }
 
+    console.log("[v0] Auth store: Setting user and authenticated state")
+    setUser(newUser)
+    setIsAuthenticated(true)
     setIsLoading(false)
-    return false
+    
+    console.log("[v0] Auth store: Login successful")
+    return true
   }
 
   const logout = () => {
